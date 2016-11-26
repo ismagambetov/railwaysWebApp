@@ -13,9 +13,10 @@ public class Order {
     private String place;
     private CoachClass coachClass;
     private double price;
+    private boolean bedroll;
 
     public Order(long id, Passenger passenger, Date leaveDate, Date arriveDate,
-                 Train train, String coach, String place, CoachClass coachClass, double price) {
+                 Train train, String coach, String place, CoachClass coachClass, double price, boolean bedroll) {
         this.id = id;
         this.passenger = passenger;
         this.leaveDate = leaveDate;
@@ -25,6 +26,7 @@ public class Order {
         this.place = place;
         this.coachClass = coachClass;
         this.price = price;
+        this.bedroll = bedroll;
     }
 
     public long getId() {
@@ -99,6 +101,14 @@ public class Order {
         this.price = price;
     }
 
+    public boolean doesBedrollExist() {
+        return bedroll;
+    }
+
+    public void setBedroll(boolean bedroll) {
+        this.bedroll = bedroll;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -106,6 +116,7 @@ public class Order {
         Order order = (Order) o;
         return id == order.id &&
                 Double.compare(order.price, price) == 0 &&
+                bedroll == order.bedroll &&
                 Objects.equals(passenger, order.passenger) &&
                 Objects.equals(leaveDate, order.leaveDate) &&
                 Objects.equals(arriveDate, order.arriveDate) &&
@@ -117,7 +128,7 @@ public class Order {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, passenger, leaveDate, arriveDate, train, coach, place, coachClass, price);
+        return Objects.hash(id, passenger, leaveDate, arriveDate, train, coach, place, coachClass, price, bedroll);
     }
 
     @Override
@@ -132,6 +143,7 @@ public class Order {
                 ", place='" + place + '\'' +
                 ", coachClass=" + coachClass +
                 ", price=" + price +
+                ", bedroll=" + ((bedroll) ? " Yes":" No") +
                 '}';
     }
 }
