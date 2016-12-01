@@ -1,21 +1,26 @@
 package com.epam.ism.entity;
 
-import java.util.Date;
+import java.io.Serializable;
 import java.util.Objects;
+/*
+* This class represents the User model. This model class can be used throughout
+ * all layers, the data layer, the controller layer and the view layer.
+*
+* @author IDS
+* */
+public class User implements Serializable {
 
-public class User {
-    private long id;
+    //Constants
+    private static final long serialVersionUID = 1L;
+
+    //Properties
+    private Long id;
     private String firstName;
     private String lastName;
+    private String password;
     private String email;
 
-    public User(long id, String firstName, String lastName, Date birthday, int identificationCode, String email) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-    }
-
+    //Getters and setters
     public long getId() {
         return id;
     }
@@ -48,29 +53,39 @@ public class User {
         this.email = email;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return id == user.id &&
-                Objects.equals(firstName, user.firstName) &&
-                Objects.equals(lastName, user.lastName) &&
-                Objects.equals(email, user.email);
+    public String getPassword() {
+        return password;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    /*
+    The User ID is unique for each User.
+    So this should compare User by ID only.
+     */
+    @Override
+    public boolean equals(Object otherObject) {
+        if (this == otherObject) return true;
+        if (otherObject == null || getClass() != otherObject.getClass()) return false;
+        User other = (User) otherObject;
+        return Objects.equals(id, other.id);
+    }
+
+    /*
+    The user ID is unique for each User.
+    So User with same ID should return same hashcode.
+     */
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, email);
+        return Objects.hash(id, this.getClass().hashCode());
     }
 
+    // Returns the String representation of this User.
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                '}';
+        return String.format("User[id=%d,firstname=%s,lastname=%s,email=%s]",
+                id,firstName,lastName,email);
     }
 }
