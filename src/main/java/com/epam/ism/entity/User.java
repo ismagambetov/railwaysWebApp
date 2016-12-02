@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Objects;
 /*
 * This class represents the User model. This model class can be used throughout
- * all layers, the data layer, the controller layer and the view layer.
+* all layers, the data layer, the controller layer and the view layer.
 *
 * @author IDS
 * */
@@ -21,11 +21,11 @@ public class User implements Serializable {
     private String email;
 
     //Getters and setters
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -62,8 +62,8 @@ public class User implements Serializable {
     }
 
     /*
-    The User ID is unique for each User.
-    So this should compare User by ID only.
+     * The User ID is unique for each User.
+     * So this should compare User by ID only.
      */
     @Override
     public boolean equals(Object otherObject) {
@@ -74,9 +74,9 @@ public class User implements Serializable {
     }
 
     /*
-    The user ID is unique for each User.
-    So User with same ID should return same hashcode.
-     */
+    * The user ID is unique for each User.
+    * So User with same ID should return same hashcode.
+    */
     @Override
     public int hashCode() {
         return Objects.hash(id, this.getClass().hashCode());

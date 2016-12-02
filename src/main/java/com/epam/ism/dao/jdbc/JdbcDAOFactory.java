@@ -1,12 +1,23 @@
-package com.epam.ism.dao;
+package com.epam.ism.dao.jdbc;
 
+import com.epam.ism.dao.DAOProperties;
+import com.epam.ism.dao.UserDAO;
 import com.epam.ism.dao.exception.DAOConfigurationException;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public abstract class DAOFactory {
+/**
+ * This class represents a DAO factory for a SQL database. You can use {@link #getInstance(String)}
+ * to obtain a new instance for the given database name. The specific instance returned depends on
+ * the properties file configuration. You can obtain DAO's for the DAO factory instance using the
+ * DAO getters.
+ *
+ * @author __
+ */
+
+public abstract class JdbcDAOFactory {
 
     //Constants
     private static final String PROPERTY_URL = "url";
@@ -22,7 +33,7 @@ public abstract class DAOFactory {
      * is missing in the classpath or cannot be loaded, or if a required property is missing in the
      * property file, or if either the driver cannot be loaded or the datasource cannot be found.
      */
-    public static DAOFactory getInstance(String name) throws DAOConfigurationException {
+    public static JdbcDAOFactory getInstance(String name) throws DAOConfigurationException {
         if (name == null) {
             throw new DAOConfigurationException("Database name is null.");
         }
@@ -33,7 +44,7 @@ public abstract class DAOFactory {
         String username = properties.getProperty(PROPERTY_USERNAME);
         String password = properties.getProperty(PROPERTY_PASSWORD);
 
-        DAOFactory instance;
+        JdbcDAOFactory instance;
         try {
             Class.forName(driverClassName);
         } catch (ClassNotFoundException e) {
@@ -51,20 +62,20 @@ public abstract class DAOFactory {
      * @return A connection to the database.
      * @throws SQLException If acquiring the connection fails.
      */
-    abstract Connection getConnection() throws SQLException;
+    public abstract Connection getConnection() throws SQLException;
 
     /**
      * Returns the User DAO associated with the current DAOFactory.
      * @return The User DAO.
      */
     public UserDAO getUserDAO() {
-        return new UserDAOJDBC(this);
+        return new JdbcUserDAO(this);
     }
 
     /**
-     * The DriverManager based DAOFactory.
+     * The DriverManager based on DAOFactory.
      */
-    public static class DriverManagerDAOFactory extends DAOFactory {
+    public static class DriverManagerDAOFactory extends JdbcDAOFactory {
 
         private String url;
         private String username;
@@ -77,7 +88,7 @@ public abstract class DAOFactory {
         }
 
         @Override
-        Connection getConnection() throws SQLException {
+        public Connection getConnection() throws SQLException {
             return DriverManager.getConnection(url,username,password);
         }
     }

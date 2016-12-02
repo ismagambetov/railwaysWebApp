@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * This interface represents a contract for a DAO for the {@link User} model.
  * Note that all methods which returns the {@link User} from DB, will not
- * fill the model with th password, due to security reasons.
+ * fill the model with the password, due to security reasons.
  *
  * @author IDS.
  */
@@ -48,7 +48,7 @@ public interface UserDAO {
     void create(User user) throws IllegalArgumentException, DAOException;
 
     /**
-     * Update the given user in the database. The user must not be null, otherwise it
+     * Update the given user in the database. The user ID must not be null, otherwise it
      * will be throw IllegalArgumentException.
      * @param user The user to be updated in the database.
      * @throws IllegalArgumentException If the user ID is null.
@@ -56,6 +56,31 @@ public interface UserDAO {
      */
     void update(User user) throws IllegalArgumentException, DAOException;
 
+    /**
+     * Delete the given user from the database. After deleting, the DAO will set the ID of the given
+     * user to null.
+     * @param user The user to be deleted from the database.
+     * @throws IllegalArgumentException If the user ID is null.
+     * @throws DAOException If something fails at database level.
+     */
+    void delete(User user) throws IllegalArgumentException, DAOException;
+
+    /**
+     * Returns true if the given email address exists in the database.
+     * @param email The email address that will be checked in the database.
+     * @return True if the given email address exists in the database.
+     * @throws DAOException If something fails at database level.
+     */
+    boolean existEmail(String email) throws DAOException;
+
+    /**
+     * Change the password of the given user. The user ID must not be null, otherwise it
+     * will be throw IllegalArgumentException.
+     * @param user The user to change the password for.
+     * @throws IllegalArgumentException If the user ID is null.
+     * @throws DAOException If something fails at database level.
+     */
+    void changePassword(User user) throws IllegalArgumentException, DAOException;
 
 
 }

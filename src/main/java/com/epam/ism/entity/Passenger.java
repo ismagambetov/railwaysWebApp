@@ -8,9 +8,6 @@ public class Passenger extends User {
     private int identificationCode;
     private Date birthday;
 
-    public Passenger(long id, String firstName, String lastName, Date birthday, int identificationCode, String email) {
-        super(id, firstName, lastName, birthday, identificationCode, email);
-    }
 
 
     public Order getOrder() {

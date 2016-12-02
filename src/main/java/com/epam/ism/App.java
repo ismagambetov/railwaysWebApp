@@ -1,6 +1,10 @@
 package com.epam.ism;
 
-import java.sql.*;
+import com.epam.ism.dao.jdbc.JdbcDAOFactory;
+import com.epam.ism.dao.UserDAO;
+import com.epam.ism.entity.User;
+import com.epam.ism.utils.Password;
+import java.util.List;
 
 /**
  * Hello world!
@@ -8,28 +12,73 @@ import java.sql.*;
  */
 public class App 
 {
-    public static void main( String[] args ) throws SQLException {
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet resultSet = null;
-        try {
-            Class.forName("org.h2.Driver");
-            con = DriverManager.getConnection("jdbc:h2:tcp://localhost/transporter_db","admin","admin");
-            ps = con.prepareStatement("SELECT * FROM ORDERS");
-            resultSet = ps.executeQuery();
-            while (resultSet.next()) {
+    public static void main( String[] args ) throws Exception {
 
-                String address_to = resultSet.getString("ADDRESS_TO");
-                System.out.println(address_to);
 
-            }
-        } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
-        } finally {
-            if (resultSet != null) resultSet.close();
-            if (ps != null) ps.close();
-            if (con != null) con.close();
-        }
+
+
+        JdbcDAOFactory railways_db = JdbcDAOFactory.getInstance("railways_db.jdbc");
+        System.out.println("DAOFactory successfully obtained: " + railways_db);
+
+        // Obtain UserDAO.
+        UserDAO userDAO = railways_db.getUserDAO();
+        System.out.println("UserDAO successfully obtained: " + userDAO);
+
+        // Create user.
+        User user = new User();
+        user.setEmail("foo@bar.com");
+
+
+        user.setPassword(Password.getSaltedHash("password"));
+
+        userDAO.create(user);
+        System.out.println("User successfully created: " + user);
+
+        // Create another user.
+        User anotherUser = new User();
+        anotherUser.setEmail("bar@foo.com");
+        anotherUser.setPassword(Password.getSaltedHash("anotherPassword"));
+        anotherUser.setFirstName("Bar");
+        anotherUser.setLastName("Foo");
+        userDAO.create(anotherUser);
+        System.out.println("Another user successfully created: " + anotherUser);
+
+        // Update user.
+        user.setFirstName("Foo");
+        user.setLastName("Bar");
+        userDAO.update(user);
+        System.out.println("User successfully updated: " + user);
+
+        // List all users.
+        List<User> users = userDAO.list();
+        System.out.println("List of users successfully queried: " + users);
+        System.out.println("Thus, amount of users in database is: " + users.size());
+
+        // Delete user.
+        userDAO.delete(user);
+        System.out.println("User successfully deleted: " + user);
+
+        // Check if email exists.
+        boolean exist = userDAO.existEmail("foo@bar.com");
+        System.out.println("This email should not exist anymore, so this should print false: " + exist);
+
+        // Change password.
+        anotherUser.setPassword(Password.getSaltedHash("newAnotherPassword"));
+        userDAO.changePassword(anotherUser);
+        System.out.println("Another user's password successfully changed: " + anotherUser);
+
+        // Get another user by email and password.
+        User foundAnotherUser = userDAO.find("bar@foo.com", "newAnotherPassword");
+        System.out.println("Another user successfully queried with new password: " + foundAnotherUser);
+
+        // Delete another user.
+        userDAO.delete(foundAnotherUser);
+        System.out.println("Another user successfully deleted: " + foundAnotherUser);
+
+        // List all users again.
+        users = userDAO.list();
+        System.out.println("List of users successfully queried: " + users);
+        System.out.println("Thus, amount of users in database is: " + users.size());
 
 
     }

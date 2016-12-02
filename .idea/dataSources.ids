@@ -1,102 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component name="dataSourceStorage">
-  <data-source name="transporter_db" uuid="b9a99c7f-be24-40bd-9cb9-7b7c0047ac8d">
+  <data-source name="H2 - railways_db" uuid="7d2bf0d8-28df-4beb-89b3-5081ee5f7890">
     <database-info product="H2" version="1.3.176 (2014-04-05)" jdbc-version="4.0" driver-name="H2 JDBC Driver" driver-version="1.3.176 (2014-04-05)">
       <identifier-quote-string>&quot;</identifier-quote-string>
     </database-info>
     <case-sensitivity plain-identifiers="upper" quoted-identifiers="exact"/>
-    <schema name="PUBLIC" catalog="TRANSPORTER_DB"/>
-    <table name="CUSTOMER" schema="PUBLIC" catalog="TRANSPORTER_DB" type="TABLE">
-      <column name="ID" sqlType="INTEGER" precision="10" scale="0" nullable="false" jdbcType="4" def="KE5FWFQgVkFMVUUgRk9SIFBVQkxJQy5TWVNURU1fU0VRVUVOQ0VfRDE2MDIxNjdfMDFDQV80NDBGXzk2OTBfNUJGOUE3OUVGMDZCKQ==" autoIncrement="true"/>
-      <column name="FULLNAME" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
-      <column name="TELEFONE" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
-      <column name="EMAIL" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="CONSTRAINT_5" columns="ID"/>
-    </table>
-    <table name="ORDERS" schema="PUBLIC" catalog="TRANSPORTER_DB" type="TABLE">
-      <column name="TO" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
-      <column name="ADDRESS_FROM" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
-      <column name="ADDRESS_TO" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
-      <column name="LOADING_DATE" sqlType="DATE" precision="8" scale="0" nullable="false" jdbcType="91"/>
-      <column name="LOADING_TIME" sqlType="TIME" precision="6" scale="0" nullable="true" jdbcType="92"/>
-      <column name="FREIGHT_NAME" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
-      <column name="TRANSPORT_TYPE" sqlType="INTEGER" precision="10" scale="0" nullable="true" jdbcType="4"/>
-      <column name="FREIGHT_DESCRIPTION" sqlType="CLOB" precision="2147483647" scale="0" nullable="true" jdbcType="2005"/>
-      <column name="FREIGHT_WEIGHT" sqlType="DOUBLE" precision="17" scale="0" nullable="false" jdbcType="8"/>
-      <column name="FREIGHT_UNIT_MEASUREMENT" sqlType="INTEGER" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <column name="FREIGHT_AMOUNT" sqlType="DOUBLE" precision="17" scale="0" nullable="true" jdbcType="8"/>
-      <column name="NOTE_TO_ORDER" sqlType="CLOB" precision="2147483647" scale="0" nullable="true" jdbcType="2005"/>
-      <column name="MAX_PRICE" sqlType="INTEGER" precision="10" scale="0" nullable="true" jdbcType="4"/>
-      <column name="CUSTOMER" sqlType="INTEGER" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <column name="FROM_WHERE" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
-      <column name="ID" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" def="KE5FWFQgVkFMVUUgRk9SIFBVQkxJQy5TWVNURU1fU0VRVUVOQ0VfODczMDFBNzVfQ0VDNF80M0VCXzkyNUZfNUUwODFGMDRGNkFDKQ==" autoIncrement="true"/>
-      <primary-key name="ORDERS_ID_PK" columns="ID"/>
-    </table>
-    <table name="TEST" schema="PUBLIC" catalog="TRANSPORTER_DB" type="TABLE">
-      <column name="ID" sqlType="INTEGER" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <column name="NAME" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="CONSTRAINT_27" columns="ID"/>
-    </table>
-    <table name="TRANSPORT" schema="PUBLIC" catalog="TRANSPORTER_DB" type="TABLE">
-      <column name="ID" sqlType="INTEGER" precision="10" scale="0" nullable="false" jdbcType="4" def="KE5FWFQgVkFMVUUgRk9SIFBVQkxJQy5TWVNURU1fU0VRVUVOQ0VfRTg0OEU5NThfMEI1Ql80MDNDXzg2OEVfRTg1QThFNzI5MDdFKQ==" autoIncrement="true"/>
-      <column name="MODEL" sqlType="INTEGER" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <column name="MARK" sqlType="INTEGER" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <column name="TYPE" sqlType="INTEGER" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <column name="STATE_NUMBER" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
-      <primary-key name="CONSTRAINT_E" columns="ID"/>
-    </table>
-    <table name="TRANSPORT_DRIVER" schema="PUBLIC" catalog="TRANSPORTER_DB" type="TABLE">
-      <column name="ID" sqlType="INTEGER" precision="10" scale="0" nullable="false" jdbcType="4" def="KE5FWFQgVkFMVUUgRk9SIFBVQkxJQy5TWVNURU1fU0VRVUVOQ0VfMTgyNzMyQ0NfMjY0MF80QjEwXzlDMDJfRTY1NENCNTBENEM1KQ==" autoIncrement="true"/>
-      <column name="FIRSTNAME" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
-      <column name="LASTNAME" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
-      <column name="EXPERIENCE" sqlType="INTEGER" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <column name="TELEFONE" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
-      <column name="EMAIL" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <column name="TRANSPORT" sqlType="INTEGER" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <column name="RATE" sqlType="INTEGER" precision="10" scale="0" nullable="true" jdbcType="4"/>
-      <primary-key name="CONSTRAINT_9" columns="ID"/>
-    </table>
-    <table name="TRANSPORT_MARK" schema="PUBLIC" catalog="TRANSPORTER_DB" type="TABLE">
-      <column name="ID" sqlType="INTEGER" precision="10" scale="0" nullable="false" jdbcType="4" def="KE5FWFQgVkFMVUUgRk9SIFBVQkxJQy5TWVNURU1fU0VRVUVOQ0VfRkFEOTg3MjhfNjRCRl80NDhEXzhGNjVfRUU1MDE5MjM0QzQyKQ==" autoIncrement="true"/>
-      <column name="NAME" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
-      <primary-key name="CONSTRAINT_2" columns="ID"/>
-    </table>
-    <table name="TRANSPORT_MODEL" schema="PUBLIC" catalog="TRANSPORTER_DB" type="TABLE">
-      <column name="ID" sqlType="INTEGER" precision="10" scale="0" nullable="false" jdbcType="4" def="KE5FWFQgVkFMVUUgRk9SIFBVQkxJQy5TWVNURU1fU0VRVUVOQ0VfNUFDQjQzMzZfRjU4RV80RkFBXzlCMTdfNUQ1N0M0Q0VCM0UyKQ==" autoIncrement="true"/>
-      <column name="NAME" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
-      <primary-key name="CONSTRAINT_4" columns="ID"/>
-    </table>
-    <table name="TRANSPORT_TYPE" schema="PUBLIC" catalog="TRANSPORTER_DB" type="TABLE">
-      <column name="ID" sqlType="INTEGER" precision="10" scale="0" nullable="false" jdbcType="4" def="KE5FWFQgVkFMVUUgRk9SIFBVQkxJQy5TWVNURU1fU0VRVUVOQ0VfNkM2MTJGNTFfQTZBQV80QzU5XzlBRTlfREEwQ0Q0QjgyMDExKQ==" autoIncrement="true"/>
-      <column name="NAME" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
-      <primary-key name="CONSTRAINT_8" columns="ID"/>
-      <index name="TRANSPORT_TYPE_NAME_UINDEX" unique="true" columns="NAME"/>
-    </table>
-    <table name="UNIT_MEASUREMENT" schema="PUBLIC" catalog="TRANSPORTER_DB" type="TABLE">
-      <column name="ID" sqlType="INTEGER" precision="10" scale="0" nullable="false" jdbcType="4" def="KE5FWFQgVkFMVUUgRk9SIFBVQkxJQy5TWVNURU1fU0VRVUVOQ0VfQUZGOTdGQ0NfMzYxMl80NTc3X0JEMDBfMjk3RTY5ODdBNTNGKQ==" autoIncrement="true"/>
-      <column name="NAME" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="CONSTRAINT_A" columns="ID"/>
-    </table>
-    <table name="USER" schema="PUBLIC" catalog="TRANSPORTER_DB" type="TABLE">
-      <column name="ID" sqlType="INTEGER" precision="10" scale="0" nullable="false" jdbcType="4" def="KE5FWFQgVkFMVUUgRk9SIFBVQkxJQy5TWVNURU1fU0VRVUVOQ0VfN0NCRjY0QUFfNjI0OF80QzcxX0ExOEFfMjVFQjMzRUM5MzE1KQ==" autoIncrement="true"/>
-      <column name="USERNAME" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
-      <column name="FIRSTNAME" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <column name="LASTNAME" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+    <schema name="PUBLIC" catalog="RAILWAYS_DB"/>
+    <table name="USER" schema="PUBLIC" catalog="RAILWAYS_DB" type="TABLE">
+      <column name="ID" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" def="KE5FWFQgVkFMVUUgRk9SIFBVQkxJQy5TWVNURU1fU0VRVUVOQ0VfQTA4MkVGOEZfQzE1OF80ODBGXzlBOEFfOUI1Njc3RDgxNTFFKQ==" autoIncrement="true"/>
+      <column name="FIRSTNAME" sqlType="VARCHAR" precision="40" scale="0" nullable="true" jdbcType="12"/>
+      <column name="LASTNAME" sqlType="VARCHAR" precision="40" scale="0" nullable="true" jdbcType="12"/>
       <column name="PASSWORD" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
-      <column name="TELEFONE" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <column name="EMAIL" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <column name="ROLE" sqlType="INTEGER" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <primary-key name="CONSTRAINT_95" columns="ID"/>
-      <foreign-key name="USER_USER_ROLE_ID_FK" columns="ROLE" ref-table="USER_ROLE" ref-schema="PUBLIC" ref-catalog="TRANSPORTER_DB" ref-columns="ID" update-rule="1" delete-rule="1" deferrability="2"/>
-      <index name="USER_EMAIL_UINDEX" unique="true" columns="EMAIL"/>
-      <index name="USER_USERNAME_UINDEX" unique="true" columns="USERNAME"/>
-      <index name="USER_USER_ROLE_ID_FK_INDEX_2" unique="false" columns="ROLE"/>
-    </table>
-    <table name="USER_ROLE" schema="PUBLIC" catalog="TRANSPORTER_DB" type="TABLE">
-      <column name="ID" sqlType="INTEGER" precision="10" scale="0" nullable="false" jdbcType="4" def="KE5FWFQgVkFMVUUgRk9SIFBVQkxJQy5TWVNURU1fU0VRVUVOQ0VfRDlDMUMwMzNfMjBENV80MUMyXzg1REJfREY2NkNCOTg1OEYwKQ==" autoIncrement="true"/>
-      <column name="NAME" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
-      <primary-key name="CONSTRAINT_B" columns="ID"/>
-      <index name="USER_ROLE_NAME_UINDEX" unique="true" columns="NAME"/>
+      <column name="EMAIL" sqlType="VARCHAR" precision="60" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="CONSTRAINT_2" columns="ID"/>
+      <index name="User_email_uindex" unique="true" columns="EMAIL"/>
     </table>
   </data-source>
 </component>
