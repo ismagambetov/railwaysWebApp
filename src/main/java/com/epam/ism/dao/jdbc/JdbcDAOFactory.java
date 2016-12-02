@@ -1,6 +1,8 @@
 package com.epam.ism.dao.jdbc;
 
 import com.epam.ism.dao.DAOProperties;
+import com.epam.ism.dao.PassengerDAO;
+import com.epam.ism.dao.TrainDAO;
 import com.epam.ism.dao.UserDAO;
 import com.epam.ism.dao.exception.DAOConfigurationException;
 
@@ -70,6 +72,22 @@ public abstract class JdbcDAOFactory {
      */
     public UserDAO getUserDAO() {
         return new JdbcUserDAO(this);
+    }
+
+    /**
+     * Returns the Train DAO associated with the current DAOFactory.
+     * @return The Train DAO.
+     */
+    public TrainDAO getTrainDAO() {
+        return new JdbcTrainDAO(this);
+    }
+
+    /**
+     * Returns the Passenger DAO associated with the current DAOFactory.
+     * @return The Passenger DAO.
+     */
+    public PassengerDAO getPassengerDAO() {
+        return new JdbcPassengerDAO(this);
     }
 
     /**

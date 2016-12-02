@@ -1,7 +1,11 @@
 package com.epam.ism;
 
+import com.epam.ism.dao.PassengerDAO;
+import com.epam.ism.dao.TrainDAO;
 import com.epam.ism.dao.jdbc.JdbcDAOFactory;
 import com.epam.ism.dao.UserDAO;
+import com.epam.ism.entity.Passenger;
+import com.epam.ism.entity.Train;
 import com.epam.ism.entity.User;
 import com.epam.ism.utils.Password;
 import java.util.List;
@@ -14,72 +18,41 @@ public class App
 {
     public static void main( String[] args ) throws Exception {
 
-
-
-
         JdbcDAOFactory railways_db = JdbcDAOFactory.getInstance("railways_db.jdbc");
         System.out.println("DAOFactory successfully obtained: " + railways_db);
 
-        // Obtain UserDAO.
-        UserDAO userDAO = railways_db.getUserDAO();
-        System.out.println("UserDAO successfully obtained: " + userDAO);
-
-        // Create user.
-        User user = new User();
-        user.setEmail("foo@bar.com");
+        Passenger passenger = new Passenger();
+        PassengerDAO passengerDAO = railways_db.getPassengerDAO();
+        passengerDAO.create(passenger);
+        Passenger user = (Passenger) passengerDAO.find((long) 1);
 
 
-        user.setPassword(Password.getSaltedHash("password"));
 
-        userDAO.create(user);
-        System.out.println("User successfully created: " + user);
-
-        // Create another user.
-        User anotherUser = new User();
-        anotherUser.setEmail("bar@foo.com");
-        anotherUser.setPassword(Password.getSaltedHash("anotherPassword"));
-        anotherUser.setFirstName("Bar");
-        anotherUser.setLastName("Foo");
-        userDAO.create(anotherUser);
-        System.out.println("Another user successfully created: " + anotherUser);
-
-        // Update user.
-        user.setFirstName("Foo");
-        user.setLastName("Bar");
-        userDAO.update(user);
-        System.out.println("User successfully updated: " + user);
-
-        // List all users.
-        List<User> users = userDAO.list();
-        System.out.println("List of users successfully queried: " + users);
-        System.out.println("Thus, amount of users in database is: " + users.size());
-
-        // Delete user.
-        userDAO.delete(user);
-        System.out.println("User successfully deleted: " + user);
-
-        // Check if email exists.
-        boolean exist = userDAO.existEmail("foo@bar.com");
-        System.out.println("This email should not exist anymore, so this should print false: " + exist);
-
-        // Change password.
-        anotherUser.setPassword(Password.getSaltedHash("newAnotherPassword"));
-        userDAO.changePassword(anotherUser);
-        System.out.println("Another user's password successfully changed: " + anotherUser);
-
-        // Get another user by email and password.
-        User foundAnotherUser = userDAO.find("bar@foo.com", "newAnotherPassword");
-        System.out.println("Another user successfully queried with new password: " + foundAnotherUser);
-
-        // Delete another user.
-        userDAO.delete(foundAnotherUser);
-        System.out.println("Another user successfully deleted: " + foundAnotherUser);
-
-        // List all users again.
-        users = userDAO.list();
-        System.out.println("List of users successfully queried: " + users);
-        System.out.println("Thus, amount of users in database is: " + users.size());
-
+//
+//        Train train = new Train();
+//        train.setName("038CP");
+//
+//        trainDAO.create(train);
+//        System.out.println("Train successfully created: " + train);
+//
+//        // List all trains.
+//        List<Train> trains = trainDAO.list();
+//        System.out.println("List of trains successfully queried: " + trains);
+//        System.out.println("Thus, amount of trains in database is: " + trains.size());
+//
+//
+//        // Get another train by email and password.
+//        Train foundAnotherUser = trainDAO.find("038CP");
+//        System.out.println("Train successfully queried with name: " + foundAnotherUser);
+//
+//        // Delete user.
+//        trainDAO.delete(train);
+//        System.out.println("Train successfully deleted: " + train);
+//
+//        // List all trains.
+//        trains = trainDAO.list();
+//        System.out.println("List of trains successfully queried: " + trains);
+//        System.out.println("Thus, amount of trains in database is: " + trains.size());
 
     }
 }

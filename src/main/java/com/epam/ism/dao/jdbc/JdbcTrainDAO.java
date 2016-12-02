@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -51,22 +52,101 @@ public class JdbcTrainDAO implements TrainDAO {
 
     @Override
     public void create(Train train) throws IllegalArgumentException, DAOException {
+        if (train.getId() != null) {
+            throw new IllegalArgumentException("Train is already created, the train ID is not null.");
+        }
 
+        Object[] values = {
+            train.getName()
+        };
+
+        try(
+                Connection connection = daoFactory.getConnection();
+                PreparedStatement statement = prepareStatement(connection,SQL_INSERT,true,values);
+         ) {
+            int affectedRows = statement.executeUpdate();
+            if (affectedRows == 0) {
+                throw new DAOException("Creating train failed, no rows affected.");
+            }
+
+            ResultSet generatedKeys = statement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                train.setId(generatedKeys.getLong(1));
+            }
+
+        } catch (SQLException e) {
+            throw new DAOException(e);
+        }
     }
 
     @Override
     public void update(Train train) throws IllegalArgumentException, DAOException {
+        if (train.getId() == null) {
+            throw new IllegalArgumentException("Train is not created yet, the train ID is null.");
+        }
+
+        Object[] values = {
+                train.getName()
+        };
+
+        try(
+                Connection connection = daoFactory.getConnection();
+                PreparedStatement statement = prepareStatement(connection,SQL_UPDATE,false,values);
+         ) {
+            int affectedRows = statement.executeUpdate();
+            if (affectedRows == 0) {
+                throw new DAOException("Updating train failed, no rows affected.");
+            }
+        } catch (SQLException e) {
+            throw new DAOException(e);
+        }
 
     }
 
     @Override
     public void delete(Train train) throws IllegalArgumentException, DAOException {
+        if (train.getId() == null) {
+            throw new IllegalArgumentException("Train is not created yet, the train ID is null.");
+        }
+
+        Object[] values = {
+                train.getId()
+        };
+
+        try(
+                Connection connection = daoFactory.getConnection();
+                PreparedStatement statement = prepareStatement(connection,SQL_DELETE,false,values);
+
+         ) {
+            int affectedRows = statement.executeUpdate();
+            if (affectedRows == 0) {
+                throw new DAOException("Deleting train failed, now rows affected.");
+            } else {
+                train.setId(null);
+            }
+        }catch (SQLException e) {
+            throw new DAOException(e);
+        }
 
     }
 
     @Override
     public List<Train> list() throws DAOException {
-        return null;
+        List<Train> trains = new ArrayList<>();
+        try(
+                Connection connection = daoFactory.getConnection();
+                PreparedStatement statement = connection.prepareStatement(SQL_LIST_ORDERED_BY_ID);
+                ResultSet resultSet = statement.executeQuery();
+        ) {
+                while (resultSet.next()) {
+                    trains.add(map(resultSet));
+                }
+
+        }catch (SQLException e) {
+            throw new DAOException(e);
+        }
+
+        return trains;
     }
 
     /**

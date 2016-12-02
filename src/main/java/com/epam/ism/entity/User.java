@@ -8,7 +8,7 @@ import java.util.Objects;
 *
 * @author IDS
 * */
-public class User implements Serializable {
+public abstract class User implements Serializable {
 
     //Constants
     private static final long serialVersionUID = 1L;
@@ -88,4 +88,5 @@ public class User implements Serializable {
         return String.format("User[id=%d,firstname=%s,lastname=%s,email=%s]",
                 id,firstName,lastName,email);
     }
+
 }

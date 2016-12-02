@@ -6,6 +6,22 @@
     </database-info>
     <case-sensitivity plain-identifiers="upper" quoted-identifiers="exact"/>
     <schema name="PUBLIC" catalog="RAILWAYS_DB"/>
+    <table name="PASSENGER" schema="PUBLIC" catalog="RAILWAYS_DB" type="TABLE">
+      <column name="ID" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" def="KE5FWFQgVkFMVUUgRk9SIFBVQkxJQy5TWVNURU1fU0VRVUVOQ0VfRUU2NkUxQ0JfQjUxRl80RDcyX0FEN0VfRTA2RkQ2M0EyMUQwKQ==" autoIncrement="true"/>
+      <column name="IDENTIFICATIONCODE" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="BIRTHDAY" sqlType="DATE" precision="8" scale="0" nullable="true" jdbcType="91"/>
+      <column name="USER_FK" sqlType="INTEGER" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="CONSTRAINT_6" columns="ID"/>
+      <foreign-key name="PASSENGER_USER_ID_FK" columns="USER_FK" ref-table="USER" ref-schema="PUBLIC" ref-catalog="RAILWAYS_DB" ref-columns="ID" update-rule="1" delete-rule="1" deferrability="2"/>
+      <index name="PASSENGER_identificationCode_uindex" unique="true" columns="IDENTIFICATIONCODE"/>
+      <index name="PASSENGER_order_fk_uindex" unique="true" columns="USER_FK"/>
+    </table>
+    <table name="TRAIN" schema="PUBLIC" catalog="RAILWAYS_DB" type="TABLE">
+      <column name="ID" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" def="KE5FWFQgVkFMVUUgRk9SIFBVQkxJQy5TWVNURU1fU0VRVUVOQ0VfNjBBNEQ0QzlfNDZBNV80NUNBXzg4QjlfQTRFREVCQzBCNkQwKQ==" autoIncrement="true"/>
+      <column name="NAME" sqlType="VARCHAR" precision="10" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="CONSTRAINT_4" columns="ID"/>
+      <index name="TRAIN_name_uindex" unique="true" columns="NAME"/>
+    </table>
     <table name="USER" schema="PUBLIC" catalog="RAILWAYS_DB" type="TABLE">
       <column name="ID" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" def="KE5FWFQgVkFMVUUgRk9SIFBVQkxJQy5TWVNURU1fU0VRVUVOQ0VfQTA4MkVGOEZfQzE1OF80ODBGXzlBOEFfOUI1Njc3RDgxNTFFKQ==" autoIncrement="true"/>
       <column name="FIRSTNAME" sqlType="VARCHAR" precision="40" scale="0" nullable="true" jdbcType="12"/>
