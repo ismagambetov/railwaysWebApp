@@ -4,6 +4,7 @@ import com.epam.ism.dao.AdministratorDAO;
 import com.epam.ism.entity.Administrator;
 
 public class JdbcAdministratorDAO extends JdbcUserDAO<Administrator> implements AdministratorDAO {
-
-
+    public JdbcAdministratorDAO(JdbcDAOFactory daoFactory) {
+        super(daoFactory);
+    }
 }

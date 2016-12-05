@@ -1,6 +1,7 @@
 package com.epam.ism.dao;
 
 import com.epam.ism.dao.exception.DAOException;
+
 import java.util.List;
 
 /**
@@ -53,5 +54,6 @@ public interface GenericDAO<T> {
      * @throws DAOException If something fails at database level.
      */
     T find(Long id) throws DAOException;
+
 
 }

@@ -1,6 +1,7 @@
 package com.epam.ism.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 /*
 * This class represents the User model. This model class can be used throughout
@@ -8,27 +9,21 @@ import java.util.Objects;
 *
 * @author IDS
 * */
-public abstract class User implements Serializable {
+public class User extends IdEntity implements Serializable {
 
     //Constants
     private static final long serialVersionUID = 1L;
 
     //Properties
-    private Long id;
     private String firstName;
     private String lastName;
+    private String personalCode;
+    private Date birthday;
     private String password;
     private String email;
+    private Role role;
 
     //Getters and setters
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getFirstName() {
         return firstName;
     }
@@ -61,32 +56,60 @@ public abstract class User implements Serializable {
         this.password = password;
     }
 
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public String getPersonalCode() {
+        return personalCode;
+    }
+
+    public void setPersonalCode(String personalCode) {
+        this.personalCode = personalCode;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
     /*
-     * The User ID is unique for each User.
-     * So this should compare User by ID only.
-     */
+    * The User personalCode is unique for each User.
+    * So this should compare User by personalCode only.
+    */
     @Override
-    public boolean equals(Object otherObject) {
-        if (this == otherObject) return true;
-        if (otherObject == null || getClass() != otherObject.getClass()) return false;
-        User other = (User) otherObject;
-        return Objects.equals(id, other.id);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        User user = (User) o;
+        return Objects.equals(personalCode, user.personalCode);
     }
 
     /*
-    * The user ID is unique for each User.
-    * So User with same ID should return same hashcode.
+    * The User personalCode is unique for each User.
+    * So User with same personalCode should return same hashcode.
     */
     @Override
     public int hashCode() {
-        return Objects.hash(id, this.getClass().hashCode());
+        return Objects.hash(super.hashCode(), personalCode);
     }
 
     // Returns the String representation of this User.
     @Override
     public String toString() {
-        return String.format("User[id=%d,firstname=%s,lastname=%s,email=%s]",
-                id,firstName,lastName,email);
+        return String.format("User[firstname=%s,lastname=%s,email=%s,personalcode=%s," +
+                "birthday=%s,role=%s]",firstName,lastName,email,personalCode,birthday,role);
     }
 
 }

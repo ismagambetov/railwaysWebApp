@@ -5,6 +5,7 @@ import com.epam.ism.dao.PassengerDAO;
 import com.epam.ism.dao.TrainDAO;
 import com.epam.ism.dao.UserDAO;
 import com.epam.ism.dao.exception.DAOConfigurationException;
+import com.epam.ism.entity.Passenger;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -79,7 +80,7 @@ public abstract class JdbcDAOFactory {
      * @return The Train DAO.
      */
     public TrainDAO getTrainDAO() {
-        return new JdbcTrainDAO(this);
+        return null;//new JdbcTrainDAO(this);
     }
 
     /**

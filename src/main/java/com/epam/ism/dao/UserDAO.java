@@ -10,16 +10,24 @@ import com.epam.ism.entity.User;
  *
  * @author IDS.
  */
-public interface UserDAO<T extends User> extends GenericDAO<User> {
+public interface UserDAO extends GenericDAO<User> {
 
     /**
-     * Returns the user from the database matching the given ID and password, otherwise null.
-     * @param email The email of the user to be returned.
-     * @param password The password of the user to be returned.
-     * @return The user from the database, otherwise null.
+     * Returns the User from the database matching the given ID and password, otherwise null.
+     * @param email The email of the User to be returned.
+     * @param password The password of the User to be returned.
+     * @return The User from the database, otherwise null.
      * @throws DAOException If something fails at database level.
      */
-    T find(String email, String password) throws DAOException;
+    User find(String email, String password) throws DAOException;
+
+    /**
+     * Returns the User from database matching the given PersonalCode, otherwise null.
+     * @param personalCode The PersonalCode of the User to be returned.
+     * @return The User from the database, otherwise null.
+     * @throws DAOException If something fails at database level.
+     */
+    User find(String personalCode) throws DAOException;
 
     /**
      * Returns true if the given email address exists in the database.
@@ -30,12 +38,15 @@ public interface UserDAO<T extends User> extends GenericDAO<User> {
     boolean existEmail(String email) throws DAOException;
 
     /**
-     * Change the password of the given user. The user ID must not be null, otherwise it
+     * Change the password of the given User. The User ID must not be null, otherwise it
      * will be throw IllegalArgumentException.
-     * @param entity The user to change the password for.
-     * @throws IllegalArgumentException If the user ID is null.
+     * @param user The User to change the password for.
+     * @throws IllegalArgumentException If the User ID is null.
      * @throws DAOException If something fails at database level.
      */
-    void changePassword(T entity) throws IllegalArgumentException, DAOException;
+    void changePassword(User user) throws IllegalArgumentException, DAOException;
+
+
+
 
 }

@@ -2,8 +2,9 @@ package com.epam.ism;
 
 import com.epam.ism.dao.PassengerDAO;
 import com.epam.ism.dao.TrainDAO;
-import com.epam.ism.dao.jdbc.JdbcDAOFactory;
+
 import com.epam.ism.dao.UserDAO;
+import com.epam.ism.dao.jdbc.JdbcDAOFactory;
 import com.epam.ism.entity.Passenger;
 import com.epam.ism.entity.Train;
 import com.epam.ism.entity.User;
@@ -18,13 +19,41 @@ public class App
 {
     public static void main( String[] args ) throws Exception {
 
+
         JdbcDAOFactory railways_db = JdbcDAOFactory.getInstance("railways_db.jdbc");
         System.out.println("DAOFactory successfully obtained: " + railways_db);
 
-        Passenger passenger = new Passenger();
+//        Passenger passenger = new Passenger();
+//        passenger.setFirstName("Jhon");
+//        passenger.setLastName("Roberts");
+//        passenger.setIdentificationCode("880504350147");
+
         PassengerDAO passengerDAO = railways_db.getPassengerDAO();
-        passengerDAO.create(passenger);
-        Passenger user = (Passenger) passengerDAO.find((long) 1);
+
+        //passengerDAO.create(passenger);
+        List<User> list = passengerDAO.list();
+
+
+
+
+//        User passenger = new Passenger();
+//        passenger.setId(Long.parseLong("1"));
+//        passenger.setFirstName("Jhon");
+//        passenger.setLastName("Roberts");
+//
+//        PassengerDAO passengerDAO = railways_db.getPassengerDAO();
+//      //  passengerDAO.create(passenger);
+//        passengerDAO.list(Passenger.class);
+
+
+//        Passenger passenger = new Passenger();
+//        PassengerDAO passengerDAO = railways_db.getPassengerDAO();
+//        passengerDAO.create(passenger);
+//        Passenger user = (Passenger) passengerDAO.find((long) 1);
+//
+//        Passenger passenger1 = new Passenger();
+//
+//        Long id = passenger.getId();
 
 
 

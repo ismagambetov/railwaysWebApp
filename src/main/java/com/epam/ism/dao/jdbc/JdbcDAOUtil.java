@@ -57,5 +57,22 @@ public final class JdbcDAOUtil {
         return (date != null) ? new Date(date.getTime()) : null;
     }
 
+    /**
+     * Joins two arrays.
+     * @param arr1 The Object[] first array to be joined to the common array.
+     * @param arr2 The Object[] second array to be joined to the common array.
+     * @return The joined array.
+     */
+    public static Object[] concatArrays(Object[] arr1, Object[] arr2) {
+        int length1 = arr1.length;
+        int length2 = arr2.length;
+        Object[] values = new Object[length1+length2];
+
+        System.arraycopy(arr1,0,values,0,length1);
+        System.arraycopy(arr2,0,values,length1,length2);
+
+
+        return values;
+    }
 
 }
