@@ -1,11 +1,7 @@
 package com.epam.ism.dao.jdbc;
 
-import com.epam.ism.dao.DAOProperties;
-import com.epam.ism.dao.PassengerDAO;
-import com.epam.ism.dao.TrainDAO;
-import com.epam.ism.dao.UserDAO;
+import com.epam.ism.dao.*;
 import com.epam.ism.dao.exception.DAOConfigurationException;
-import com.epam.ism.entity.Passenger;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -80,15 +76,35 @@ public abstract class JdbcDAOFactory {
      * @return The Train DAO.
      */
     public TrainDAO getTrainDAO() {
-        return null;//new JdbcTrainDAO(this);
+        return new JdbcTrainDAO(this);
     }
 
-    /**
-     * Returns the Passenger DAO associated with the current DAOFactory.
-     * @return The Passenger DAO.
-     */
-    public PassengerDAO getPassengerDAO() {
-        return new JdbcPassengerDAO(this);
+    public CarriageDAO getCarriageDAO() {
+        return new JdbcCarriageDAO(this);
+    }
+
+    public RequestDAO getRequestDAO() {
+        return new JdbcRequestDAO(this);
+    }
+
+    public OrderDAO getOrderDAO() {
+        return new JdbcOrderDAO(this);
+    }
+
+    public TripDAO getTripDAO() {
+        return new JdbcTripDAO(this);
+    }
+
+    public StationDAO getStationDAO() {
+        return new JdbcStationDAO(this);
+    }
+
+    public MainRouteDAO getMainRouteDAO() {
+        return new JdbcMainRouteDAO(this);
+    }
+
+    public RouteDAO getRouteDAO() {
+        return new JdbcRouteDAO(this);
     }
 
     /**

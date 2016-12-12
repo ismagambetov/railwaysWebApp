@@ -1,6 +1,7 @@
 package com.epam.ism.entity;
 
-import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -9,30 +10,28 @@ import java.util.Objects;
  *
  * @author IDS.
  */
-public class Train implements Serializable {
-
-    //Constants
-    private static final long serialVersionUID = 1L;
+public class Train extends IdEntity {
 
     //Properties
-    private Long id;
     private String name;
+    private List<Carriage> carriages = new ArrayList<>();
+
 
     //Getters and setters
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Carriage> getCarriages() {
+        return carriages;
+    }
+
+    public void setCarriages(List<Carriage> carriages) {
+        this.carriages = carriages;
     }
 
     /**
@@ -45,8 +44,7 @@ public class Train implements Serializable {
         if (this == otherObject) return true;
         if (otherObject == null || getClass() != otherObject.getClass()) return false;
         Train other = (Train) otherObject;
-        return id == other.id &&
-                Objects.equals(name, other.name);
+        return Objects.equals(name, other.name);
     }
 
     /**
@@ -55,7 +53,7 @@ public class Train implements Serializable {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(id, name);
+        return Objects.hash( name);
     }
 
     /**
@@ -63,6 +61,7 @@ public class Train implements Serializable {
      */
     @Override
     public String toString() {
-        return String.format("Train[id = %d, name = %s]",id, name);
+        return String.format("Train[id=%d, name=%s]",getId(),name);
     }
+
 }

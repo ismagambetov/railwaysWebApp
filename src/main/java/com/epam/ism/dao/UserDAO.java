@@ -1,7 +1,10 @@
 package com.epam.ism.dao;
 
 import com.epam.ism.dao.exception.DAOException;
+import com.epam.ism.entity.Role;
 import com.epam.ism.entity.User;
+
+import java.util.Date;
 
 /**
  * This interface represents a contract for a DAO for the {@link User} model.
@@ -47,6 +50,11 @@ public interface UserDAO extends GenericDAO<User> {
     void changePassword(User user) throws IllegalArgumentException, DAOException;
 
 
+    User createAndGet(String firstName,String lastName,String personalCode,Date birthday,String password,
+                        String email, Role role);
+
+    void add(User user);
+    User getByCode(String personalCode);
 
 
 }

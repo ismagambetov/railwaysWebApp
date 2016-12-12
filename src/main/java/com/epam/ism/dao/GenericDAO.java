@@ -1,7 +1,6 @@
 package com.epam.ism.dao;
 
 import com.epam.ism.dao.exception.DAOException;
-
 import java.util.List;
 
 /**

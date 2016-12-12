@@ -10,6 +10,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import static com.epam.ism.dao.jdbc.JdbcDAOUtil.*;
 
@@ -20,7 +23,42 @@ import static com.epam.ism.dao.jdbc.JdbcDAOUtil.*;
  * @author IDS.
  */
 public class JdbcUserDAO extends AbstractJdbcDAO<User> implements UserDAO {
+    //There are methods beneath to be used just for testing.
+    private List<User> users = new ArrayList<>();
+    private static Long i = 0L;
 
+    @Override
+    public User createAndGet(String firstName, String lastName, String personalCode, Date birthday,
+                             String password, String email, Role role) {
+        User user = new User();
+        user.setId(++i);
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setPersonalCode(personalCode);
+        user.setBirthday(birthday);
+        user.setPassword(password);
+        user.setEmail(email);
+        user.setRole(role);
+
+        return user;
+    }
+
+    @Override
+    public void add(User user) {
+        users.add(user);
+    }
+
+    @Override
+    public User getByCode(String personalCode) {
+        for (User user : users) {
+            if (user.getPersonalCode().equals(personalCode)) {
+                return user;
+            }
+        }
+        return null;
+    }
+
+    //There is a code beneath, which will be used at database level.
     private static final String SQL_FIND_BY_ID =
             "SELECT id,firstname,lastname,email,personalcode,birthday FROM User WHERE id = ?";
     private static final String SQL_FIND_BY_EMAIL_AND_PASSWORD =
@@ -166,24 +204,24 @@ public class JdbcUserDAO extends AbstractJdbcDAO<User> implements UserDAO {
 
     @Override
     public User map(ResultSet resultSet) throws SQLException {
-        User user = new User();
-        user.setId(resultSet.getLong("id"));
-        user.setFirstName(resultSet.getString("firstname"));
-        user.setLastName(resultSet.getString("lastname"));
-        user.setEmail(resultSet.getString("email"));
-        user.setPersonalCode(resultSet.getString("personalcode"));
-        user.setBirthday(resultSet.getDate("birthday"));
-
-        int role_ = resultSet.getInt("role");
-        Role role = null;
-        switch (role_) {
-            case 1: role = Role.administrator;
-            case 2: role = Role.cashier;
-            case 3: role = Role.passenger;
-                default:role = Role.passenger;
-        }
-        user.setRole(role);
-        return user;
+//        User user = new User();
+//        user.setId(resultSet.getLong("id"));
+//        user.setFirstName(resultSet.getString("firstname"));
+//        user.setLastName(resultSet.getString("lastname"));
+//        user.setEmail(resultSet.getString("email"));
+//        user.setPersonalCode(resultSet.getString("personalcode"));
+//        user.setBirthday(resultSet.getDate("birthday"));
+//
+//        int role_ = resultSet.getInt("role");
+//        Role role = null;
+//        switch (role_) {
+//            case 1: role = Role.ADMINISTRATOR;
+//            case 2: role = Role.CASHIER;
+//            case 3: role = Role.PASSENGER;
+//                default:role = Role.PASSENGER;
+//        }
+//        user.setRole(role);
+        return null;
     }
 
 }

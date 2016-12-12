@@ -1,64 +1,58 @@
 package com.epam.ism.entity;
 
 import java.util.Date;
-import java.util.Objects;
 
-public class Order {
-    private long id;
-    private Passenger passenger;
-    private Date leaveDate;
-    private Date arriveDate;
+/**
+ *
+ */
+public class Order extends IdEntity {
+
+    private User passenger;
+    private Trip trip;
+    private Double travelCost;
+    private Date departureDate;
+    private int placeNumber;
     private Train train;
-    private String coach;
-    private String place;
-    private CoachClass coachClass;
-    private double price;
-    private boolean bedroll;
+    private Carriage carriage;
 
-    public Order(long id, Passenger passenger, Date leaveDate, Date arriveDate,
-                 Train train, String coach, String place, CoachClass coachClass, double price, boolean bedroll) {
-        this.id = id;
-        this.passenger = passenger;
-        this.leaveDate = leaveDate;
-        this.arriveDate = arriveDate;
-        this.train = train;
-        this.coach = coach;
-        this.place = place;
-        this.coachClass = coachClass;
-        this.price = price;
-        this.bedroll = bedroll;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public Passenger getPassenger() {
+    public User getPassenger() {
         return passenger;
     }
 
-    public void setPassenger(Passenger passenger) {
+    public void setPassenger(User passenger) {
         this.passenger = passenger;
     }
 
-    public Date getLeaveDate() {
-        return leaveDate;
+    public Trip getTrip() {
+        return trip;
     }
 
-    public void setLeaveDate(Date leaveDate) {
-        this.leaveDate = leaveDate;
+    public void setTrip(Trip trip) {
+        this.trip = trip;
     }
 
-    public Date getArriveDate() {
-        return arriveDate;
+    public Double getTravelCost() {
+        return travelCost;
     }
 
-    public void setArriveDate(Date arriveDate) {
-        this.arriveDate = arriveDate;
+    public void setTravelCost(Double travelCost) {
+        this.travelCost = travelCost;
+    }
+
+    public Date getDepartureDate() {
+        return departureDate;
+    }
+
+    public void setDepartureDate(Date departureDate) {
+        this.departureDate = departureDate;
+    }
+
+    public int getPlaceNumber() {
+        return placeNumber;
+    }
+
+    public void setPlaceNumber(int place) {
+        this.placeNumber = place;
     }
 
     public Train getTrain() {
@@ -69,81 +63,22 @@ public class Order {
         this.train = train;
     }
 
-    public String getCoach() {
-        return coach;
+    public Carriage getCarriage() {
+        return carriage;
     }
 
-    public void setCoach(String coach) {
-        this.coach = coach;
-    }
-
-    public String getPlace() {
-        return place;
-    }
-
-    public void setPlace(String place) {
-        this.place = place;
-    }
-
-    public CoachClass getCoachClass() {
-        return coachClass;
-    }
-
-    public void setCoachClass(CoachClass coachClass) {
-        this.coachClass = coachClass;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public boolean doesBedrollExist() {
-        return bedroll;
-    }
-
-    public void setBedroll(boolean bedroll) {
-        this.bedroll = bedroll;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Order order = (Order) o;
-        return id == order.id &&
-                Double.compare(order.price, price) == 0 &&
-                bedroll == order.bedroll &&
-                Objects.equals(passenger, order.passenger) &&
-                Objects.equals(leaveDate, order.leaveDate) &&
-                Objects.equals(arriveDate, order.arriveDate) &&
-                Objects.equals(train, order.train) &&
-                Objects.equals(coach, order.coach) &&
-                Objects.equals(place, order.place) &&
-                coachClass == order.coachClass;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, passenger, leaveDate, arriveDate, train, coach, place, coachClass, price, bedroll);
+    public void setCarriage(Carriage carriage) {
+        this.carriage = carriage;
     }
 
     @Override
     public String toString() {
         return "Order{" +
-                "id=" + id +
-                ", passenger=" + passenger +
-                ", leaveDate=" + leaveDate +
-                ", arriveDate=" + arriveDate +
-                ", train=" + train +
-                ", coach='" + coach + '\'' +
-                ", place='" + place + '\'' +
-                ", coachClass=" + coachClass +
-                ", price=" + price +
-                ", bedroll=" + ((bedroll) ? " Yes":" No") +
+                "passenger=" + passenger +
+                ", trip=" + trip +
+                ", travelCost=" + travelCost +
+                ", departureDate=" + departureDate +
+                ", place='" + placeNumber + '\'' +
                 '}';
     }
 }

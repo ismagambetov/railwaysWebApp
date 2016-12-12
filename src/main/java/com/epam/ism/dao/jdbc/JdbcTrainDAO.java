@@ -4,6 +4,7 @@ import com.epam.ism.dao.TrainDAO;
 import com.epam.ism.dao.exception.DAOException;
 import static com.epam.ism.dao.jdbc.JdbcDAOUtil.*;
 import com.epam.ism.entity.Train;
+import com.epam.ism.entity.Trip;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,8 +19,42 @@ import java.util.List;
  *
  * @author IDS.
  */
-public class JdbcTrainDAO implements TrainDAO {
+public class JdbcTrainDAO extends AbstractJdbcDAO<Train> implements TrainDAO {
 
+    //There are methods beneath to be used just for testing.
+    private static Long i = 0L;
+    private List<Train> trains = new ArrayList<>();
+
+    @Override
+    public Train createAndGet(String trainName) {
+        Train train = new Train();
+        train.setId(++i);
+        train.setName(trainName);
+
+        return train;
+    }
+
+    @Override
+    public void add(Train train) {
+        trains.add(train);
+    }
+
+    @Override
+    public List<Train> getList() {
+        return trains;
+    }
+
+    @Override
+    public Train getByName(String name) {
+        for (Train train : trains) {
+            if (train.getName().equals(name)) {
+                return train;
+            }
+        }
+        return null;
+    }
+
+    //There is code beneath, which will be used at database level.
     //Constants
     private static final String SQL_FIND_BY_ID = "SELECT * FROM Train WHERE id = ?";
     private static final String SQL_FIND_BY_NAME = "SELECT * FROM Train WHERE name = ?";
@@ -30,13 +65,12 @@ public class JdbcTrainDAO implements TrainDAO {
 
     private JdbcDAOFactory daoFactory;
 
-
     /**
      * Constructs a Train DAO for the given DAOFactory
      * @param daoFactory The DAOFactory to construct this Train DAO for.
      */
     public JdbcTrainDAO(JdbcDAOFactory daoFactory) {
-        this.daoFactory = daoFactory;
+        super(daoFactory);
     }
 
     //Actions
@@ -46,8 +80,18 @@ public class JdbcTrainDAO implements TrainDAO {
     }
 
     @Override
-    public Train find(String name) throws DAOException {
-        return find(SQL_FIND_BY_NAME, name);
+    public Object[] generateValuesForCreate(Train entity) {
+        return new Object[0];
+    }
+
+    @Override
+    public Object[] generateValuesForUpdate(Train entity) {
+        return new Object[0];
+    }
+
+    @Override
+    public Object[] generateValuesForDelete(Train entity) {
+        return new Object[0];
     }
 
     @Override
@@ -180,12 +224,37 @@ public class JdbcTrainDAO implements TrainDAO {
      * @return The mapped Train from the current row of the given ResultSet.
      * @throws SQLException If something fails at database level.
      */
-    private static Train map(ResultSet resultSet) throws SQLException {
-        Train train = new Train();
-        train.setId(resultSet.getLong(1));
-        train.setName(resultSet.getString(2));
+    public Train map(ResultSet resultSet) throws SQLException {
+//        Train train = new Train();
+//        train.setId(resultSet.getLong(1));
+//        train.setName(resultSet.getString(2));
+//
+        return null;//train;
+    }
 
-        return train;
+    @Override
+    public String insertQuery() {
+        return null;
+    }
+
+    @Override
+    public String updateQuery() {
+        return null;
+    }
+
+    @Override
+    public String findQuery() {
+        return null;
+    }
+
+    @Override
+    public String deleteQuery() {
+        return null;
+    }
+
+    @Override
+    public String listQuery() {
+        return null;
     }
 
 }
