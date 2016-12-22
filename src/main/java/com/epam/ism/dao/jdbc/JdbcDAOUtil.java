@@ -1,12 +1,21 @@
 package com.epam.ism.dao.jdbc;
 
+import com.epam.ism.dao.GenericDAO;
+import com.epam.ism.dao.exception.DAOException;
+import com.epam.ism.entity.IdEntity;
+import com.epam.ism.entity.Train;
+
 import java.sql.*;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  *  Utility class for DAO's. This class contains commonly used DAO logic which is been refactored in
  *  single static methods.
  *
- *  @author __;
+ *  @author IDS;
  */
 public final class JdbcDAOUtil {
     //Constructor
@@ -75,4 +84,17 @@ public final class JdbcDAOUtil {
         return values;
     }
 
+    public static java.util.Date getDateFromString(String dateStr) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
+        try {
+            return format.parse(dateStr);
+        } catch (ParseException e) {
+            throw new DAOException("Parsing string to date failed.",e);
+        }
+    }
+
+    public static <T extends IdEntity> List<T> getEmptyList(Class<T> clazz) {
+        return new ArrayList<T>();
+    }
 }

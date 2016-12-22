@@ -13,7 +13,5 @@ import java.util.List;
  * @author IDS.
  */
 public interface RequestDAO extends GenericDAO<Request> {
-    Request createAndGet(User passenger, Date departureDate, Station from, Station to);
-    void add(Request request);
-    List<Request> getList();
+
 }

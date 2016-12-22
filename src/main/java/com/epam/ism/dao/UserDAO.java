@@ -50,11 +50,5 @@ public interface UserDAO extends GenericDAO<User> {
     void changePassword(User user) throws IllegalArgumentException, DAOException;
 
 
-    User createAndGet(String firstName,String lastName,String personalCode,Date birthday,String password,
-                        String email, Role role);
-
-    void add(User user);
-    User getByCode(String personalCode);
-
 
 }

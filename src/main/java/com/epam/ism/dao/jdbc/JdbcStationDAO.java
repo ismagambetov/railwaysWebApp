@@ -1,6 +1,7 @@
 package com.epam.ism.dao.jdbc;
 
 import com.epam.ism.dao.StationDAO;
+import com.epam.ism.dao.exception.DAOException;
 import com.epam.ism.entity.Station;
 
 import java.sql.ResultSet;
@@ -11,43 +12,38 @@ import java.util.List;
 
 public class JdbcStationDAO extends AbstractJdbcDAO<Station> implements StationDAO {
 
-    //There are methods beneath to be used just for testing.
-
-    private List<Station> stations = new ArrayList<>();
-    private static Long i = 0L;
-
-    @Override
-    public Station createAndGet(String stationName) {
-        Station station = new Station();
-        station.setId(++i);
-        station.setName(stationName);
-
-        return station;
+    public JdbcStationDAO(JdbcDAOFactory daoFactory) {
+        super(daoFactory);
     }
 
     @Override
-    public void add(Station station) {
-        stations.add(station);
+    public void create(Station entity) throws DAOException {
+
     }
 
     @Override
-    public List<Station> getList() {
-        return stations;
+    public void update(Station entity) throws DAOException {
+
     }
 
     @Override
-    public Station getByName(String name) {
-        for (Station station : stations) {
-            if (station.getName().equals(name)) {
-                return station;
-            }
-        }
+    public void delete(Station entity) throws DAOException {
+
+    }
+
+    @Override
+    public List<Station> list() throws DAOException {
         return null;
     }
 
-    //There is code beneath, which will be used at database level.
-    public JdbcStationDAO(JdbcDAOFactory daoFactory) {
-        super(daoFactory);
+    @Override
+    public Station find(Long id) throws DAOException {
+        return null;
+    }
+
+    @Override
+    public Station find(String name) throws DAOException {
+        return null;
     }
 
     @Override

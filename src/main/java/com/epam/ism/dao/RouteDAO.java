@@ -12,9 +12,5 @@ import java.util.List;
  */
 public interface RouteDAO extends GenericDAO<Route> {
 
-    void add(Station stationFrom, Station stationTo, String departuteTime,
-             String arrivalTime, Double interval, int parkingTime);
-
-    List<Route> getList();
 
 }

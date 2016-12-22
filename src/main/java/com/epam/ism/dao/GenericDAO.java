@@ -54,5 +54,13 @@ public interface GenericDAO<T> {
      */
     T find(Long id) throws DAOException;
 
+    /**
+     * Returns the T type entity from the database matching the given Name, otherwise null.
+     * @param name The Name of the entity to be returned.
+     * @return The entity from the database, otherwise null.
+     * @throws DAOException If something fails at database level.
+     */
+    T find(String name) throws DAOException;
+
 
 }

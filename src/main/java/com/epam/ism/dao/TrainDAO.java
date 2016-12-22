@@ -10,10 +10,7 @@ import java.util.List;
  * @author IDS.
  */
 public interface TrainDAO extends GenericDAO<Train> {
-    Train createAndGet(String trainName);
-    void add(Train train);
-    List<Train> getList();
-    Train getByName(String name);
+
 
 
 }

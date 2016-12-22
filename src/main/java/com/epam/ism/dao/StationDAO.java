@@ -11,9 +11,4 @@ import java.util.List;
  */
 public interface StationDAO extends GenericDAO<Station> {
 
-    void add(Station station);
-    Station createAndGet(String stationName);
-    List<Station> getList();
-    Station getByName(String name);
-
 }

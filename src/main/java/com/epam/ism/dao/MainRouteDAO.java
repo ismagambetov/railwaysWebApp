@@ -10,14 +10,7 @@ import java.util.List;
  * @author IDS.
  */
 public interface MainRouteDAO extends GenericDAO<MainRoute> {
-    MainRoute createAndGet(Station stationFrom, Station stationTo, String departuteTime,
-                           String arrivalTime, Double interval, Double priceForCloseSection, Double priceForOpenSection,
-                           Train train, List<Route> routes);
 
-    void add(MainRoute mainRoute);
-
-    List<MainRoute> getList();
-
-    List<Train> findByRequest(List<MainRoute> mainRoutes, Request request);
+    MainRoute findByStations(Station from, Station to);
 
 }

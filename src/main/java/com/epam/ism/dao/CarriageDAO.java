@@ -11,7 +11,5 @@ import java.util.List;
  */
 
 public interface CarriageDAO extends GenericDAO<Carriage> {
-    void add(Carriage carriage);
-    Carriage createAndGet();
-    List<Carriage> getList();
+
 }
