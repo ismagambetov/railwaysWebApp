@@ -6,14 +6,12 @@ import java.util.Date;
  *
  */
 public class Order extends IdEntity {
-
-    private User passenger;
-    private Trip trip;
-    private Double travelCost;
     private Date departureDate;
-    private int placeNumber;
+    private User passenger;
     private Train train;
-    private Carriage carriage;
+    private String carriage;
+    private String placeNumber;
+    private Double cost;
 
     public User getPassenger() {
         return passenger;
@@ -21,22 +19,6 @@ public class Order extends IdEntity {
 
     public void setPassenger(User passenger) {
         this.passenger = passenger;
-    }
-
-    public Trip getTrip() {
-        return trip;
-    }
-
-    public void setTrip(Trip trip) {
-        this.trip = trip;
-    }
-
-    public Double getTravelCost() {
-        return travelCost;
-    }
-
-    public void setTravelCost(Double travelCost) {
-        this.travelCost = travelCost;
     }
 
     public Date getDepartureDate() {
@@ -47,11 +29,11 @@ public class Order extends IdEntity {
         this.departureDate = departureDate;
     }
 
-    public int getPlaceNumber() {
+    public String getPlaceNumber() {
         return placeNumber;
     }
 
-    public void setPlaceNumber(int place) {
+    public void setPlaceNumber(String place) {
         this.placeNumber = place;
     }
 
@@ -63,20 +45,27 @@ public class Order extends IdEntity {
         this.train = train;
     }
 
-    public Carriage getCarriage() {
+    public String getCarriage() {
         return carriage;
     }
 
-    public void setCarriage(Carriage carriage) {
+    public void setCarriage(String carriage) {
         this.carriage = carriage;
+    }
+
+    public Double getCost() {
+        return cost;
+    }
+
+    public void setCost(Double cost) {
+        this.cost = cost;
     }
 
     @Override
     public String toString() {
         return "Order{" +
                 "passenger=" + passenger +
-                ", trip=" + trip +
-                ", travelCost=" + travelCost +
+                ", travelCost=" + cost +
                 ", departureDate=" + departureDate +
                 ", place='" + placeNumber + '\'' +
                 '}';

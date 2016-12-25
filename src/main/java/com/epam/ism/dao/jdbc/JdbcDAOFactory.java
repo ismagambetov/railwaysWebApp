@@ -3,6 +3,7 @@ package com.epam.ism.dao.jdbc;
 import com.epam.ism.connection.ConnectionPoolException;
 import com.epam.ism.connection.JdbcConnectionPool;
 import com.epam.ism.dao.MainRouteDAO;
+import com.epam.ism.dao.OrderDAO;
 import com.epam.ism.dao.StationDAO;
 import com.epam.ism.dao.TrainDAO;
 import com.epam.ism.dao.exception.DAOConfigurationException;
@@ -50,5 +51,9 @@ public abstract class JdbcDAOFactory {
 
     public MainRouteDAO getMainRouteDAO() {
         return new JdbcMainRouteDAO(this);
+    }
+
+    public OrderDAO getOrderDAO() {
+        return new JdbcOrderDAO(this);
     }
 }

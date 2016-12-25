@@ -1,9 +1,11 @@
 package com.epam.ism.service;
 
+import com.epam.ism.dao.OrderDAO;
 import com.epam.ism.dao.TrainDAO;
 import com.epam.ism.dao.jdbc.JdbcDAOFactory;
 import com.epam.ism.dao.jdbc.JdbcDAOUtil;
 import com.epam.ism.entity.MainRoute;
+import com.epam.ism.entity.Place;
 import com.epam.ism.entity.Station;
 import com.epam.ism.entity.Train;
 
@@ -28,6 +30,18 @@ public class TrainService {
 
             if (exist) list.add(train);
         }
+
+        return list;
+    }
+
+    public List<Place> findPlaces(String trainName) {
+        List<Place> list = JdbcDAOUtil.getEmptyList(Place.class);
+        JdbcDAOFactory daoFactory = JdbcDAOFactory.get("railways_db.jdbc");
+        TrainDAO trainDAO = daoFactory.getTrainDAO();
+        Train train = trainDAO.find(trainName);
+
+        OrderDAO orderDAO = daoFactory.getOrderDAO();
+
 
         return list;
     }

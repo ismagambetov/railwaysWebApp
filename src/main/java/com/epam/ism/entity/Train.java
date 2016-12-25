@@ -43,6 +43,8 @@ public class Train extends IdEntity {
         this.carriages = carriages;
     }
 
+
+
     /**
      * Returns true if the user ID and name are equal.
      * @param otherObject The object to be compared with current Train object.
