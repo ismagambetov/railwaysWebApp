@@ -5,11 +5,11 @@ import com.epam.ism.service.StationService;
 import junit.framework.TestCase;
 
 public class StationServiceTest extends TestCase {
+    public static Station station;
 
-    public void testFindStation(String name) {
-        StationService stationService = new StationService();
-        Station station = stationService.find(name);
-        assertNotNull("An instance of station is expected.", station);
+    public static void testFind(StationService service, String name) {
+        station = service.find(name);
+        assertNotNull("Station object expected.", station);
     }
 
 }

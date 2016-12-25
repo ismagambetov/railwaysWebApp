@@ -1,5 +1,6 @@
 package com.epam.ism.dao.jdbc;
 
+import com.epam.ism.FactoryMethod;
 import com.epam.ism.dao.StationDAO;
 import com.epam.ism.dao.exception.DAOException;
 import com.epam.ism.entity.Station;
@@ -7,10 +8,14 @@ import com.epam.ism.entity.Station;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class JdbcStationDAO extends AbstractJdbcDAO<Station> implements StationDAO {
+    public static List<Station> list;
+
+    static {
+        list = FactoryMethod.getStationList();
+    }
 
     public JdbcStationDAO(JdbcDAOFactory daoFactory) {
         super(daoFactory);
@@ -43,6 +48,12 @@ public class JdbcStationDAO extends AbstractJdbcDAO<Station> implements StationD
 
     @Override
     public Station find(String name) throws DAOException {
+        for (Station station : list) {
+            if (station.getName().equals(name)) {
+                return station;
+            }
+        }
+
         return null;
     }
 
@@ -90,4 +101,5 @@ public class JdbcStationDAO extends AbstractJdbcDAO<Station> implements StationD
     public String listQuery() {
         return null;
     }
+
 }

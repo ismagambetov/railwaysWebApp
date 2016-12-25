@@ -1,6 +1,8 @@
 package com.epam.ism.entity;
 
-public class Station extends IdEntity {
+import java.util.Objects;
+
+public class Station extends IdEntity implements BaseEntity {
 
     private String name;
 
@@ -10,6 +12,19 @@ public class Station extends IdEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Station station = (Station) o;
+        return Objects.equals(name, station.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), name);
     }
 
     @Override

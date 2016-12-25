@@ -1,35 +1,37 @@
 package com.epam.ism.service;
 
-import com.epam.ism.dao.MainRouteDAO;
-import com.epam.ism.dao.jdbc.JdbcDAOFactory;
 import com.epam.ism.entity.MainRoute;
+import com.epam.ism.entity.Route;
 import com.epam.ism.entity.Station;
 
 import java.util.List;
 
 public class RouteService {
-    private JdbcDAOFactory daoFactory;
-    private MainRouteDAO mainRouteDAO;
 
-    public RouteService() {
-        daoFactory = JdbcDAOFactory.get("railways_db.jdbc");
-        mainRouteDAO = daoFactory.getMainRouteDAO();
+    public boolean exist(MainRoute mainRoute, Station from, Station to) {
+
+        boolean b = compareStations(mainRoute, from, to);
+        if (b) {
+            return true;
+        }
+
+        List<Route> routes = mainRoute.getRoutes();
+        for (Route route : routes) {
+            b = compareStations(route, from, to);
+            if (b) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    public MainRoute getRoute(Station from, Station to) {
-        return mainRouteDAO.findByStations(from, to);
+    private boolean compareStations(MainRoute route, Station from, Station to) {
+        if (route.getFrom().equals(from) &&
+                route.getTo().equals(to)) {
+            return true;
+        }
+        return false;
     }
 
-
-    public void add(List<Object> arguments) {
-        // TODO: 22.12.2016
-        MainRoute route = new MainRoute();
-//        route.setFrom(arguments.get(0));
-//        route.setTo(arguments.get(1));
-        //..................
-
-        mainRouteDAO.create(route);
-
-    }
 
 }

@@ -11,6 +11,5 @@ import java.util.List;
  */
 public interface MainRouteDAO extends GenericDAO<MainRoute> {
 
-    MainRoute findByStations(Station from, Station to);
 
 }

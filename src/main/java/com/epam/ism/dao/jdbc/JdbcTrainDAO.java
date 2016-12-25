@@ -1,7 +1,9 @@
 package com.epam.ism.dao.jdbc;
 
+import com.epam.ism.FactoryMethod;
 import com.epam.ism.dao.TrainDAO;
 import com.epam.ism.dao.exception.DAOException;
+import com.epam.ism.entity.Station;
 import com.epam.ism.entity.Train;
 
 import java.sql.ResultSet;
@@ -16,18 +18,21 @@ import java.util.List;
  * @author IDS.
  */
 public class JdbcTrainDAO extends AbstractJdbcDAO<Train> implements TrainDAO {
-    List<Train> trains = new ArrayList<>();
+
+    public static List<Train> list;
+
+    static {
+        list = FactoryMethod.getTrainList();
+    }
+
 
     public JdbcTrainDAO(JdbcDAOFactory daoFactory) {
         super(daoFactory);
     }
 
-    public List<Train> getTrains() {
-        return trains;
-    }
-
-    public void setTrains(List<Train> trains) {
-        this.trains = trains;
+    @Override
+    public List<Train> list() throws DAOException {
+        return list;
     }
 
     @Override

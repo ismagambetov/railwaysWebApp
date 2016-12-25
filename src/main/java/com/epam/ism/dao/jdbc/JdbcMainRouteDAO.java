@@ -1,24 +1,24 @@
 package com.epam.ism.dao.jdbc;
 
+import com.epam.ism.FactoryMethod;
 import com.epam.ism.dao.MainRouteDAO;
 import com.epam.ism.dao.exception.DAOException;
 import com.epam.ism.entity.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class JdbcMainRouteDAO extends AbstractJdbcDAO<MainRoute> implements MainRouteDAO {
+    public static List<MainRoute> list;
 
-    List<MainRoute> mainRoutes = new ArrayList<>();
+    static {
+        list = FactoryMethod.getMainRouteList();
+    }
 
     public JdbcMainRouteDAO(JdbcDAOFactory daoFactory) {
         super(daoFactory);
-        mainRoutes.add(new MainRoute());
     }
-
-
 
     @Override
     public Object[] generateValuesForCreate(MainRoute entity) {
@@ -62,17 +62,6 @@ public class JdbcMainRouteDAO extends AbstractJdbcDAO<MainRoute> implements Main
 
     @Override
     public String listQuery() {
-        return null;
-    }
-
-    @Override
-    public MainRoute findByStations(Station from, Station to) {
-        for (MainRoute mainRoute : mainRoutes) {
-            if (mainRoute.getFrom().equals(from) &&
-                    mainRoute.getTo().equals(to)) {
-                return mainRoute;
-            }
-        }
         return null;
     }
 

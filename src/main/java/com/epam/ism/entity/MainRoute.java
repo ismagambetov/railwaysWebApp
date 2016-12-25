@@ -1,6 +1,7 @@
 package com.epam.ism.entity;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -11,13 +12,11 @@ public class MainRoute extends IdEntity{
     //Properties
     private Station From; // From Main station
     private Station To; // To final Main station
-    private String departureTime; // departure time from Main station
-    private String arrivalTime; //arrival time to final Main station
     private Double interval; // the interval between two Main stations
     private Double priceForOpenSection;// цена за купе.
     private Double priceForCloseSection; // цена за место в плацкарт.
-    private Train train; // The Train that moves between two Main stations.
-    private LinkedList<Route> routes = new LinkedList<>(); // Routes that are located between Main stations
+//    private Train train; // The Train that moves between two Main stations.
+    private List<Route> routes = new ArrayList<>(); // Routes that are located between Main stations
 
     //Getters and setters
     public Station getFrom() {
@@ -34,22 +33,6 @@ public class MainRoute extends IdEntity{
 
     public void setTo(Station to) {
         To = to;
-    }
-
-    public String getDepartureTime() {
-        return departureTime;
-    }
-
-    public void setDepartureTime(String departureTime) {
-        this.departureTime = departureTime;
-    }
-
-    public String getArrivalTime() {
-        return arrivalTime;
-    }
-
-    public void setArrivalTime(String arrivalTime) {
-        this.arrivalTime = arrivalTime;
     }
 
     public Double getInterval() {
@@ -76,19 +59,11 @@ public class MainRoute extends IdEntity{
         this.priceForCloseSection = priceForCloseSection;
     }
 
-    public Train getTrain() {
-        return train;
-    }
-
-    public void setTrain(Train train) {
-        this.train = train;
-    }
-
-    public LinkedList<Route> getRoutes() {
+    public List<Route> getRoutes() {
         return routes;
     }
 
-    public void setRoutes(LinkedList<Route> routes) {
+    public void setRoutes(List<Route> routes) {
         this.routes = routes;
     }
 
@@ -100,18 +75,15 @@ public class MainRoute extends IdEntity{
         MainRoute that = (MainRoute) o;
         return Objects.equals(From, that.From) &&
                 Objects.equals(To, that.To) &&
-                Objects.equals(departureTime, that.departureTime) &&
-                Objects.equals(arrivalTime, that.arrivalTime) &&
                 Objects.equals(priceForOpenSection, that.priceForOpenSection) &&
-                Objects.equals(priceForCloseSection, that.priceForCloseSection) &&
-                Objects.equals(train, that.train);
+                Objects.equals(priceForCloseSection, that.priceForCloseSection);
     }
 
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), From, To, departureTime, arrivalTime,
-                priceForOpenSection, priceForCloseSection, train);
+        return Objects.hash(super.hashCode(), From, To,
+                priceForOpenSection, priceForCloseSection);
     }
 
     @Override
@@ -119,11 +91,8 @@ public class MainRoute extends IdEntity{
         return "\nMain route{" +
                 "From=" + From +
                 ", To=" + To +
-                ", departureTime=" + departureTime +
-                ", arrivalTime=" + arrivalTime +
                 ", priceForOpenCompartment=" + priceForOpenSection +
                 ", priceForCloseCompartment=" + priceForCloseSection +
-                ", train=" + train +
                 '}'+"\n";
     }
 }

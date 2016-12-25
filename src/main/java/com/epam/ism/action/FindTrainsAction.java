@@ -1,10 +1,8 @@
 package com.epam.ism.action;
 
 import com.epam.ism.dao.jdbc.JdbcDAOUtil;
-import com.epam.ism.entity.MainRoute;
 import com.epam.ism.entity.Station;
 import com.epam.ism.entity.Train;
-import com.epam.ism.service.RouteService;
 import com.epam.ism.service.StationService;
 import com.epam.ism.service.TrainService;
 
@@ -29,15 +27,9 @@ public class FindTrainsAction implements Action {
         boolean validate = isValidate(dateStr, f, t);
         if (!validate) return "error";
 
-        //call RouteService
-        RouteService routeService = new RouteService();
-        MainRoute route = routeService.getRoute(from, to);
-
-        if (route == null) return "error";
-
         //call TrainService
         TrainService trainService = new TrainService();
-        List<Train> trains = trainService.findAll(route, departureDay);
+        List<Train> trains = trainService.findAll(from, to, departureDay);
 
         HttpSession session = request.getSession();
         session.setAttribute("availableTrains", trains);

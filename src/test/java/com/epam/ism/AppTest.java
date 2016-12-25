@@ -1,15 +1,10 @@
 package com.epam.ism;
 
-import com.epam.ism.action.FindTrainsAction;
-import com.epam.ism.entity.Train;
-import com.epam.ism.service.TrainService;
+import com.epam.ism.dao.jdbc.JdbcDAOUtil;
+import com.epam.ism.entity.Station;
+import com.epam.ism.service.StationService;
 import junit.framework.TestCase;
-import org.junit.Test;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Unit test for simple App.
@@ -17,10 +12,16 @@ import java.util.List;
 public class AppTest extends TestCase {
 
     public void testMain() throws Exception {
+        StationService stationService = new StationService();
+        StationServiceTest.testFind(stationService, "Костанай");
+        Station from = StationServiceTest.station;
 
+        StationServiceTest.testFind(stationService, "Астана");
+        Station to = StationServiceTest.station;
 
+        Date date = JdbcDAOUtil.getDateFromString("2016-12-25");
 
-        TrainServiceTest.findAllTrains("Караганда","Алматы","2016-12-23");
+        TrainServiceTest.testFindAll(from, to, date);
 
     }
 }
