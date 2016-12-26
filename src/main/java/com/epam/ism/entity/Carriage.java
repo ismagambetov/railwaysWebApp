@@ -17,7 +17,7 @@ public class Carriage extends IdEntity {
     public Carriage() {
         for (int i = 0; i < CARRIAGE_CAPACITY; i++) {
             Place place = new Place();
-            place.setPlace(++i);
+            place.setPlace(String.valueOf(++i));
             place.setBooked(false);
             places.add(place);
         }

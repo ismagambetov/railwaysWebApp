@@ -1,5 +1,6 @@
 package com.epam.ism;
 
+import com.epam.ism.entity.Place;
 import com.epam.ism.entity.Station;
 import com.epam.ism.entity.Train;
 import com.epam.ism.service.TrainService;
@@ -19,4 +20,9 @@ public class TrainServiceTest extends TestCase {
     }
 
 
+    public static void testFindPlaces(String name) {
+        TrainService trainService = new TrainService();
+        List<Place> places = trainService.findPlaces(name);
+        assertNotNull("List of places expected.",places);
+    }
 }

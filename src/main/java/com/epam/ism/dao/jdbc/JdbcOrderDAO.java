@@ -18,10 +18,10 @@ import java.util.List;
  *
  */
 public class JdbcOrderDAO extends AbstractJdbcDAO<Order> implements OrderDAO {
-    public static List<User> list;
+    public static List<Order> list;
 
     static {
-        list = FactoryMethod.getUserList();
+        list = FactoryMethod.getOrderList();
     }
 
 
@@ -77,5 +77,10 @@ public class JdbcOrderDAO extends AbstractJdbcDAO<Order> implements OrderDAO {
     @Override
     public Order find(String name) throws DAOException {
         return null;
+    }
+
+    @Override
+    public List<Order> list() throws DAOException {
+        return list;
     }
 }

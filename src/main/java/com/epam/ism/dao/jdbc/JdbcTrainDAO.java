@@ -82,6 +82,9 @@ public class JdbcTrainDAO extends AbstractJdbcDAO<Train> implements TrainDAO {
 
     @Override
     public Train find(String name) throws DAOException {
+        for (Train train : list) {
+            if (train.getName().equals(name)) return train;
+        }
         return null;
     }
 }

@@ -113,7 +113,8 @@ public class FactoryMethod {
     }
 
 
-    public static List<Order> getOrderList() throws FactoryException {
+    public static List<Order> getOrderList() {
+        getUserList();
 
         orderList = new ArrayList<>();
         //id, date, Passenger, Train, Carriage, PlaceNumber, cost

@@ -4,10 +4,7 @@ import com.epam.ism.dao.OrderDAO;
 import com.epam.ism.dao.TrainDAO;
 import com.epam.ism.dao.jdbc.JdbcDAOFactory;
 import com.epam.ism.dao.jdbc.JdbcDAOUtil;
-import com.epam.ism.entity.MainRoute;
-import com.epam.ism.entity.Place;
-import com.epam.ism.entity.Station;
-import com.epam.ism.entity.Train;
+import com.epam.ism.entity.*;
 
 import java.util.Date;
 import java.util.List;
@@ -41,7 +38,16 @@ public class TrainService {
         Train train = trainDAO.find(trainName);
 
         OrderDAO orderDAO = daoFactory.getOrderDAO();
+        List<Order> orders = orderDAO.list();
 
+        for (Order order : orders) {
+            if (order.getTrain().equals(train)) {
+                Place place = new Place();
+                place.setPlace(order.getPlaceNumber());
+                place.setBooked(true);
+                list.add(place);
+            }
+        }
 
         return list;
     }

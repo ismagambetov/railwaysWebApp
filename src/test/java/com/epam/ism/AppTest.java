@@ -22,6 +22,7 @@ public class AppTest extends TestCase {
         Date date = JdbcDAOUtil.getDateFromString("2016-12-25");
 
         TrainServiceTest.testFindAll(from, to, date);
+        TrainServiceTest.testFindPlaces("038Т");
 
     }
 }

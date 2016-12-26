@@ -1,14 +1,14 @@
 package com.epam.ism.entity;
 
 public class Place extends IdEntity {
-    private int place;
+    private String place;
     private boolean booked;
 
-    public int getPlace() {
+    public String getPlace() {
         return place;
     }
 
-    public void setPlace(int place) {
+    public void setPlace(String place) {
         this.place = place;
     }
 
