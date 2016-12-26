@@ -8,6 +8,7 @@ import junit.framework.TestCase;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 
 public class TrainServiceTest extends TestCase {
@@ -22,7 +23,7 @@ public class TrainServiceTest extends TestCase {
 
     public static void testFindPlaces(String name) {
         TrainService trainService = new TrainService();
-        List<Place> places = trainService.findPlaces(name);
-        assertNotNull("List of places expected.",places);
+        Map<String,List<Place>> places = trainService.findPlaces(name);
+        assertNotNull("Map of carriage and places expected.",places);
     }
 }

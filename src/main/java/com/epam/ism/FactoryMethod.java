@@ -117,9 +117,9 @@ public class FactoryMethod {
         getUserList();
 
         orderList = new ArrayList<>();
-        //id, date, Passenger, Train, Carriage, PlaceNumber, cost
-        orderList.add(createOrder("1,2016-12-01,880519350478,038Т,3,28,2626"));
-        orderList.add(createOrder("2,2016-12-01,900705350179,038Т,3,10,2626"));
+        //id, date, Passenger, Train, Carriage, PlaceNumber, cost, lux
+        orderList.add(createOrder("1,2016-12-01,880519350478,038Т,3,28,2626,true"));
+        orderList.add(createOrder("2,2016-12-01,900705350179,038Т,3,10,2626,true"));
 
 
         return orderList;
@@ -138,6 +138,7 @@ public class FactoryMethod {
         order.setCarriage(arr[4]);
         order.setPlaceNumber(arr[5]);
         order.setCost(Double.parseDouble(arr[6]));
+        order.setLux(Boolean.parseBoolean(arr[7]));
 
         return order;
     }

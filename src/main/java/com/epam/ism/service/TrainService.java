@@ -6,8 +6,7 @@ import com.epam.ism.dao.jdbc.JdbcDAOFactory;
 import com.epam.ism.dao.jdbc.JdbcDAOUtil;
 import com.epam.ism.entity.*;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class TrainService {
 
@@ -31,8 +30,11 @@ public class TrainService {
         return list;
     }
 
-    public List<Place> findPlaces(String trainName) {
-        List<Place> list = JdbcDAOUtil.getEmptyList(Place.class);
+    public Map<String,List<Place>> findPlaces(String trainName) {
+      //  List<Place> list = JdbcDAOUtil.getEmptyList(Place.class);
+        Map<String,List<Place>> map = new HashMap<>();
+        String carriageType;
+
         JdbcDAOFactory daoFactory = JdbcDAOFactory.get("railways_db.jdbc");
         TrainDAO trainDAO = daoFactory.getTrainDAO();
         Train train = trainDAO.find(trainName);
@@ -45,10 +47,24 @@ public class TrainService {
                 Place place = new Place();
                 place.setPlace(order.getPlaceNumber());
                 place.setBooked(true);
-                list.add(place);
+
+                carriageType = order.getCarriage();
+                if (order.isLux()) {
+                    carriageType += "L";
+                }
+
+                List<Place> places = map.get(carriageType);
+                if (places != null) {
+                    places.add(place);
+                } else {
+                    places = new ArrayList<>();
+                    places.add(place);
+                }
+
+                map.put(carriageType,places);
             }
         }
 
-        return list;
+        return map;
     }
 }

@@ -6,6 +6,7 @@ import com.epam.ism.service.TrainService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Map;
 
 public class FindPlacesAction implements Action {
 
@@ -14,7 +15,7 @@ public class FindPlacesAction implements Action {
         String train = request.getParameter("train");
 
         TrainService trainService = new TrainService();
-        List<Place> places = trainService.findPlaces(train);
+        Map<String,List<Place>> places = trainService.findPlaces(train);
 
         return "available-places";
     }

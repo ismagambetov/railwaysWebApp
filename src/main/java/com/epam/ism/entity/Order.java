@@ -11,6 +11,7 @@ public class Order extends IdEntity {
     private Train train;
     private String carriage;
     private String placeNumber;
+    private boolean lux;
     private Double cost;
 
     public User getPassenger() {
@@ -59,6 +60,14 @@ public class Order extends IdEntity {
 
     public void setCost(Double cost) {
         this.cost = cost;
+    }
+
+    public boolean isLux() {
+        return lux;
+    }
+
+    public void setLux(boolean lux) {
+        this.lux = lux;
     }
 
     @Override
