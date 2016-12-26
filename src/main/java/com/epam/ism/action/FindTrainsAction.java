@@ -3,8 +3,11 @@ package com.epam.ism.action;
 import com.epam.ism.dao.jdbc.JdbcDAOUtil;
 import com.epam.ism.entity.Station;
 import com.epam.ism.entity.Train;
+import com.epam.ism.service.ServiceException;
 import com.epam.ism.service.StationService;
 import com.epam.ism.service.TrainService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,9 +16,11 @@ import java.util.Date;
 import java.util.List;
 
 public class FindTrainsAction implements Action {
-    private Station from;
-    private Station to;
-    private Date departureDay;
+    final static Logger logger = LoggerFactory.getLogger(FindTrainsAction.class);
+
+    private Station departureFrom;
+    private Station arrivalTo;
+    private Date departureDate;
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
@@ -24,33 +29,45 @@ public class FindTrainsAction implements Action {
         String f = request.getParameter("from");
         String t = request.getParameter("to");
 
-        boolean validate = isValidate(dateStr, f, t);
+        logger.info("Retrieving trains by user query: " + f + "," + t + "," + dateStr);
+
+        logger.info("Data validation process is started.");
+        boolean validate = isValid(dateStr, f, t);
         if (!validate) return "error";
+        logger.info("Validation result: successfully.");
 
-        //call TrainService
+        logger.info("Call TrainService...");
+        // TODO: 26.12.2016 implement calling services using factory
         TrainService trainService = new TrainService();
-        List<Train> trains = trainService.findAll(from, to, departureDay);
 
-        HttpSession session = request.getSession();
-        session.setAttribute("availableTrains", trains);
+        List<Train> trains = null;
+        try {
+            trains = trainService.findAll(departureFrom, arrivalTo, departureDate);
+            logger.info("Founded trains by user query: " + trains.size());
+        } catch (ServiceException e) {
+            throw new ActionException("Something failed at database level.", e);
+        }
+
+        request.setAttribute("availableTrains", trains);
 
         //return new view
         return "available-trains";
     }
 
-    private boolean isValidate(String dateStr, String f, String t) {
+    // TODO: 26.12.2016 to rid out of class variables.
+    private boolean isValid(String dateStr, String f, String t) {
 
-        departureDay = JdbcDAOUtil.getDateFromString(dateStr);
+        departureDate = JdbcDAOUtil.getDateFromString(dateStr);
         Date today = new Date();
-        if (departureDay.before(today)) {
+        if (departureDate.before(today)) {
             return false;
         }
 
         StationService stationService = new StationService();
-        from = stationService.find(f);
-        to = stationService.find(t);
+        departureFrom = stationService.find(f);
+        arrivalTo = stationService.find(t);
 
-        return !(from == null || to == null);
+        return !(departureFrom == null || arrivalTo == null);
 
     }
 }

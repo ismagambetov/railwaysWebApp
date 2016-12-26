@@ -17,6 +17,7 @@ public class FindPlacesAction implements Action {
         TrainService trainService = new TrainService();
         Map<String,List<Place>> places = trainService.findPlaces(train);
 
+
         return "available-places";
     }
 }

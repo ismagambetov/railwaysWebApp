@@ -4,6 +4,8 @@ import com.epam.ism.dao.GenericDAO;
 import com.epam.ism.dao.exception.DAOException;
 import com.epam.ism.entity.IdEntity;
 import com.epam.ism.entity.Train;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.sql.Date;
@@ -18,6 +20,7 @@ import java.util.*;
  *  @author IDS;
  */
 public final class JdbcDAOUtil {
+    final static Logger logger = LoggerFactory.getLogger(JdbcDAOUtil.class);
     //Constructor
     /*
      * Utility class, hide constructor.
@@ -95,6 +98,7 @@ public final class JdbcDAOUtil {
     }
 
     public static <T extends IdEntity> List<T> getEmptyList(Class<T> clazz) {
+        logger.info(clazz + "type empty list created.");
         return new ArrayList<T>();
     }
 }

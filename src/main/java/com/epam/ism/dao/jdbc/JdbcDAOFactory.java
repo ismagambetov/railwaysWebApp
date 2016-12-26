@@ -7,6 +7,9 @@ import com.epam.ism.dao.OrderDAO;
 import com.epam.ism.dao.StationDAO;
 import com.epam.ism.dao.TrainDAO;
 import com.epam.ism.dao.exception.DAOConfigurationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.sql.Connection;
 
 /**
@@ -20,6 +23,7 @@ import java.sql.Connection;
  * @author IDS.
  */
 public abstract class JdbcDAOFactory {
+    final static Logger logger = LoggerFactory.getLogger(JdbcDAOFactory.class);
 
     public static JdbcDAOFactory get(String name) throws ConnectionPoolException {
         if (name == null) {
