@@ -31,7 +31,6 @@ public class TrainService {
     }
 
     public Map<String,List<Place>> findPlaces(String trainName) {
-      //  List<Place> list = JdbcDAOUtil.getEmptyList(Place.class);
         Map<String,List<Place>> map = new HashMap<>();
         String carriageType;
 
@@ -57,7 +56,7 @@ public class TrainService {
                 if (places != null) {
                     places.add(place);
                 } else {
-                    places = new ArrayList<>();
+                    places = JdbcDAOUtil.getEmptyList(Place.class);
                     places.add(place);
                 }
 
