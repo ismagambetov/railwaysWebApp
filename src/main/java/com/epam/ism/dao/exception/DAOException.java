@@ -7,7 +7,7 @@ package com.epam.ism.dao.exception;
  * @author IDS.
  */
 
-public class DAOException extends RuntimeException {
+public class DaoException extends RuntimeException {
     //Constants
     private static final long serialVersionUID = 1L;
 
@@ -17,7 +17,7 @@ public class DAOException extends RuntimeException {
      * Constructs a DAOException with given detail message.
      * @param message The detail message of the DAOException.
      */
-    public DAOException(String message) {
+    public DaoException(String message) {
         super(message);
     }
 
@@ -25,7 +25,7 @@ public class DAOException extends RuntimeException {
      * Constructs a DAOException with the given root cause.
      * @param cause The root cause of the DAOException.
      */
-    public DAOException(Throwable cause) {
+    public DaoException(Throwable cause) {
         super(cause);
     }
 
@@ -34,7 +34,7 @@ public class DAOException extends RuntimeException {
      * @param message The detail message of the DAOException.
      * @param cause The root cause of the DAOException.
      */
-    public DAOException(String message, Throwable cause) {
+    public DaoException(String message, Throwable cause) {
         super(message, cause);
     }
 }

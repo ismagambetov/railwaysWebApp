@@ -1,6 +1,6 @@
 package com.epam.ism;
 
-import com.epam.ism.dao.jdbc.JdbcDAOUtil;
+import com.epam.ism.dao.jdbc.JdbcDaoUtil;
 import com.epam.ism.entity.Station;
 import com.epam.ism.service.StationService;
 import junit.framework.TestCase;
@@ -19,7 +19,7 @@ public class AppTest extends TestCase {
         StationServiceTest.testFind(stationService, "Астана");
         Station to = StationServiceTest.station;
 
-        Date date = JdbcDAOUtil.getDateFromString("2016-12-25");
+        Date date = JdbcDaoUtil.getDateFromString("2016-12-25");
 
         TrainServiceTest.testFindAll(from, to, date);
         TrainServiceTest.testFindPlaces("038Т");

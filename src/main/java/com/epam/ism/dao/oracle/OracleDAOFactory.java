@@ -2,32 +2,30 @@ package com.epam.ism.dao.oracle;
 
 import com.epam.ism.dao.*;
 
-import java.sql.Connection;
-
-public class OracleDAOFactory extends DAOFactory {
+public class OracleDaoFactory extends DaoFactory {
 
     @Override
-    public StationDAO getStationDAO() {
-        return new OracleStationDAO();
+    public StationDao getStationDAO() {
+        return new OracleStationDao();
     }
 
     @Override
-    public OrderDAO getOrderDAO() {
-        return new OracleOrderDAO();
+    public OrderDao getOrderDAO() {
+        return new OracleOrderDao();
     }
 
     @Override
-    public TrainDAO getTrainDAO() {
-        return new OracleTrainDAO();
+    public TrainDao getTrainDAO() {
+        return new OracleTrainDao();
     }
 
     @Override
-    public MainRouteDAO getMainRouteDAO() {
-        return new OracleMainRouteDAO();
+    public MainRouteDao getMainRouteDAO() {
+        return new OracleMainRouteDao();
     }
 
     @Override
-    public UserDAO getUserDAO() {
-        return new OracleUserDAO();
+    public UserDao getUserDAO() {
+        return new OracleUserDao();
     }
 }

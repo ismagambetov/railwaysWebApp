@@ -1,9 +1,9 @@
 package com.epam.ism.service;
 
-import com.epam.ism.dao.DAOFactory;
-import com.epam.ism.dao.OrderDAO;
-import com.epam.ism.dao.TrainDAO;
-import com.epam.ism.dao.jdbc.JdbcDAOUtil;
+import com.epam.ism.dao.DaoFactory;
+import com.epam.ism.dao.OrderDao;
+import com.epam.ism.dao.TrainDao;
+import com.epam.ism.dao.jdbc.JdbcDaoUtil;
 import com.epam.ism.entity.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,20 +12,20 @@ import java.util.*;
 
 public class TrainService {
     final static Logger logger = LoggerFactory.getLogger(TrainService.class);
-    private DAOFactory factory;
+    private DaoFactory factory;
 
     public TrainService() {
-        factory = DAOFactory.getFactory();
+        factory = DaoFactory.getFactory();
         logger.info(factory.getClass().getSimpleName() + " has been obtained successfully: " + factory);
     }
 
     public List<Train> findAll(Station departureFrom, Station arrivalTo, Date departureDate) throws ServiceException {
         // TODO: 28.12.2016 list should not be implemented in the service
-        List<Train> list = JdbcDAOUtil.getEmptyList(Train.class);
+        List<Train> list = JdbcDaoUtil.getEmptyList(Train.class);
 
         //factory.MainRouteDAO(); // for executing static block.
 
-        TrainDAO trainDAO = factory.getTrainDAO();
+        TrainDao trainDAO = factory.getTrainDAO();
         logger.info("TrainDAO has been obtained successfully: " + trainDAO);
         List<Train> trains = trainDAO.list();
         logger.info("List<Train> has been obtained successfully: " + trains);
@@ -50,11 +50,11 @@ public class TrainService {
         Map<String,List<Place>> map = new HashMap<>();
         String carriageType;
 
-        DAOFactory factory = DAOFactory.getFactory();
-        TrainDAO trainDAO = factory.getTrainDAO();
+        DaoFactory factory = DaoFactory.getFactory();
+        TrainDao trainDAO = factory.getTrainDAO();
         Train train = trainDAO.find(trainName);
 
-        OrderDAO orderDAO = factory.getOrderDAO();
+        OrderDao orderDAO = factory.getOrderDAO();
         List<Order> orders = orderDAO.list();
 
         for (Order order : orders) {
@@ -72,7 +72,7 @@ public class TrainService {
                 if (places != null) {
                     places.add(place);
                 } else {
-                    places = JdbcDAOUtil.getEmptyList(Place.class);
+                    places = JdbcDaoUtil.getEmptyList(Place.class);
                     places.add(place);
                 }
 

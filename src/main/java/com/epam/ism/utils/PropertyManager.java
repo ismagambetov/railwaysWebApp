@@ -1,6 +1,6 @@
 package com.epam.ism.utils;
 
-import com.epam.ism.dao.exception.DAOConfigurationException;
+import com.epam.ism.dao.exception.DaoConfigurationException;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -44,10 +44,10 @@ public class PropertyManager {
      * the option to indicate whether the property is mandatory or not.
      * @param key The key to be associated with a DAOProperties instance specific value.
      * @return The DAOProperties instance specific property value associated with the given key.
-     * @throws DAOConfigurationException If the returned property value is null or empty while
+     * @throws DaoConfigurationException If the returned property value is null or empty while
      * it is mandatory.
      */
-    public String getProperty(String key) throws DAOConfigurationException {
+    public String getProperty(String key) throws DaoConfigurationException {
            String property = PROPERTIES.getProperty(key);
 
         if (property == null || property.trim().length() == 0) {

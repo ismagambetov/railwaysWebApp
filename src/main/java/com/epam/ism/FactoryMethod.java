@@ -1,7 +1,6 @@
 package com.epam.ism;
 
-import com.epam.ism.dao.jdbc.JdbcDAOUtil;
-import com.epam.ism.dao.jdbc.JdbcUserDAO;
+import com.epam.ism.dao.jdbc.JdbcDaoUtil;
 import com.epam.ism.entity.*;
 import com.epam.ism.utils.Password;
 
@@ -127,7 +126,7 @@ public class FactoryMethod {
 
     private static Order createOrder(String s) {
         String[] arr = s.split(",");
-        Date date = JdbcDAOUtil.getDateFromString(arr[1]);
+        Date date = JdbcDaoUtil.getDateFromString(arr[1]);
         Train train = findTrain(arr[3]);
 
         Order order = new Order();
@@ -179,7 +178,7 @@ public class FactoryMethod {
         user.setFirstName(arr[1]);
         user.setLastName(arr[2]);
         user.setPersonalCode(arr[3]);
-        user.setBirthday(JdbcDAOUtil.getDateFromString(arr[4]));
+        user.setBirthday(JdbcDaoUtil.getDateFromString(arr[4]));
         user.setPassword(Password.getSaltedHash(arr[5]));
 
         user.setEmail(arr[6]);

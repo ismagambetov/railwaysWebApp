@@ -1,6 +1,6 @@
 package com.epam.ism.action;
 
-import com.epam.ism.dao.jdbc.JdbcDAOUtil;
+import com.epam.ism.dao.jdbc.JdbcDaoUtil;
 import com.epam.ism.entity.Station;
 import com.epam.ism.entity.Train;
 import com.epam.ism.service.ServiceException;
@@ -56,7 +56,7 @@ public class FindTrainsAction implements Action {
     // TODO: 26.12.2016 to rid out of class variables.
     private boolean isValid(String dateStr, String f, String t) {
 
-        departureDate = JdbcDAOUtil.getDateFromString(dateStr);
+        departureDate = JdbcDaoUtil.getDateFromString(dateStr);
         Date today = new Date();
         if (departureDate.before(today)) {
             return false;

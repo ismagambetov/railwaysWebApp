@@ -7,6 +7,6 @@ import com.epam.ism.entity.Trip;
  *
  * @author IDS.
  */
-public interface TripDAO extends GenericDAO<Trip> {
+public interface TripDao extends GenericDao<Trip> {
 
 }

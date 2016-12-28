@@ -1,9 +1,7 @@
 package com.epam.ism.dao.jdbc;
 
-import com.epam.ism.dao.GenericDAO;
-import com.epam.ism.dao.exception.DAOException;
+import com.epam.ism.dao.exception.DaoException;
 import com.epam.ism.entity.IdEntity;
-import com.epam.ism.entity.Train;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,13 +17,13 @@ import java.util.*;
  *
  *  @author IDS;
  */
-public final class JdbcDAOUtil {
-    final static Logger logger = LoggerFactory.getLogger(JdbcDAOUtil.class);
+public final class JdbcDaoUtil {
+    final static Logger logger = LoggerFactory.getLogger(JdbcDaoUtil.class);
     //Constructor
     /*
      * Utility class, hide constructor.
      */
-    private JdbcDAOUtil() {
+    private JdbcDaoUtil() {
     }
 
     /**
@@ -93,7 +91,7 @@ public final class JdbcDAOUtil {
         try {
             return format.parse(dateStr);
         } catch (ParseException e) {
-            throw new DAOException("Parsing string to date failed.",e);
+            throw new DaoException("Parsing string to date failed.",e);
         }
     }
 

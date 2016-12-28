@@ -1,14 +1,10 @@
 package com.epam.ism.dao.jdbc;
 
 import com.epam.ism.FactoryMethod;
-import com.epam.ism.dao.OrderDAO;
-import com.epam.ism.dao.exception.DAOException;
-import com.epam.ism.entity.MainRoute;
+import com.epam.ism.dao.OrderDao;
+import com.epam.ism.dao.exception.DaoException;
 import com.epam.ism.entity.Order;
-import com.epam.ism.entity.User;
-import snaq.db.ConnectionPoolManager;
 
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -17,7 +13,7 @@ import java.util.List;
 /**
  *
  */
-public class JdbcOrderDAO extends AbstractJdbcDAO<Order> implements OrderDAO {
+public class JdbcOrderDao extends AbstractJdbcDao<Order> implements OrderDao {
     public static List<Order> list;
 
     static {
@@ -75,12 +71,12 @@ public class JdbcOrderDAO extends AbstractJdbcDAO<Order> implements OrderDAO {
     }
 
     @Override
-    public Order find(String name) throws DAOException {
+    public Order find(String name) throws DaoException {
         return null;
     }
 
     @Override
-    public List<Order> list() throws DAOException {
+    public List<Order> list() throws DaoException {
         return list;
     }
 }

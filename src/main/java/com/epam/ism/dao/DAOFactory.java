@@ -1,12 +1,12 @@
 package com.epam.ism.dao;
 
 import com.epam.ism.connection.ConnectionPool;
-import com.epam.ism.dao.exception.DAOConfigurationException;
+import com.epam.ism.dao.exception.DaoConfigurationException;
 import com.epam.ism.utils.PropertyManager;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public abstract class DAOFactory {
+public abstract class DaoFactory {
     private static final String PROPERTIES_FILE = "dao.properties";
     private static final String PROPERTY_DAO_CLASS = "dao_class";
 
@@ -16,17 +16,17 @@ public abstract class DAOFactory {
         connectionPool = ConnectionPool.getInstance();
     }
 
-    public static DAOFactory getFactory() {
+    public static DaoFactory getFactory() {
         PropertyManager properties = new PropertyManager(PROPERTIES_FILE);
         String className = properties.getProperty(PROPERTY_DAO_CLASS);
-        DAOFactory instance;
+        DaoFactory instance;
         try {
             Class<?> clazz = Class.forName(className);
-            instance = (DAOFactory) clazz.newInstance();
+            instance = (DaoFactory) clazz.newInstance();
         } catch (ClassNotFoundException e) {
-            throw new DAOConfigurationException("Creating '" + className + "' failed.", e);
+            throw new DaoConfigurationException("Creating '" + className + "' failed.", e);
         } catch (InstantiationException | IllegalAccessException e) {
-            throw new DAOConfigurationException("Creating new instance of " + className +
+            throw new DaoConfigurationException("Creating new instance of " + className +
                                         ".class failed.", e);
         }
 
@@ -41,11 +41,11 @@ public abstract class DAOFactory {
         connectionPool.returnConnection(connection);
     }
 
-    public abstract TrainDAO getTrainDAO();
-    public abstract StationDAO getStationDAO();
-    public abstract OrderDAO getOrderDAO();
-    public abstract MainRouteDAO getMainRouteDAO();
-    public abstract UserDAO getUserDAO();
+    public abstract TrainDao getTrainDAO();
+    public abstract StationDao getStationDAO();
+    public abstract OrderDao getOrderDAO();
+    public abstract MainRouteDao getMainRouteDAO();
+    public abstract UserDao getUserDAO();
 
 
 }

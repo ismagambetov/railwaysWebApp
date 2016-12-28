@@ -1,40 +1,40 @@
 package com.epam.ism.dao.oracle;
 
-import com.epam.ism.dao.OrderDAO;
-import com.epam.ism.dao.exception.DAOException;
+import com.epam.ism.dao.OrderDao;
+import com.epam.ism.dao.exception.DaoException;
 import com.epam.ism.entity.Order;
 
 import java.util.List;
 
-public class OracleOrderDAO implements OrderDAO {
+public class OracleOrderDao implements OrderDao {
 
     @Override
-    public void create(Order entity) throws DAOException {
+    public void create(Order entity) throws DaoException {
 
     }
 
     @Override
-    public void update(Order entity) throws DAOException {
+    public void update(Order entity) throws DaoException {
 
     }
 
     @Override
-    public void delete(Order entity) throws DAOException {
+    public void delete(Order entity) throws DaoException {
 
     }
 
     @Override
-    public List<Order> list() throws DAOException {
+    public List<Order> list() throws DaoException {
         return null;
     }
 
     @Override
-    public Order find(Long id) throws DAOException {
+    public Order find(Long id) throws DaoException {
         return null;
     }
 
     @Override
-    public Order find(String name) throws DAOException {
+    public Order find(String name) throws DaoException {
         return null;
     }
 }

@@ -1,56 +1,56 @@
 package com.epam.ism.dao.oracle;
 
-import com.epam.ism.dao.UserDAO;
-import com.epam.ism.dao.exception.DAOException;
+import com.epam.ism.dao.UserDao;
+import com.epam.ism.dao.exception.DaoException;
 import com.epam.ism.entity.User;
 
 import java.util.List;
 
-public class OracleUserDAO extends AbstractOracleDAO<User> implements UserDAO {
+public class OracleUserDao extends AbstractOracleDao<User> implements UserDao {
 
 
     @Override
-    public User find(String email, String password) throws DAOException {
+    public User find(String email, String password) throws DaoException {
         return null;
     }
 
     @Override
-    public boolean existEmail(String email) throws DAOException {
+    public boolean existEmail(String email) throws DaoException {
         return false;
     }
 
     @Override
-    public void changePassword(User user) throws IllegalArgumentException, DAOException {
+    public void changePassword(User user) throws IllegalArgumentException, DaoException {
 
     }
 
     @Override
-    public void create(User entity) throws DAOException {
+    public void create(User entity) throws DaoException {
 
     }
 
     @Override
-    public void update(User entity) throws DAOException {
+    public void update(User entity) throws DaoException {
 
     }
 
     @Override
-    public void delete(User entity) throws DAOException {
+    public void delete(User entity) throws DaoException {
 
     }
 
     @Override
-    public List<User> list() throws DAOException {
+    public List<User> list() throws DaoException {
         return null;
     }
 
     @Override
-    public User find(Long id) throws DAOException {
+    public User find(Long id) throws DaoException {
         return null;
     }
 
     @Override
-    public User find(String name) throws DAOException {
+    public User find(String name) throws DaoException {
         return null;
     }
 }

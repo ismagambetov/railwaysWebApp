@@ -1,6 +1,6 @@
 package com.epam.ism.dao.exception;
 
-public class DAOConfigurationException extends RuntimeException {
+public class DaoConfigurationException extends RuntimeException {
     //Constants
     private static final long serialVersionUID = 1L;
 
@@ -10,7 +10,7 @@ public class DAOConfigurationException extends RuntimeException {
      * Constructs DAOConfigurationException with the given detail message.
      * @param message The detail message of the DAOConfigurationException.
      */
-    public DAOConfigurationException(String message) {
+    public DaoConfigurationException(String message) {
         super(message);
     }
 
@@ -18,7 +18,7 @@ public class DAOConfigurationException extends RuntimeException {
      * Constructs a DAOConfigurationException with the given root cause.
      * @param cause The root cause of the DAOConfigurationException.
      */
-    public DAOConfigurationException(Throwable cause) {
+    public DaoConfigurationException(Throwable cause) {
         super(cause);
     }
 
@@ -27,7 +27,7 @@ public class DAOConfigurationException extends RuntimeException {
      * @param message The detail message of the DAOConfigurationException.
      * @param cause The root cause of the DAOConfigurationException.
      */
-    public DAOConfigurationException(String message, Throwable cause) {
+    public DaoConfigurationException(String message, Throwable cause) {
         super(message, cause);
     }
 

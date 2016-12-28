@@ -1,15 +1,15 @@
 package com.epam.ism.dao.jdbc;
 
 import com.epam.ism.FactoryMethod;
-import com.epam.ism.dao.MainRouteDAO;
-import com.epam.ism.dao.exception.DAOException;
+import com.epam.ism.dao.MainRouteDao;
+import com.epam.ism.dao.exception.DaoException;
 import com.epam.ism.entity.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class JdbcMainRouteDAO extends AbstractJdbcDAO<MainRoute> implements MainRouteDAO {
+public class JdbcMainRouteDao extends AbstractJdbcDao<MainRoute> implements MainRouteDao {
     public static List<MainRoute> list;
 
     static {
@@ -63,7 +63,7 @@ public class JdbcMainRouteDAO extends AbstractJdbcDAO<MainRoute> implements Main
     }
 
     @Override
-    public MainRoute find(String name) throws DAOException {
+    public MainRoute find(String name) throws DaoException {
         return null;
     }
 }
