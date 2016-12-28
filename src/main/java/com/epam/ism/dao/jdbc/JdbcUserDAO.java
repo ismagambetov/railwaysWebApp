@@ -1,9 +1,8 @@
 package com.epam.ism.dao.jdbc;
 
 import com.epam.ism.FactoryMethod;
-import com.epam.ism.dao.UserDAO;
-import com.epam.ism.dao.exception.DAOException;
-import com.epam.ism.entity.Order;
+import com.epam.ism.dao.UserDao;
+import com.epam.ism.dao.exception.DaoException;
 import com.epam.ism.entity.User;
 
 import java.sql.ResultSet;
@@ -12,12 +11,12 @@ import java.util.List;
 
 
 /**
- * This class represents a concrete JDBC implementation of the {@link UserDAO} interface
- * and is extended by {@link AbstractJdbcDAO} abstract class.
+ * This class represents a concrete JDBC implementation of the {@link UserDao} interface
+ * and is extended by {@link AbstractJdbcDao} abstract class.
  *
  * @author IDS.
  */
-public class JdbcUserDAO extends AbstractJdbcDAO<User> implements UserDAO {
+public class JdbcUserDao extends AbstractJdbcDao<User> implements UserDao {
     public static List<User> list;
 
     static {
@@ -70,22 +69,22 @@ public class JdbcUserDAO extends AbstractJdbcDAO<User> implements UserDAO {
     }
 
     @Override
-    public User find(String email, String password) throws DAOException {
+    public User find(String email, String password) throws DaoException {
         return null;
     }
 
     @Override
-    public boolean existEmail(String email) throws DAOException {
+    public boolean existEmail(String email) throws DaoException {
         return false;
     }
 
     @Override
-    public void changePassword(User user) throws IllegalArgumentException, DAOException {
+    public void changePassword(User user) throws IllegalArgumentException, DaoException {
 
     }
 
     @Override
-    public User find(String personalCode) throws DAOException {
+    public User find(String personalCode) throws DaoException {
 
        return null;
     }

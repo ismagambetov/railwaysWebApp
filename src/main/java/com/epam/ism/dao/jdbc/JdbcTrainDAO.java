@@ -1,23 +1,21 @@
 package com.epam.ism.dao.jdbc;
 
 import com.epam.ism.FactoryMethod;
-import com.epam.ism.dao.TrainDAO;
-import com.epam.ism.dao.exception.DAOException;
-import com.epam.ism.entity.Station;
+import com.epam.ism.dao.TrainDao;
+import com.epam.ism.dao.exception.DaoException;
 import com.epam.ism.entity.Train;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 
 /**
- * This class represents a concrete JDBC implementation of the {@link TrainDAO} interface.
+ * This class represents a concrete JDBC implementation of the {@link TrainDao} interface.
  *
  * @author IDS.
  */
-public class JdbcTrainDAO extends AbstractJdbcDAO<Train> implements TrainDAO {
+public class JdbcTrainDao extends AbstractJdbcDao<Train> implements TrainDao {
 
     public static List<Train> list;
 
@@ -26,7 +24,7 @@ public class JdbcTrainDAO extends AbstractJdbcDAO<Train> implements TrainDAO {
     }
 
     @Override
-    public List<Train> list() throws DAOException {
+    public List<Train> list() throws DaoException {
         return list;
     }
 
@@ -76,7 +74,7 @@ public class JdbcTrainDAO extends AbstractJdbcDAO<Train> implements TrainDAO {
     }
 
     @Override
-    public Train find(String name) throws DAOException {
+    public Train find(String name) throws DaoException {
         for (Train train : list) {
             if (train.getName().equals(name)) return train;
         }
