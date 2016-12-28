@@ -16,10 +16,6 @@ import java.util.List;
  */
 public class JdbcRouteDAO extends AbstractJdbcDAO<Route> implements RouteDAO {
 
-    public JdbcRouteDAO(JdbcDAOFactory daoFactory) {
-        super(daoFactory);
-    }
-
     @Override
     public Object[] generateValuesForCreate(Route entity) {
         return new Object[0];

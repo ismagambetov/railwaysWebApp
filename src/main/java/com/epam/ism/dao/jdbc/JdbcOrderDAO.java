@@ -25,9 +25,9 @@ public class JdbcOrderDAO extends AbstractJdbcDAO<Order> implements OrderDAO {
     }
 
 
-    public JdbcOrderDAO(JdbcDAOFactory daoFactory) {
-        super(daoFactory);
-    }
+//    public JdbcOrderDAO(JdbcDAOFactory daoFactory) {
+//        super(daoFactory);
+//    }
 
     @Override
     public Object[] generateValuesForCreate(Order entity) {

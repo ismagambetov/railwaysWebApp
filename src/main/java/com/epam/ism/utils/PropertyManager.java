@@ -1,4 +1,4 @@
-package com.epam.ism.dao;
+package com.epam.ism.utils;
 
 import com.epam.ism.dao.exception.DAOConfigurationException;
 
@@ -7,47 +7,36 @@ import java.io.InputStream;
 import java.util.Properties;
 
 /**
- * This class immediately loads the DAO properties file 'dao.properties' once in memory and provides
+ * This class immediately loads the DAO properties file '***.properties' once in memory and provides
  * a constructor which takes the specific key which is to be used as property key prefix of the DAO
  * properties file. There is a property getter which only returns the property prefixed with
  * 'specificKey.' and provides the option to indicate whether the property is mandatory or not.
  *
  * @author IDS.
  */
-public class DAOProperties {
+
+public class PropertyManager {
     //Constants
-    private static final String PROPERTIES_FILE = "dao.properties";
     private static final Properties PROPERTIES = new Properties();
 
-    static {
+    private String propertyFileName;
+
+    public PropertyManager(String propertyFileName) {
+        this.propertyFileName = propertyFileName;
+
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        InputStream propertiesFile = classLoader.getResourceAsStream(PROPERTIES_FILE);
+        InputStream propertiesFile = classLoader.getResourceAsStream(propertyFileName);
 
         if (propertiesFile == null) {
-            throw new DAOConfigurationException("Properties file '" + PROPERTIES_FILE + "' is missing in classpath.");
+            throw new PropertyException("Properties file '" + propertyFileName + "' is missing in classpath.");
         }
 
         try {
             PROPERTIES.load(propertiesFile);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new PropertyException("Loading properties failed.",e);
         }
-    }
 
-    //vars
-    private String specificKey;
-
-    //Constructors
-    /**
-     * Constructs a DAOProperties instance for the given specific key which is to be used as property
-     * key prefix of the DAO properties file.
-     *
-     * @param specificKey The specific key which is to be used as property key prefix.
-     * @throws DAOConfigurationException During class initialization if the DAO properties file is
-     * missing in the classpath or cannot be loaded.
-     */
-    public DAOProperties(String specificKey) throws DAOConfigurationException {
-        this.specificKey = specificKey;
     }
 
     /**
@@ -59,12 +48,11 @@ public class DAOProperties {
      * it is mandatory.
      */
     public String getProperty(String key) throws DAOConfigurationException {
-        String fullKey = specificKey + "." + key;
-        String property = PROPERTIES.getProperty(fullKey);
+           String property = PROPERTIES.getProperty(key);
 
         if (property == null || property.trim().length() == 0) {
-            throw new DAOConfigurationException("Required property '" + fullKey + "'"
-                    + " is missing in properties file '" + PROPERTIES_FILE + "'.");
+            throw new PropertyException("Required property '" + key + "'"
+                    + " is missing in properties file '" + propertyFileName + "'.");
 
         }
 

@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.List;
 
@@ -40,7 +39,7 @@ public class FindTrainsAction implements Action {
         // TODO: 26.12.2016 implement calling services using factory
         TrainService trainService = new TrainService();
 
-        List<Train> trains = null;
+        List<Train> trains;
         try {
             trains = trainService.findAll(departureFrom, arrivalTo, departureDate);
             logger.info("Founded trains by user query: " + trains.size());

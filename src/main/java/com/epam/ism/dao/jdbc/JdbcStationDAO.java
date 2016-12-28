@@ -7,7 +7,6 @@ import com.epam.ism.entity.Station;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class JdbcStationDAO extends AbstractJdbcDAO<Station> implements StationDAO {
@@ -15,10 +14,6 @@ public class JdbcStationDAO extends AbstractJdbcDAO<Station> implements StationD
 
     static {
         list = FactoryMethod.getStationList();
-    }
-
-    public JdbcStationDAO(JdbcDAOFactory daoFactory) {
-        super(daoFactory);
     }
 
     @Override

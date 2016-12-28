@@ -25,11 +25,6 @@ public class JdbcTrainDAO extends AbstractJdbcDAO<Train> implements TrainDAO {
         list = FactoryMethod.getTrainList();
     }
 
-
-    public JdbcTrainDAO(JdbcDAOFactory daoFactory) {
-        super(daoFactory);
-    }
-
     @Override
     public List<Train> list() throws DAOException {
         return list;

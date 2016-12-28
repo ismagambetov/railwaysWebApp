@@ -16,9 +16,6 @@ public class JdbcMainRouteDAO extends AbstractJdbcDAO<MainRoute> implements Main
         list = FactoryMethod.getMainRouteList();
     }
 
-    public JdbcMainRouteDAO(JdbcDAOFactory daoFactory) {
-        super(daoFactory);
-    }
 
     @Override
     public Object[] generateValuesForCreate(MainRoute entity) {

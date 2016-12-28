@@ -1,5 +1,6 @@
 package com.epam.ism.dao.jdbc;
 
+import com.epam.ism.dao.DAOFactory;
 import com.epam.ism.dao.GenericDAO;
 import com.epam.ism.dao.exception.DAOException;
 import com.epam.ism.entity.IdEntity;
@@ -23,14 +24,10 @@ import static com.epam.ism.dao.jdbc.JdbcDAOUtil.*;
  */
 public abstract class AbstractJdbcDAO<T extends IdEntity> implements GenericDAO<T> {
 
-    private JdbcDAOFactory daoFactory;
-    private Class entityClass;
-
-    public AbstractJdbcDAO(JdbcDAOFactory daoFactory) {
-        this.entityClass = ((Class) ((ParameterizedType) getClass()
-                .getGenericSuperclass()).getActualTypeArguments()[0]);
-        this.daoFactory = daoFactory;
-    }
+//    public AbstractJdbcDAO() {
+//        Class entityClass = ((Class) ((ParameterizedType) getClass()
+//                .getGenericSuperclass()).getActualTypeArguments()[0]);
+//    }
 
     @Override
     public void create(T entity) throws DAOException,IllegalArgumentException {
@@ -43,8 +40,8 @@ public abstract class AbstractJdbcDAO<T extends IdEntity> implements GenericDAO<
         Object[] values = generateValuesForCreate(entity);
 
         try (
-                Connection connection = daoFactory.getConnection();
-                PreparedStatement statement = prepareStatement(connection, insertQuery(),true,values);
+                Connection connection = DAOFactory.getConnection();
+                PreparedStatement statement = prepareStatement(connection, insertQuery(),true,values)
         ){
             int affectedRows = statement.executeUpdate();
             if (affectedRows == 0) {
@@ -70,8 +67,8 @@ public abstract class AbstractJdbcDAO<T extends IdEntity> implements GenericDAO<
         Object[] values = generateValuesForUpdate(entity);
 
         try(
-                Connection connection = daoFactory.getConnection();
-                PreparedStatement statement = prepareStatement(connection, updateQuery(), false, values);
+                Connection connection = DAOFactory.getConnection();
+                PreparedStatement statement = prepareStatement(connection, updateQuery(), false, values)
         ){
 
             int affectedRows = statement.executeUpdate();
@@ -96,8 +93,8 @@ public abstract class AbstractJdbcDAO<T extends IdEntity> implements GenericDAO<
         Object[] values = generateValuesForDelete(entity);
 
         try (
-                Connection connection = daoFactory.getConnection();
-                PreparedStatement statement = prepareStatement(connection, deleteQuery(), false, values);
+                Connection connection = DAOFactory.getConnection();
+                PreparedStatement statement = prepareStatement(connection, deleteQuery(), false, values)
         ) {
             int affectedRows = statement.executeUpdate();
             if (affectedRows == 0) {
@@ -114,9 +111,9 @@ public abstract class AbstractJdbcDAO<T extends IdEntity> implements GenericDAO<
     public List<T> list() throws DAOException {
         List<T> list = new ArrayList<>();
         try(
-                Connection connection = daoFactory.getConnection();
+                Connection connection = DAOFactory.getConnection();
                 PreparedStatement statement = connection.prepareStatement(listQuery());
-                ResultSet resultSet = statement.executeQuery();
+                ResultSet resultSet = statement.executeQuery()
         ) {
             while (resultSet.next()) {
                 list.add(map(resultSet));
@@ -133,9 +130,9 @@ public abstract class AbstractJdbcDAO<T extends IdEntity> implements GenericDAO<
         T entity = null;
 
         try (
-                Connection connection = daoFactory.getConnection();
+                Connection connection = DAOFactory.getConnection();
                 PreparedStatement statement = prepareStatement(connection, findQuery(), false, id);
-                ResultSet resultSet = statement.executeQuery();
+                ResultSet resultSet = statement.executeQuery()
         ) {
             if (resultSet.next()) {
                 entity = map(resultSet);

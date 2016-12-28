@@ -24,10 +24,6 @@ public class JdbcUserDAO extends AbstractJdbcDAO<User> implements UserDAO {
         list = FactoryMethod.getUserList();
     }
 
-    public JdbcUserDAO(JdbcDAOFactory daoFactory) {
-        super(daoFactory);
-    }
-
     @Override
     public Object[] generateValuesForCreate(User entity) {
         return new Object[0];
