@@ -18,7 +18,7 @@ public class StationService {
         return (Station) daoManager.transactionAndReturnCon(new DaoCommand() {
             @Override
             public Object execute() throws SQLException {
-                StationDao stationDAO = daoFactory.getStationDao();
+                StationDao stationDAO = daoFactory.getStationDao(daoManager);
                 return stationDAO.findByName(name);
             }
         });
@@ -31,7 +31,7 @@ public class StationService {
         daoManager.transactionAndReturnCon(new DaoCommand() {
             @Override
             public Object execute() throws SQLException {
-                StationDao stationDAO = daoFactory.getStationDao();
+                StationDao stationDAO = daoFactory.getStationDao(daoManager);
                 stationDAO.delete(station);
                 return null;
             }

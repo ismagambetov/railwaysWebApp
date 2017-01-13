@@ -12,9 +12,4 @@ public class StationServiceTest extends TestCase {
         assertNotNull("Station object expected.", station);
     }
 
-    public static void testDelete(StationService stationService, Station station) {
-
-        stationService.delete(station);
-
-    }
 }

@@ -16,15 +16,16 @@ public class RouteService {
     final static Logger logger = LoggerFactory.getLogger(RouteService.class);
 
     private DaoFactory factory;
+    private DaoManager daoManager;
 
     public RouteService() {
         factory = DaoFactory.getFactory();
         logger.info("DaoFactory.getFactory() from class RouteService: " + factory);
+        daoManager = DaoFactory.getDaoManager();
     }
 
     public List<Route> findAll(Station departureStation, Station arrivalStation) throws ServiceException {
-        DaoFactory daoFactory = DaoFactory.getFactory();
-        DaoManager daoManager = DaoFactory.getDaoManager();
+
 
         Long depStationId = departureStation.getId();
         Long arrStationId = arrivalStation.getId();
@@ -52,7 +53,7 @@ public class RouteService {
         return (List<Route>) daoManager.transactionAndReturnCon(new DaoCommand() {
             @Override
             public Object execute() throws SQLException {
-                RouteDao routeDao = factory.getRouteDao();
+                RouteDao routeDao = factory.getRouteDao(daoManager);
                 logger.info("factory.getRouteDao(): " + routeDao);
                 return routeDao.list(query, depStationId, arrStationId);
             }

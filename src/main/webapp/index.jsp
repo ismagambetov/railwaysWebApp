@@ -6,7 +6,7 @@
 </head>
 <body>
 
-    <form name="TrainFindForm" action="/controller/find-trains" method="post">
+    <form name="TrainFindForm" action="controller/find-trains" method="post">
         <p>Please fill out all required information before search.</p>
         <input type="text" name="from" placeholder="From" />
         <input type="text" name="to" placeholder="To" />
@@ -14,10 +14,6 @@
         <input type="submit" value="search" />
     </form>
 
-    <form name="StationForm" action="/controller/delete-station" method="post">
-        <input type="text" name="station" />
-        <input type="submit" value="delete" />
-    </form>
 
 
 </body>
