@@ -36,14 +36,15 @@ public class ConnectionPool implements DataSource {
     private String url;
     private String username;
     private String password;
+    private int poolSize;
 
     public ConnectionPool() {
         PropertyManager properties = new PropertyManager(PROPERTIES_FILE);
         url = properties.getProperty(PROPERTY_URL);
         String driverClassName = properties.getProperty(PROPERTY_DRIVER);
         username = properties.getProperty(PROPERTY_USERNAME);
-        password = properties.getProperty(PROPERTY_PASSWORD);
-        int poolSize = Integer.parseInt(properties.getProperty(PROPERTY_POOL_SIZE));
+        //password = properties.getProperty(PROPERTY_PASSWORD);
+        poolSize = Integer.parseInt(properties.getProperty(PROPERTY_POOL_SIZE));
 
         logger.info("Datasource properties was obtained from "+ PROPERTIES_FILE + " successfully.");
 
@@ -92,7 +93,7 @@ public class ConnectionPool implements DataSource {
 
 
     private void initConnections() {
-        for (int i = 0; i < pool.size(); i++) {
+        for (int i = 0; i < poolSize; i++) {
             pool.offer(openConnection());
         }
     }
@@ -100,7 +101,7 @@ public class ConnectionPool implements DataSource {
     private Connection openConnection() {
         Connection connection;
         try {
-            connection = DriverManager.getConnection(url, username, password);
+            connection = DriverManager.getConnection(url, username,"");
         } catch (SQLException e) {
             throw new ConnectionPoolException("Retrieving a connection from the DriverManager is failed.", e);
         }

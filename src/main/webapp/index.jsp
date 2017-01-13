@@ -14,6 +14,11 @@
         <input type="submit" value="search" />
     </form>
 
+    <form name="StationForm" action="/controller/delete-station" method="post">
+        <input type="text" name="station" />
+        <input type="submit" value="delete" />
+    </form>
+
 
 </body>
 </html>

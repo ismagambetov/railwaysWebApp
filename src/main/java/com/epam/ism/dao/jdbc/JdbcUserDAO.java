@@ -5,6 +5,7 @@ import com.epam.ism.dao.UserDao;
 import com.epam.ism.dao.exception.DaoException;
 import com.epam.ism.entity.User;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -23,18 +24,12 @@ public class JdbcUserDao extends AbstractJdbcDao<User> implements UserDao {
         list = FactoryMethod.getUserList();
     }
 
+    public JdbcUserDao(Connection connection) {
+        super(connection);
+    }
+
     @Override
     public Object[] generateValuesForCreate(User entity) {
-        return new Object[0];
-    }
-
-    @Override
-    public Object[] generateValuesForUpdate(User entity) {
-        return new Object[0];
-    }
-
-    @Override
-    public Object[] generateValuesForDelete(User entity) {
         return new Object[0];
     }
 
@@ -54,7 +49,12 @@ public class JdbcUserDao extends AbstractJdbcDao<User> implements UserDao {
     }
 
     @Override
-    public String findQuery() {
+    public String findByIdQuery() {
+        return null;
+    }
+
+    @Override
+    public String findByNameQuery() {
         return null;
     }
 

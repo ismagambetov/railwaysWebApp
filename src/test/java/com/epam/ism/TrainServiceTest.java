@@ -1,5 +1,6 @@
 package com.epam.ism;
 
+import com.epam.ism.entity.MainRoute;
 import com.epam.ism.entity.Place;
 import com.epam.ism.entity.Station;
 import com.epam.ism.entity.Train;
@@ -15,15 +16,15 @@ public class TrainServiceTest extends TestCase {
 
     public static void testFindAll(Station f, Station t, Date date) throws Exception {
 
-        TrainService trainService = new TrainService();
-        List<Train> trains = trainService.findAll(f, t, date);
-        assertNotNull("List of trains expected.", trains);
+//        TrainService trainService = new TrainService();
+//        Map<Train,MainRoute> trains = trainService.findAll(f, t, date);
+//        assertNotNull("Map of trains and routes expected.", trains);
     }
 
 
     public static void testFindPlaces(String name) {
-        TrainService trainService = new TrainService();
-        Map<String,List<Place>> places = trainService.findPlaces(name);
-        assertNotNull("Map of carriage and places expected.",places);
+//        TrainService trainService = new TrainService();
+//        Map<String,List<Place>> places = trainService.findPlaces(name);
+//        assertNotNull("Map of carriage and places expected.",places);
     }
 }

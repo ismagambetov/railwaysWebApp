@@ -2,28 +2,38 @@ package com.epam.ism.dao.jdbc;
 
 import com.epam.ism.dao.*;
 
+import java.sql.Connection;
+
 public class JdbcDaoFactory extends DaoFactory {
+    private Connection connection;
 
-    @Override
-    public TrainDao getTrainDAO() {
-        return new JdbcTrainDao();
+    public JdbcDaoFactory() {
+        DaoManager daoManager = DaoFactory.getDaoManager();
+        this.connection = daoManager.getTxConnection();
     }
 
     @Override
-    public StationDao getStationDAO() {
-        return new JdbcStationDao();
+    public TrainDao getTrainDao() {
+        return new JdbcTrainDao(connection);
     }
 
     @Override
-    public OrderDao getOrderDAO() {
-        return new JdbcOrderDao();
+    public StationDao getStationDao() {
+        return new JdbcStationDao(connection);
     }
 
     @Override
-    public MainRouteDao getMainRouteDAO() {
-        return new JdbcMainRouteDao();
+    public OrderDao getOrderDao() {
+        return new JdbcOrderDao(connection);
     }
 
     @Override
-    public UserDao getUserDAO() { return new JdbcUserDao(); }
+    public RouteDao getRouteDao() {
+        return new JdbcRouteDao(connection);
+    }
+
+    @Override
+    public UserDao getUserDao() {
+        return new JdbcUserDao(connection);
+    }
 }

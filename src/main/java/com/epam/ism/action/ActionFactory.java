@@ -9,6 +9,7 @@ public class ActionFactory {
 
     static {
         actions.put("POST/find-trains", new FindTrainsAction());
+        actions.put("POST/delete-station", new DeleteStationAction());
     }
 
     public static Action getAction(HttpServletRequest request) {

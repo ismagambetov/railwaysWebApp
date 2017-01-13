@@ -2,6 +2,7 @@ package com.epam.ism.dao;
 
 import com.epam.ism.dao.exception.DaoException;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * This interface represents base methods which to be used by DAO models.
@@ -46,13 +47,15 @@ public interface GenericDao<T> {
      */
     List<T> list() throws DaoException;
 
+    List<T> list(String query, Object...params) throws DaoException;
+
     /**
      * Returns the T type entity from the database matching the given ID, otherwise null.
      * @param id The ID of the entity to be returned.
      * @return The entity from the database, otherwise null.
      * @throws DaoException If something fails at database level.
      */
-    T find(Long id) throws DaoException;
+    T findById(Long id) throws DaoException;
 
     /**
      * Returns the T type entity from the database matching the given Name, otherwise null.
@@ -60,7 +63,7 @@ public interface GenericDao<T> {
      * @return The entity from the database, otherwise null.
      * @throws DaoException If something fails at database level.
      */
-    T find(String name) throws DaoException;
+    T findByName(String name) throws DaoException;
 
 
 }

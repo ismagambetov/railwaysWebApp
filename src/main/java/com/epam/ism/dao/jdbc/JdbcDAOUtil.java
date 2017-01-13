@@ -58,6 +58,13 @@ public final class JdbcDaoUtil {
         }
     }
 
+    public static void executeUpdate(PreparedStatement statement, String className, String action) throws SQLException {
+        int affectedRows = statement.executeUpdate();
+        if (affectedRows == 0) {
+            throw new DaoException(action + " action failed, now rows affected. Class: " + className);
+        }
+    }
+
     /**
      * Converts the given java.util.Date to java.sql.Date.
      * @param date The java.util.Date to be converted to java.sql.Date.
@@ -86,7 +93,7 @@ public final class JdbcDaoUtil {
     }
 
     public static java.util.Date getDateFromString(String dateStr) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
 
         try {
             return format.parse(dateStr);

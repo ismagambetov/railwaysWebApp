@@ -14,8 +14,6 @@ public class Train extends IdEntity {
 
     //Properties
     private String name;
-    private MainRoute mainRoute;
-//    private List<Carriage> carriages = new ArrayList<>();
 
 
     //Getters and setters
@@ -26,23 +24,6 @@ public class Train extends IdEntity {
     public void setName(String name) {
         this.name = name;
     }
-
-    public MainRoute getMainRoute() {
-        return mainRoute;
-    }
-
-    public void setMainRoute(MainRoute mainRoute) {
-        this.mainRoute = mainRoute;
-    }
-//
-//    public List<Carriage> getCarriages() {
-//        return carriages;
-//    }
-//
-//    public void setCarriages(List<Carriage> carriages) {
-//        this.carriages = carriages;
-//    }
-
 
 
     /**

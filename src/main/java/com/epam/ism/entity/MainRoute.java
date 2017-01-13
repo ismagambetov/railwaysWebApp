@@ -11,11 +11,12 @@ public class MainRoute extends IdEntity{
 
     //Properties
     private Station From; // From Main station
-    private Station To; // To final Main station
+    private Station To; // To  final Main station
     private Double interval; // the interval between two Main stations
     private Double priceForOpenSection;// цена за купе.
     private Double priceForCloseSection; // цена за место в плацкарт.
-//    private Train train; // The Train that moves between two Main stations.
+    private String departureTime; // departure time from Main station
+    private String arrivalTime; //arrival time to final Main station
     private List<Route> routes = new ArrayList<>(); // Routes that are located between Main stations
 
     //Getters and setters
@@ -59,12 +60,44 @@ public class MainRoute extends IdEntity{
         this.priceForCloseSection = priceForCloseSection;
     }
 
+    public String getDepartureTime() {
+        return departureTime;
+    }
+
+    public void setDepartureTime(String departureTime) {
+        this.departureTime = departureTime;
+    }
+
+    public String getArrivalTime() {
+        return arrivalTime;
+    }
+
+    public void setArrivalTime(String arrivalTime) {
+        this.arrivalTime = arrivalTime;
+    }
+
     public List<Route> getRoutes() {
         return routes;
     }
 
     public void setRoutes(List<Route> routes) {
         this.routes = routes;
+    }
+
+    public double[] getCoefficients() {
+        double open = this.priceForOpenSection / this.interval;
+        double close = this.priceForCloseSection / this.interval;
+
+        String formatted1 = String.format("%.2f", open);
+        String formatted2 = String.format("%.2f", close);
+
+
+        return new double[] {
+                Double.parseDouble(formatted1.replace(",", ".")),
+                Double.parseDouble(formatted2.replace(",", "."))
+        };
+
+
     }
 
     @Override

@@ -1,6 +1,5 @@
 package com.epam.ism.dao.jdbc;
 
-import com.epam.ism.dao.DaoFactory;
 import com.epam.ism.dao.GenericDao;
 import com.epam.ism.dao.exception.DaoException;
 import com.epam.ism.entity.IdEntity;
@@ -11,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static com.epam.ism.dao.jdbc.JdbcDaoUtil.*;
 
@@ -22,17 +22,18 @@ import static com.epam.ism.dao.jdbc.JdbcDaoUtil.*;
  * @author IDS.
  */
 public abstract class AbstractJdbcDao<T extends IdEntity> implements GenericDao<T> {
+    private static final String CREATE_ACTION = "Create";
+    private static final String UPDATE_ACTION = "Update";
+    private static final String DELETE_ACTION = "Delete";
 
-//    public AbstractJdbcDAO() {
-//        Class entityClass = ((Class) ((ParameterizedType) getClass()
-//                .getGenericSuperclass()).getActualTypeArguments()[0]);
-//    }
+    private Connection connection;
+
+    public AbstractJdbcDao(Connection connection) {
+        this.connection = connection;
+    }
 
     @Override
     public void create(T entity) throws DaoException,IllegalArgumentException {
-        Connection connection = null;
-        PreparedStatement statement = null;
-
         String className = entity.getClass().getSimpleName();
 
         if (entity.getId() != null) {
@@ -41,221 +42,125 @@ public abstract class AbstractJdbcDao<T extends IdEntity> implements GenericDao<
 
         Object[] values = generateValuesForCreate(entity);
 
-        try {
-            connection = DaoFactory.getConnection();
-            connection.setAutoCommit(false);
-            statement = prepareStatement(connection, insertQuery(),true,values);
-
-            int affectedRows = statement.executeUpdate();
-            if (affectedRows == 0) {
-                throw new DaoException("Creating " + className + " failed, now rows affected.");
-            }
-
+        try (
+                PreparedStatement statement = prepareStatement(connection, insertQuery(),true,values);
+        ) {
+            executeUpdate(statement,className,CREATE_ACTION);
             ResultSet generatedKeys = statement.getGeneratedKeys();
             if (generatedKeys.next()) {
                 entity.setId(generatedKeys.getLong(1));
             }
-            connection.commit();
-            connection.setAutoCommit(true);
         } catch (SQLException e){
-            try {
-                if (connection != null) {
-                    connection.rollback();
-                    logger.info("Undoes all changes made in the Insert transaction");
-                }
-            } catch (SQLException e1) {
-                throw new DaoException("Cancellation all changes, during Insert statement, failed.", e);
-            }
-            throw new DaoException("Insert data process is failed. " +
-                    "Problem has occurred out of the connection or given parameter.", e);
-        } finally {
-            if (connection != null) DaoFactory.returnConnection(connection);
-            if (statement != null) {
-                try {
-                    statement.close();
-                } catch (SQLException e) {
-                    // TODO: 28.12.2016 How to catch exception in the right way
-                    throw new UnsupportedOperationException();
-                }
-            }
+                throw new DaoException("Insert data into DB failed: " + e.getMessage());
         }
     }
 
     @Override
     public void update(T entity) throws DaoException {
-        Connection connection = null;
-        PreparedStatement statement = null;
-
-        String className = entity.getClass().getSimpleName();
-        if (entity.getId() == null) {
-            throw new DaoException(className + " is not created yet, the user ID is null.");
-        }
-
-        Object[] values = generateValuesForUpdate(entity);
-
-        try {
-            connection = DaoFactory.getConnection();
-            connection.setAutoCommit(false);
-            statement = prepareStatement(connection, updateQuery(), false, values);
-
-            int affectedRows = statement.executeUpdate();
-            if (affectedRows == 0) {
-                throw new DaoException("Updating " + className + " failed, now rows affected.");
-            }
-            connection.commit();
-            connection.setAutoCommit(true);
-        } catch (SQLException e) {
-            try {
-                if (connection != null) {
-                    connection.rollback();
-                    logger.info("Undoes all changes made in the Update transaction");
-                }
-            } catch (SQLException e1) {
-                throw new DaoException("Cancellation all changes, during Update statement, failed.", e);
-            }
-            throw new DaoException("Update data process is failed. " +
-                    "Problem has occurred out of the connection or given parameter.", e);
-        } finally {
-            try {
-                if (statement != null) {
-                    statement.close();
-                }
-            } catch (SQLException e) {
-                // TODO: 28.12.2016 How to catch exception in the right way
-                throw new UnsupportedOperationException();
-            }
-        }
+        execute(entity,UPDATE_ACTION);
     }
 
     @Override
     public void delete(T entity) throws DaoException {
-        Connection connection = null;
-        PreparedStatement statement = null;
+        execute(entity,DELETE_ACTION);
+    }
+
+    @Override
+    public List<T> list() throws DaoException {
+        try(PreparedStatement statement = connection.prepareStatement(listQuery())) {
+            return list(statement);
+        } catch (SQLException e) {
+            throw new DaoException("PrepareStatement() failed: listQuery(); " + e.getMessage());
+        }
+    }
+
+    @Override
+    public List<T> list(String query, Object... params) throws DaoException {
+        try(PreparedStatement statement = prepareStatement(connection,query,false,params)) {
+            return list(statement);
+        } catch (SQLException e) {
+            throw new DaoException("Process failed: listQuery(); " + e.getMessage());
+        }
+    }
+
+    @Override
+    public T findById(Long id) throws DaoException {
+        return find(id);
+    }
+
+    @Override
+    public T findByName(String name) throws DaoException {
+        return find(name);
+    }
+
+    private T find(Object object) {
+        Long id = null;
+        String name = null;
+        String query = null;
+
+        if (object instanceof String) {
+            name = (String) object;
+            query = findByNameQuery();
+        } else if (object instanceof Long) {
+            id = (Long) object;
+            query = findByIdQuery();
+        }
+        T entity = null;
+
+        try (
+                PreparedStatement statement = prepareStatement(connection, query, false,
+                                                                        name == null ? id : name);
+                ResultSet resultSet = statement.executeQuery();
+         ) {
+            if (resultSet.next()) entity = map(resultSet);
+        } catch (SQLException e) {
+            throw new DaoException("Find data process failed: " + e.getMessage());
+        }
+
+        return entity;
+    }
+
+    private List<T> list(PreparedStatement statement) throws SQLException {
+        List<T> list = new ArrayList<>();
+        ResultSet resultSet = statement.executeQuery();
+        while (resultSet.next()) {
+            list.add(map(resultSet));
+        }
+        return list;
+    }
+
+    private void execute(T entity,String action) {
         String className = entity.getClass().getSimpleName();
 
         if (entity.getId() == null) {
             throw new IllegalArgumentException(className + " is not created yet, the user ID is null.");
         }
 
-        Object[] values = generateValuesForDelete(entity);
+        long id = entity.getId();
 
-        try {
-            connection = DaoFactory.getConnection();
-            connection.setAutoCommit(false);
-
-            statement = prepareStatement(connection, deleteQuery(), false, values);
-
-            int affectedRows = statement.executeUpdate();
-            if (affectedRows == 0) {
-                throw new DaoException("Deleting " + className + " failed, now rows affected.");
-            } else {
-                entity.setId(null);
-            }
-            connection.commit();
-            connection.setAutoCommit(true);
-
-        } catch (SQLException e) {
-            try {
-                if (connection != null) {
-                    connection.rollback();
-                    logger.info("Undoes all changes made in the Delete transaction");
-                }
-            } catch (SQLException e1) {
-                throw new DaoException("Cancellation all changes, during Delete statement, failed.", e);
-            }
-            throw new DaoException("Delete data process is failed. " +
-                    "Problem has occurred out of the connection or given parameter.", e);
-        } finally {
-            try {
-                if (statement != null) {
-                    statement.close();
-                }
-            } catch (SQLException e) {
-                // TODO: 28.12.2016 How to catch exception in the right way
-                throw new UnsupportedOperationException();
-            }
-        }
-    }
-
-    @Override
-    public List<T> list() throws DaoException {
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-
-        List<T> list = new ArrayList<>();
-
-        try {
-            connection = DaoFactory.getConnection();
-            statement = connection.prepareStatement(listQuery());
-            resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-                list.add(map(resultSet));
-            }
-
-        } catch (SQLException e) {
-             throw new DaoException("Receiving data process is failed. " +
-                    "Problem has occurred out of the connection or given parameter.", e);
-        } finally {
-            // TODO: 28.12.2016 rid out of copy-paste
-            try {
-                if (resultSet != null) resultSet.close();
-                if (statement != null) statement.close();
-                if (connection != null) connection.close();
-            } catch (SQLException e) {
-                // TODO: 28.12.2016 How to catch exception in the right way
-                throw new UnsupportedOperationException();
-            }
+        String query = null;
+        if (action.equals(DELETE_ACTION)) {
+            query = deleteQuery();
+        } else if (action.equals(UPDATE_ACTION)) {
+            query = updateQuery();
         }
 
-        return list;
-    }
-
-
-    @Override
-    public T find(Long id) throws DaoException {
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-
-        T entity = null;
-
-        try {
-            connection = DaoFactory.getConnection();
-            statement = prepareStatement(connection, findQuery(), false, id);
-            resultSet = statement.executeQuery();
-
-            if (resultSet.next()) {
-                entity = map(resultSet);
-            }
-
+        try (
+            PreparedStatement statement = prepareStatement(connection, query, false, id);
+         ) {
+            executeUpdate(statement,className,action);
+            if (action.equals(DELETE_ACTION)) entity.setId(null);
         } catch (SQLException e) {
-            throw new DaoException("Find data process is failed. " +
-                    "Problem has occurred out of the connection or given parameter.", e);
-        } finally {
-            // TODO: 28.12.2016 rid out of copy-paste
-            try {
-                if (resultSet != null) resultSet.close();
-                if (statement != null) statement.close();
-                if (connection != null) connection.close();
-
-            } catch (SQLException e) {
-                // TODO: 28.12.2016 How to catch exception in the right way
-                throw new UnsupportedOperationException();
-            }
+            throw new DaoException(action + " action failed: " + e.getMessage());
         }
-
-        return entity;
     }
 
     public abstract Object[] generateValuesForCreate(T entity);
-    public abstract Object[] generateValuesForUpdate(T entity);
-    public abstract Object[] generateValuesForDelete(T entity);
     public abstract T map(ResultSet resultSet) throws SQLException;
     public abstract String insertQuery();
     public abstract String updateQuery();
-    public abstract String findQuery();
+    public abstract String findByIdQuery();
+    public abstract String findByNameQuery();
     public abstract String deleteQuery();
     public abstract String listQuery();
 

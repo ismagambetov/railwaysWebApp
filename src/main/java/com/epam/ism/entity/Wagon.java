@@ -5,16 +5,16 @@ import java.util.List;
 /**
  *
  */
-public class Carriage extends IdEntity {
+public class Wagon extends IdEntity {
     private String name;
-    private CarriageType type;
+    private WagonCategory type;
     private List<Place> places;
     private static final int CARRIAGE_CAPACITY = 36;
 
     /**
      * Constructs places for This carriage.
      */
-    public Carriage() {
+    public Wagon() {
         for (int i = 0; i < CARRIAGE_CAPACITY; i++) {
             Place place = new Place();
             place.setPlace(String.valueOf(++i));
@@ -31,11 +31,11 @@ public class Carriage extends IdEntity {
         this.name = name;
     }
 
-    public CarriageType getType() {
+    public WagonCategory getType() {
         return type;
     }
 
-    public void setType(CarriageType type) {
+    public void setType(WagonCategory type) {
         this.type = type;
     }
 

@@ -5,6 +5,7 @@ import com.epam.ism.dao.OrderDao;
 import com.epam.ism.dao.exception.DaoException;
 import com.epam.ism.entity.Order;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -20,6 +21,10 @@ public class JdbcOrderDao extends AbstractJdbcDao<Order> implements OrderDao {
         list = FactoryMethod.getOrderList();
     }
 
+    public JdbcOrderDao(Connection connection) {
+        super(connection);
+    }
+
 
 //    public JdbcOrderDAO(JdbcDAOFactory daoFactory) {
 //        super(daoFactory);
@@ -27,16 +32,6 @@ public class JdbcOrderDao extends AbstractJdbcDao<Order> implements OrderDao {
 
     @Override
     public Object[] generateValuesForCreate(Order entity) {
-        return new Object[0];
-    }
-
-    @Override
-    public Object[] generateValuesForUpdate(Order entity) {
-        return new Object[0];
-    }
-
-    @Override
-    public Object[] generateValuesForDelete(Order entity) {
         return new Object[0];
     }
 
@@ -56,7 +51,12 @@ public class JdbcOrderDao extends AbstractJdbcDao<Order> implements OrderDao {
     }
 
     @Override
-    public String findQuery() {
+    public String findByIdQuery() {
+        return null;
+    }
+
+    @Override
+    public String findByNameQuery() {
         return null;
     }
 
@@ -67,11 +67,6 @@ public class JdbcOrderDao extends AbstractJdbcDao<Order> implements OrderDao {
 
     @Override
     public String listQuery() {
-        return null;
-    }
-
-    @Override
-    public Order find(String name) throws DaoException {
         return null;
     }
 

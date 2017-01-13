@@ -5,71 +5,37 @@ import com.epam.ism.dao.StationDao;
 import com.epam.ism.dao.exception.DaoException;
 import com.epam.ism.entity.Station;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
 public class JdbcStationDao extends AbstractJdbcDao<Station> implements StationDao {
-    public static List<Station> list;
+//    public static List<Station> list;
+//
+//    static {
+//        list = FactoryMethod.getStationList();
+//    }
 
-    static {
-        list = FactoryMethod.getStationList();
+
+    public JdbcStationDao(Connection connection) {
+        super(connection);
     }
 
-    @Override
-    public void create(Station entity) throws DaoException {
-
-    }
-
-    @Override
-    public void update(Station entity) throws DaoException {
-
-    }
-
-    @Override
-    public void delete(Station entity) throws DaoException {
-
-    }
-
-    @Override
-    public List<Station> list() throws DaoException {
-        return null;
-    }
-
-    @Override
-    public Station find(Long id) throws DaoException {
-        return null;
-    }
-
-    @Override
-    public Station find(String name) throws DaoException {
-        for (Station station : list) {
-            if (station.getName().equals(name)) {
-                return station;
-            }
-        }
-
-        return null;
-    }
 
     @Override
     public Object[] generateValuesForCreate(Station entity) {
         return new Object[0];
     }
 
-    @Override
-    public Object[] generateValuesForUpdate(Station entity) {
-        return new Object[0];
-    }
-
-    @Override
-    public Object[] generateValuesForDelete(Station entity) {
-        return new Object[0];
-    }
 
     @Override
     public Station map(ResultSet resultSet) throws SQLException {
-        return null;
+        Station station = new Station();
+        station.setId(resultSet.getLong(1));
+        station.setName(resultSet.getString(2));
+
+        return station;
     }
 
     @Override
@@ -83,18 +49,23 @@ public class JdbcStationDao extends AbstractJdbcDao<Station> implements StationD
     }
 
     @Override
-    public String findQuery() {
-        return null;
+    public String findByIdQuery() {
+        return "SELECT * FROM stations WHERE ID = ?";
+    }
+
+    @Override
+    public String findByNameQuery() {
+        return "SELECT * FROM stations WHERE NAME = ?";
     }
 
     @Override
     public String deleteQuery() {
-        return null;
+        return "DELETE FROM stations WHERE id = ?";
     }
 
     @Override
     public String listQuery() {
-        return null;
+        return "SELECT * FROM stations";
     }
 
 }

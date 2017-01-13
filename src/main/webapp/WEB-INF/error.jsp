@@ -1,9 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Available trains</title>
+    <title>Error page</title>
 </head>
 <body>
-
+   <h1> Error! </h1>
 </body>
 </html>

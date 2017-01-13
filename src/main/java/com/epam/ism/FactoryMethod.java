@@ -52,7 +52,7 @@ public class FactoryMethod {
         Train train = new Train();
         train.setId(Long.parseLong("1"));
         train.setName("038Т");
-        train.setMainRoute(mainRouteList.get(0));
+        //train.setMainRoute(mainRouteList.get(0));
 
         trainList.add(train);
 
@@ -68,6 +68,8 @@ public class FactoryMethod {
         mainRoute.setId(Long.parseLong("1"));
         mainRoute.setFrom(findStation("Костанай"));
         mainRoute.setTo(findStation("Астана"));
+        mainRoute.setDepartureTime("22:10");
+        mainRoute.setDepartureTime("07:38");
         mainRoute.setInterval(Double.parseDouble("707"));
         mainRoute.setPriceForOpenSection(2626.00);
         mainRoute.setPriceForCloseSection(5400.00);
@@ -99,13 +101,13 @@ public class FactoryMethod {
 
         String[] arr = param.split(",");
         route.setId(Long.parseLong(arr[0]));
-        route.setFrom(findStation(arr[1].trim()));
-        route.setTo(findStation(arr[2].trim()));
+//        route.setFrom(findStation(arr[1].trim()));
+//        route.setTo(findStation(arr[2].trim()));
         route.setDepartureTime(arr[3].trim());
         route.setArrivalTime(arr[4].trim());
-        route.setInterval(Double.parseDouble(arr[5].trim()));
-        route.setPriceForOpenSection(Double.parseDouble(arr[6].trim()));
-        route.setPriceForCloseSection(Double.parseDouble(arr[7].trim()));
+//        route.setInterval(Double.parseDouble(arr[5].trim()));
+//        route.setPriceForOpenSection(Double.parseDouble(arr[6].trim()));
+//        route.setPriceForCloseSection(Double.parseDouble(arr[7].trim()));
         route.setParkingTime(Integer.parseInt(arr[8].trim()));
 
         return route;

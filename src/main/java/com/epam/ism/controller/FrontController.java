@@ -28,11 +28,8 @@ public class FrontController extends HttpServlet {
             Action action = ActionFactory.getAction(req);
             String view = action.execute(req, resp);
 
-            if (view.equals(req.getPathInfo().substring(1))) {
-                req.getRequestDispatcher("/WEB-INF/" + view + ".jsp").forward(req,resp);
-            } else {
-                resp.sendRedirect(view);
-            }
+            req.getRequestDispatcher("/WEB-INF/" + view + ".jsp").forward(req,resp);
+
         } catch (ActionException e) {
             throw new ServletException("Executing action failed.",e);
         }

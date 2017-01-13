@@ -1,13 +1,11 @@
 package com.epam.ism.dao.jdbc;
 
-import com.epam.ism.FactoryMethod;
 import com.epam.ism.dao.TrainDao;
-import com.epam.ism.dao.exception.DaoException;
 import com.epam.ism.entity.Train;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 
 
 /**
@@ -17,67 +15,52 @@ import java.util.List;
  */
 public class JdbcTrainDao extends AbstractJdbcDao<Train> implements TrainDao {
 
-    public static List<Train> list;
-
-    static {
-        list = FactoryMethod.getTrainList();
-    }
-
-    @Override
-    public List<Train> list() throws DaoException {
-        return list;
+    public JdbcTrainDao(Connection connection) {
+        super(connection);
     }
 
     @Override
     public Object[] generateValuesForCreate(Train entity) {
-        return new Object[0];
-    }
-
-    @Override
-    public Object[] generateValuesForUpdate(Train entity) {
-        return new Object[0];
-    }
-
-    @Override
-    public Object[] generateValuesForDelete(Train entity) {
-        return new Object[0];
+        return new Object[] {entity.getId()};
     }
 
     @Override
     public Train map(ResultSet resultSet) throws SQLException {
-        return null;
+        Train train = new Train();
+        train.setId(resultSet.getLong("1"));
+        train.setName(resultSet.getString("2"));
+
+        return train;
     }
 
     @Override
     public String insertQuery() {
-        return null;
+        return "INSERT INTO trains (name) VALUES (?)";
     }
 
     @Override
     public String updateQuery() {
-        return null;
+        return "UPDATE trains SET name = ? WHERE id = ?";
     }
 
     @Override
-    public String findQuery() {
-        return null;
+    public String findByIdQuery() {
+        return "SELECT name FROM trains WHERE id = ?";
+    }
+
+    @Override
+    public String findByNameQuery() {
+        return "SELECT name FROM trains WHERE name = ?";
     }
 
     @Override
     public String deleteQuery() {
-        return null;
+        return "DELETE FROM trains WHERE id = ?";
     }
 
     @Override
     public String listQuery() {
-        return null;
+        return "SELECT * FROM trains";
     }
 
-    @Override
-    public Train find(String name) throws DaoException {
-        for (Train train : list) {
-            if (train.getName().equals(name)) return train;
-        }
-        return null;
-    }
 }
