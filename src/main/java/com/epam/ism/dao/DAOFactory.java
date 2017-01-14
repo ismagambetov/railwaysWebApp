@@ -10,29 +10,25 @@ public abstract class DaoFactory {
 
     private static DaoFactory instance = null;
     private static DaoManager daoManager = null;
-    static Class<?> clazz = null;
+
 
     public static DaoFactory getFactory() {
 
-        if (clazz == null) {
+        if (instance == null) {
             PropertyManager properties = new PropertyManager(PROPERTIES_FILE);
             String className = properties.getProperty(PROPERTY_DAO_CLASS);
 
             try {
-                clazz = Class.forName(className);
-
+                Class<?> clazz = Class.forName(className);
+                instance = (DaoFactory) clazz.newInstance();
             } catch (ClassNotFoundException e) {
                 throw new DaoConfigurationException("Creating '" + className + "' failed.", e);
-//            } catch (InstantiationException | IllegalAccessException e) {
-//                throw new DaoConfigurationException("Creating new instance of " + className +
-//                                            ".class failed.", e);
-            }
+
+            } catch (InstantiationException | IllegalAccessException e) {
+                throw new DaoConfigurationException("Creating new instance of " + className +
+                        ".class failed.", e);}
         }
-        try {
-            instance = (DaoFactory) clazz.newInstance();
-        } catch (InstantiationException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
+
 
         return instance;
     }
@@ -45,9 +41,9 @@ public abstract class DaoFactory {
     }
 
 
-    public abstract TrainDao getTrainDao();
-    public abstract StationDao getStationDao();
-    public abstract OrderDao getOrderDao();
-    public abstract RouteDao getRouteDao();
-    public abstract UserDao getUserDao();
+    public abstract TrainDao getTrainDao(DaoManager daoManager);
+    public abstract StationDao getStationDao(DaoManager daoManager);
+    public abstract OrderDao getOrderDao(DaoManager daoManager);
+    public abstract RouteDao getRouteDao(DaoManager daoManager);
+    public abstract UserDao getUserDao(DaoManager daoManager);
 }

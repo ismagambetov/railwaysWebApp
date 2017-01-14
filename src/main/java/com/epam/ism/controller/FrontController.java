@@ -23,13 +23,15 @@ public class FrontController extends HttpServlet {
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Action action = ActionFactory.getAction(req);
+
+        if (action == null) {
+            throw new ServletException(req.getPathInfo() + " action has not been found.");
+        }
 
         try {
-            Action action = ActionFactory.getAction(req);
             String view = action.execute(req, resp);
-
             req.getRequestDispatcher("/WEB-INF/" + view + ".jsp").forward(req,resp);
-
         } catch (ActionException e) {
             throw new ServletException("Executing action failed.",e);
         }

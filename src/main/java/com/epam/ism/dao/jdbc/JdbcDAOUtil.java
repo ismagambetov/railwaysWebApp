@@ -58,7 +58,7 @@ public final class JdbcDaoUtil {
         }
     }
 
-    public static void executeUpdate(PreparedStatement statement, String className, String action) throws SQLException {
+    public static void executeUpdate(PreparedStatement statement, String className, String action) throws SQLException, DaoException {
         int affectedRows = statement.executeUpdate();
         if (affectedRows == 0) {
             throw new DaoException(action + " action failed, now rows affected. Class: " + className);

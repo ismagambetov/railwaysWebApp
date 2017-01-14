@@ -27,8 +27,8 @@ public class JdbcTrainDao extends AbstractJdbcDao<Train> implements TrainDao {
     @Override
     public Train map(ResultSet resultSet) throws SQLException {
         Train train = new Train();
-        train.setId(resultSet.getLong("1"));
-        train.setName(resultSet.getString("2"));
+        train.setId(resultSet.getLong(1));
+        train.setName(resultSet.getString(2));
 
         return train;
     }
@@ -45,12 +45,12 @@ public class JdbcTrainDao extends AbstractJdbcDao<Train> implements TrainDao {
 
     @Override
     public String findByIdQuery() {
-        return "SELECT name FROM trains WHERE id = ?";
+        return "SELECT * FROM trains WHERE id = ?";
     }
 
     @Override
     public String findByNameQuery() {
-        return "SELECT name FROM trains WHERE name = ?";
+        return "SELECT * FROM trains WHERE name = ?";
     }
 
     @Override

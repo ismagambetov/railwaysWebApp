@@ -33,11 +33,13 @@
             <th>Arrival time</th>
         </tr>
 
-
-
         <c:forEach var="route_" items="${requestScope.routes}">
+        <c:set value="${route_.getTrain().getName()}" var="train"  />
+
             <tr>
-                <td>${route_.getTrain().getName()}</td>
+                <td>
+                    <a href="/controller/check-train?name=${train}"> ${train} </a>
+                </td>
                 <td>${route_.getCourse().getDepartureStation().getName()}</td>
                 <td>${route_.getCourse().getArrivalStation().getName()}</td>
                 <td>${route_.getDepartureTime()}</td>

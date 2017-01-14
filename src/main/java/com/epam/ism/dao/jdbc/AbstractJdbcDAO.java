@@ -93,7 +93,7 @@ public abstract class AbstractJdbcDao<T extends IdEntity> implements GenericDao<
         return find(name);
     }
 
-    private T find(Object object) {
+    private T find(Object object) throws DaoException {
         Long id = null;
         String name = null;
         String query = null;
@@ -129,7 +129,7 @@ public abstract class AbstractJdbcDao<T extends IdEntity> implements GenericDao<
         return list;
     }
 
-    private void execute(T entity,String action) {
+    private void execute(T entity,String action) throws DaoException {
         String className = entity.getClass().getSimpleName();
 
         if (entity.getId() == null) {

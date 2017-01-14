@@ -40,6 +40,7 @@ public class JdbcRouteDao extends AbstractJdbcDao<Route> implements RouteDao {
         course.setArrivalStation(arrivalStation);
 
         Train train = new Train();
+
         train.setName(rs.getString(9));
 
         route.setId(rs.getLong(1));

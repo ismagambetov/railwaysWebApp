@@ -4,6 +4,7 @@ import com.epam.ism.dao.DaoCommand;
 import com.epam.ism.dao.DaoFactory;
 import com.epam.ism.dao.DaoManager;
 import com.epam.ism.dao.RouteDao;
+import com.epam.ism.dao.exception.DaoException;
 import com.epam.ism.entity.Route;
 import com.epam.ism.entity.Station;
 import org.slf4j.Logger;
@@ -52,7 +53,7 @@ public class RouteService {
 
         return (List<Route>) daoManager.transactionAndReturnCon(new DaoCommand() {
             @Override
-            public Object execute() throws SQLException {
+            public Object execute() throws SQLException, DaoException {
                 RouteDao routeDao = factory.getRouteDao(daoManager);
                 logger.info("factory.getRouteDao(): " + routeDao);
                 return routeDao.list(query, depStationId, arrStationId);

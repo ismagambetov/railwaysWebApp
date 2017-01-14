@@ -4,9 +4,11 @@
 
 <html>
 <head>
-    <title>Error page</title>
+    <title>Train page</title>
 </head>
 <body>
-   <h1> <c:out value="${requestScope.msg}" /> </h1>
+
+trains tut
+
 </body>
 </html>
