@@ -5,11 +5,12 @@ import com.epam.ism.dao.DaoFactory;
 import com.epam.ism.dao.DaoManager;
 import com.epam.ism.dao.RouteDao;
 import com.epam.ism.dao.exception.DaoException;
-import com.epam.ism.entity.Route;
-import com.epam.ism.entity.Station;
+import com.epam.ism.entity.*;
+import com.epam.ism.utils.RowMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -25,15 +26,12 @@ public class RouteService {
         daoManager = DaoFactory.getDaoManager();
     }
 
+    @SuppressWarnings(value = "unchecked")
     public List<Route> findAll(Station departureStation, Station arrivalStation) throws ServiceException {
+        int depStationId = departureStation.getId();
+        int arrStationId = arrivalStation.getId();
 
-
-        Long depStationId = departureStation.getId();
-        Long arrStationId = arrivalStation.getId();
-
-        String query = "select DISTINCT null as id, null as order_id, s1.name as dep_st, s2.name as arr_st, t1.dep_time, t2.arr_time, \n" +
-                "\tnull as cost1, null as cost2, t.name, null as main_route\n" +
-                "\n" +
+        String query = "select DISTINCT t.id as train_id,t.name,s1.name as dep_st,s2.name as arr_st,t1.dep_time,t2.arr_time\n" +
                 " from\n" +
                 "\n" +
                 "\t(select r1.id, r1.order_id, c.dep_station_id, r1.cost1, r1.cost2, \n" +
@@ -55,7 +53,36 @@ public class RouteService {
             @Override
             public Object execute() throws SQLException, DaoException {
                 RouteDao routeDao = factory.getRouteDao(daoManager);
-                logger.info("factory.getRouteDao(): " + routeDao);
+
+                routeDao.map(new RowMapper() {
+                    @Override
+                    public Route mapRow(ResultSet rs) throws SQLException {
+                        Route route = new Route();
+
+                        Train train = new Train();
+                        train.setId(rs.getInt(1));
+                        train.setName(rs.getString(2));
+                        route.setTrain(train);
+
+                        Course course = new Course();
+                        Station departureStation = new Station();
+                        departureStation.setName(rs.getString(3));
+                        Station arrivalStation = new Station();
+                        arrivalStation.setName(rs.getString(4));
+                        course.setDepartureStation(departureStation);
+                        course.setArrivalStation(arrivalStation);
+
+                        route.setCourse(course);
+
+                        route.setDepartureTime(rs.getString(5));
+                        route.setArrivalTime(rs.getString(6));
+
+                        return route;
+                    }
+                });
+
+
+
                 return routeDao.list(query, depStationId, arrStationId);
             }
         });

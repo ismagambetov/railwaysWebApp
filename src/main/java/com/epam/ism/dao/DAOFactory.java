@@ -9,8 +9,6 @@ public abstract class DaoFactory {
     private static final String PROPERTY_DAO_CLASS = "dao_class";
 
     private static DaoFactory instance = null;
-    private static DaoManager daoManager = null;
-
 
     public static DaoFactory getFactory() {
 
@@ -29,15 +27,11 @@ public abstract class DaoFactory {
                         ".class failed.", e);}
         }
 
-
         return instance;
     }
 
     public static DaoManager getDaoManager() {
-        if (daoManager == null) {
-            daoManager = new DaoManager(ConnectionPool.getInstance());
-        }
-        return daoManager;
+        return new DaoManager(ConnectionPool.getInstance());
     }
 
 
@@ -46,4 +40,6 @@ public abstract class DaoFactory {
     public abstract OrderDao getOrderDao(DaoManager daoManager);
     public abstract RouteDao getRouteDao(DaoManager daoManager);
     public abstract UserDao getUserDao(DaoManager daoManager);
+    public abstract WagonDao getWagonDao(DaoManager daoManager);
+
 }

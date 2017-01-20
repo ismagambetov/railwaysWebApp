@@ -1,6 +1,10 @@
 package com.epam.ism.dao;
 
 import com.epam.ism.dao.exception.DaoException;
+import com.epam.ism.utils.RowMapper;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
 
@@ -55,7 +59,7 @@ public interface GenericDao<T> {
      * @return The entity from the database, otherwise null.
      * @throws DaoException If something fails at database level.
      */
-    T findById(Long id) throws DaoException;
+    T findById(int id) throws DaoException;
 
     /**
      * Returns the T type entity from the database matching the given Name, otherwise null.
@@ -65,5 +69,7 @@ public interface GenericDao<T> {
      */
     T findByName(String name) throws DaoException;
 
+    void map(RowMapper rowMapper) throws SQLException;
 
+    T mapRow(ResultSet rs) throws SQLException;
 }

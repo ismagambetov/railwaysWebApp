@@ -74,6 +74,10 @@ public final class JdbcDaoUtil {
         return (date != null) ? new Date(date.getTime()) : null;
     }
 
+    public static java.util.Date toUtilDate(Date date) {
+        return (date != null) ? new java.util.Date(date.getTime()) : null;
+    }
+
     /**
      * Joins two arrays.
      * @param arr1 The Object[] first array to be joined to the common array.

@@ -1,19 +1,22 @@
-body,html {
-    background: #000000;
-    color: #000000;
-    font-size: 12px;
+#main_div {
+    margin: 15px;
 }
 
 #main_table, #main_table th, #main_table td {
     border:1px solid black;
     border-collapse: collapse;
-    font-size: 12px;
+    font-size: 16px;
     color: #949494;
     width:750px;
-    margin-left: 15px;
+    margin-bottom: 15px;
 }
 
 #main_table th {
     text-align: left;
     background-color: #f9f9f9;
 }
+
+#form_style {
+    margin-top: 15px;
+}
+

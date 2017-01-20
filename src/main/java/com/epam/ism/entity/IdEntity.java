@@ -10,14 +10,14 @@ import java.util.Objects;
  */
 public abstract class IdEntity {
     //Property
-    private Long id;
+    private Integer id;
 
     //Getter and setter
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

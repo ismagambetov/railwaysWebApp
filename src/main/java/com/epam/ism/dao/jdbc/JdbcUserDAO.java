@@ -1,14 +1,13 @@
 package com.epam.ism.dao.jdbc;
 
-import com.epam.ism.FactoryMethod;
 import com.epam.ism.dao.UserDao;
 import com.epam.ism.dao.exception.DaoException;
 import com.epam.ism.entity.User;
+import com.epam.ism.utils.RowMapper;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 
 
 /**
@@ -18,24 +17,24 @@ import java.util.List;
  * @author IDS.
  */
 public class JdbcUserDao extends AbstractJdbcDao<User> implements UserDao {
-    public static List<User> list;
-
-    static {
-        list = FactoryMethod.getUserList();
-    }
 
     public JdbcUserDao(Connection connection) {
         super(connection);
     }
 
     @Override
-    public Object[] generateValuesForCreate(User entity) {
-        return new Object[0];
+    public void map(RowMapper rowMapper) throws SQLException {
+
     }
 
     @Override
-    public User map(ResultSet resultSet) throws SQLException {
+    public User mapRow(ResultSet rs) throws SQLException {
         return null;
+    }
+
+    @Override
+    public Object[] generateValuesForCreate(User entity) {
+        return new Object[0];
     }
 
     @Override

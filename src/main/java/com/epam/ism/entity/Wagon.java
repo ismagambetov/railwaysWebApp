@@ -1,49 +1,66 @@
 package com.epam.ism.entity;
 
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  *
  */
 public class Wagon extends IdEntity {
-    private String name;
-    private WagonCategory type;
+    private int wagonNum;
+    private WagonCategory wagonCategory;
+    private int capacity;
+    private Train train;
     private List<Place> places;
-    private static final int CARRIAGE_CAPACITY = 36;
 
-    /**
-     * Constructs places for This carriage.
-     */
-    public Wagon() {
-        for (int i = 0; i < CARRIAGE_CAPACITY; i++) {
-            Place place = new Place();
-            place.setPlace(String.valueOf(++i));
-            place.setBooked(false);
-            places.add(place);
-        }
+    public int getWagonNum() {
+        return wagonNum;
     }
 
-    public String getName() {
-        return name;
+    public void setWagonNum(int wagonNum) {
+        this.wagonNum = wagonNum;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public WagonCategory getWagonCategory() {
+        return wagonCategory;
     }
 
-    public WagonCategory getType() {
-        return type;
+    public void setWagonCategory(WagonCategory wagonCategory) {
+        this.wagonCategory = wagonCategory;
     }
 
-    public void setType(WagonCategory type) {
-        this.type = type;
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
+    public Train getTrain() {
+        return train;
+    }
+
+    public void setTrain(Train train) {
+        this.train = train;
     }
 
     public List<Place> getPlaces() {
         return places;
     }
 
-    public void setPlaces(List<Place> places) {
+    public void setPlaces() {
+
+        List<Place> places = new ArrayList<>();
+        for (int i = 0; i < this.capacity; i++) {
+            Place place = new Place();
+            place.setPlace(i+1);
+            place.setBooked(false);
+
+            places.add(place);
+        }
+
         this.places = places;
     }
 }

@@ -28,4 +28,9 @@ public class JdbcDaoFactory extends DaoFactory {
     public UserDao getUserDao(DaoManager daoManager) {
         return new JdbcUserDao(daoManager.getTxConnection());
     }
+
+    @Override
+    public WagonDao getWagonDao(DaoManager daoManager) {
+        return new JdbcWagonDao(daoManager.getTxConnection());
+    }
 }

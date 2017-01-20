@@ -1,9 +1,9 @@
 package com.epam.ism.dao.jdbc;
 
-import com.epam.ism.FactoryMethod;
 import com.epam.ism.dao.StationDao;
 import com.epam.ism.dao.exception.DaoException;
 import com.epam.ism.entity.Station;
+import com.epam.ism.utils.RowMapper;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -11,31 +11,26 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class JdbcStationDao extends AbstractJdbcDao<Station> implements StationDao {
-//    public static List<Station> list;
-//
-//    static {
-//        list = FactoryMethod.getStationList();
-//    }
 
+    private RowMapper rowMapper;
 
     public JdbcStationDao(Connection connection) {
         super(connection);
     }
 
+    @Override
+    public void map(RowMapper rowMapper) throws SQLException {
+        this.rowMapper = rowMapper;
+    }
+
+    @Override
+    public Station mapRow(ResultSet rs) throws SQLException {
+        return (Station) rowMapper.mapRow(rs);
+    }
 
     @Override
     public Object[] generateValuesForCreate(Station entity) {
         return new Object[0];
-    }
-
-
-    @Override
-    public Station map(ResultSet resultSet) throws SQLException {
-        Station station = new Station();
-        station.setId(resultSet.getLong(1));
-        station.setName(resultSet.getString(2));
-
-        return station;
     }
 
     @Override

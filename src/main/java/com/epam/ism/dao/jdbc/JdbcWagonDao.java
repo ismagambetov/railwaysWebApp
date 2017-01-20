@@ -1,27 +1,24 @@
 package com.epam.ism.dao.jdbc;
 
-import com.epam.ism.dao.RouteDao;
-import com.epam.ism.entity.Course;
-import com.epam.ism.entity.Route;
-import com.epam.ism.entity.Station;
+import com.epam.ism.dao.WagonDao;
+import com.epam.ism.entity.Place;
 import com.epam.ism.entity.Train;
+import com.epam.ism.entity.Wagon;
+import com.epam.ism.entity.WagonCategory;
 import com.epam.ism.utils.RowMapper;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/**
- *
- */
-public class JdbcRouteDao extends AbstractJdbcDao<Route> implements RouteDao {
+public class JdbcWagonDao extends AbstractJdbcDao<Wagon> implements WagonDao {
 
-    public JdbcRouteDao(Connection connection) {
+    public JdbcWagonDao(Connection connection) {
         super(connection);
     }
 
     @Override
-    public Object[] generateValuesForCreate(Route entity) {
+    public Object[] generateValuesForCreate(Wagon entity) {
         return new Object[0];
     }
 
@@ -47,12 +44,12 @@ public class JdbcRouteDao extends AbstractJdbcDao<Route> implements RouteDao {
 
     @Override
     public String deleteQuery() {
-        return "DELETE FROM routes WHERE id = ?";
+        return null;
     }
 
     @Override
     public String listQuery() {
-        return "SELECT * FROM routes";
+        return null;
     }
 
 }

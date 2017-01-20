@@ -3,6 +3,7 @@ package com.epam.ism.dao.jdbc;
 import com.epam.ism.dao.GenericDao;
 import com.epam.ism.dao.exception.DaoException;
 import com.epam.ism.entity.IdEntity;
+import com.epam.ism.utils.RowMapper;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -27,6 +28,7 @@ public abstract class AbstractJdbcDao<T extends IdEntity> implements GenericDao<
     private static final String DELETE_ACTION = "Delete";
 
     private Connection connection;
+    private RowMapper rowMapper;
 
     public AbstractJdbcDao(Connection connection) {
         this.connection = connection;
@@ -48,7 +50,7 @@ public abstract class AbstractJdbcDao<T extends IdEntity> implements GenericDao<
             executeUpdate(statement,className,CREATE_ACTION);
             ResultSet generatedKeys = statement.getGeneratedKeys();
             if (generatedKeys.next()) {
-                entity.setId(generatedKeys.getLong(1));
+                entity.setId(generatedKeys.getInt(1));
             }
         } catch (SQLException e){
                 throw new DaoException("Insert data into DB failed: " + e.getMessage());
@@ -84,7 +86,7 @@ public abstract class AbstractJdbcDao<T extends IdEntity> implements GenericDao<
     }
 
     @Override
-    public T findById(Long id) throws DaoException {
+    public T findById(int id) throws DaoException {
         return find(id);
     }
 
@@ -94,15 +96,15 @@ public abstract class AbstractJdbcDao<T extends IdEntity> implements GenericDao<
     }
 
     private T find(Object object) throws DaoException {
-        Long id = null;
+        Integer id = null;
         String name = null;
         String query = null;
 
         if (object instanceof String) {
             name = (String) object;
             query = findByNameQuery();
-        } else if (object instanceof Long) {
-            id = (Long) object;
+        } else if (object instanceof Integer) {
+            id = (Integer) object;
             query = findByIdQuery();
         }
         T entity = null;
@@ -112,7 +114,7 @@ public abstract class AbstractJdbcDao<T extends IdEntity> implements GenericDao<
                                                                         name == null ? id : name);
                 ResultSet resultSet = statement.executeQuery();
          ) {
-            if (resultSet.next()) entity = map(resultSet);
+            if (resultSet.next()) entity = mapRow(resultSet);
         } catch (SQLException e) {
             throw new DaoException("Find data process failed: " + e.getMessage());
         }
@@ -124,7 +126,7 @@ public abstract class AbstractJdbcDao<T extends IdEntity> implements GenericDao<
         List<T> list = new ArrayList<>();
         ResultSet resultSet = statement.executeQuery();
         while (resultSet.next()) {
-            list.add(map(resultSet));
+            list.add(mapRow(resultSet));
         }
         return list;
     }
@@ -155,8 +157,18 @@ public abstract class AbstractJdbcDao<T extends IdEntity> implements GenericDao<
         }
     }
 
+    @Override
+    public void map(RowMapper rowMapper) throws SQLException {
+        this.rowMapper = rowMapper;
+    }
+
+    @SuppressWarnings(value = "unchecked")
+    @Override
+    public T mapRow(ResultSet rs) throws SQLException {
+        return (T) rowMapper.mapRow(rs);
+    }
+
     public abstract Object[] generateValuesForCreate(T entity);
-    public abstract T map(ResultSet resultSet) throws SQLException;
     public abstract String insertQuery();
     public abstract String updateQuery();
     public abstract String findByIdQuery();

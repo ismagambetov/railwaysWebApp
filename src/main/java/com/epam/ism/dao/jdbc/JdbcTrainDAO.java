@@ -2,6 +2,7 @@ package com.epam.ism.dao.jdbc;
 
 import com.epam.ism.dao.TrainDao;
 import com.epam.ism.entity.Train;
+import com.epam.ism.utils.RowMapper;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -22,15 +23,6 @@ public class JdbcTrainDao extends AbstractJdbcDao<Train> implements TrainDao {
     @Override
     public Object[] generateValuesForCreate(Train entity) {
         return new Object[] {entity.getId()};
-    }
-
-    @Override
-    public Train map(ResultSet resultSet) throws SQLException {
-        Train train = new Train();
-        train.setId(resultSet.getLong(1));
-        train.setName(resultSet.getString(2));
-
-        return train;
     }
 
     @Override

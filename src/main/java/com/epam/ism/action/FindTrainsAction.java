@@ -68,6 +68,7 @@ public class FindTrainsAction implements Action {
 
         request.setAttribute("route",f+"-"+t);
         request.setAttribute("routes", routes);
+        request.setAttribute("depDate", dateStr);
 
         return "available-trains";
     }
