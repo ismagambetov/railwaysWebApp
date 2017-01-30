@@ -24,6 +24,7 @@ public class RouteService {
         factory = DaoFactory.getFactory();
         logger.info("DaoFactory.getFactory() from class RouteService: " + factory);
         daoManager = DaoFactory.getDaoManager();
+        logger.info("DaoFactory.getDaoManager() from class RouteService: " + daoManager);
     }
 
     @SuppressWarnings(value = "unchecked")

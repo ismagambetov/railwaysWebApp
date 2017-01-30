@@ -36,8 +36,6 @@ public class FindTrainsAction implements Action {
 
         logger.info("Retrieving trains by user query: " + f + "," + t + "," + dateStr);
 
-        logger.info("Data validation process is started.");
-
         departureDate = JdbcDaoUtil.getDateFromString(dateStr);
         Date today = new Date();
         if (departureDate.before(today)) {
@@ -53,7 +51,6 @@ public class FindTrainsAction implements Action {
             request.setAttribute("msg","Stations must be filled.");
             return "error";
         }
-        logger.info("Validation result: successfully.");
 
         logger.info("Call RouteService...");
         RouteService routeService = new RouteService(); // TODO: 26.12.2016 implement calling services using factory
@@ -61,7 +58,7 @@ public class FindTrainsAction implements Action {
         List<Route> routes;
         try {
             routes = routeService.findAll(departureStation, arrivalStation);
-            logger.info("Founded trains by user query: " + routes.size());
+            logger.info("Founded routes by user query: " + routes.size());
         } catch (ServiceException e) {
             throw new ActionException("Something failed at database level.", e);
         }
