@@ -9,6 +9,16 @@
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
 
+    <filter>
+        <filter-name>SecurityFilter</filter-name>
+        <filter-class>com.epam.ism.filter.SecurityFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>SecurityFilter</filter-name>
+        <url-pattern>/secured/*</url-pattern>
+    </filter-mapping>
+
     <servlet>
         <servlet-name>FrontController</servlet-name>
         <servlet-class>com.epam.ism.controller.FrontController</servlet-class>
@@ -18,41 +28,5 @@
         <servlet-name>FrontController</servlet-name>
         <url-pattern>/controller/*</url-pattern>
     </servlet-mapping>
-    
-    <security-constraint>
-        <web-resource-collection>
-            <web-resource-name>Protected Area</web-resource-name>
-            <url-pattern>/protected/*</url-pattern>
-        </web-resource-collection>
-
-        <auth-constraint>
-            <role-name>admin</role-name>
-        </auth-constraint>
-
-    </security-constraint>
-
-    <security-role>
-        <role-name>admin</role-name>
-    </security-role>
-
-    <security-role>
-        <role-name>cashier</role-name>
-    </security-role>
-
-    <security-role>
-        <role-name>passenger</role-name>
-    </security-role>
-
-    <login-config>
-        <auth-method>FORM</auth-method>
-        <form-login-config>
-            <form-login-page>/login.jsp</form-login-page>
-            <form-error-page>/login-error.jsp</form-error-page>
-        </form-login-config>
-
-    </login-config>
-
-
-
 
 </web-app>

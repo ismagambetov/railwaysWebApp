@@ -47,7 +47,6 @@ public class ShowTrainAction implements Action {
         request.setAttribute("depDate", request.getParameter("depDate"));
         request.setAttribute("wagons", wagons);
 
-
         return "train-info";
     }
 }

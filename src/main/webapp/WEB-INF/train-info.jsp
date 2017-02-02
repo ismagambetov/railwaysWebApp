@@ -50,7 +50,7 @@
             </c:forEach>
         </table>
 
-        <form name="order_form" action="../controller/book" method="post" id="form_style">
+        <form name="order_form" action="../secured/book" method="post" id="form_style">
             <input name="wagonNum" type="text" placeholder="wagon number" />
             <input name="placeNum" type="text" id="placeNum" placeholder="place number" />
             <input type="submit" value="Book" />

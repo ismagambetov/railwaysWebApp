@@ -1,7 +1,9 @@
 package com.epam.ism.entity;
 
+import javax.xml.bind.annotation.XmlElement;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 /*
 * This class represents the User model. This model class can be used throughout
@@ -15,6 +17,7 @@ public class User extends IdEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     //Properties
+    private String username;
     private String firstName;
     private String lastName;
     private String personalCode;
@@ -23,7 +26,20 @@ public class User extends IdEntity implements Serializable {
     private String email;
     private Role role;
 
+    @XmlElement(name="page")
+    private List<String> pages;
+
     //Getters and setters
+
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public String getFirstName() {
         return firstName;
     }
@@ -83,10 +99,15 @@ public class User extends IdEntity implements Serializable {
     public void setRole(Role role) {
         this.role = role;
     }
+
+    public List<String> getPages() {
+        return pages;
+    }
+
     /*
-    * The User personalCode is unique for each User.
-    * So this should compare User by personalCode only.
-    */
+        * The User personalCode is unique for each User.
+        * So this should compare User by personalCode only.
+        */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

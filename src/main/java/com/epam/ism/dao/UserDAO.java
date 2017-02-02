@@ -47,5 +47,4 @@ public interface UserDao extends GenericDao<User> {
     void changePassword(User user) throws IllegalArgumentException, DaoException;
 
 
-
 }

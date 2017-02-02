@@ -1,11 +1,13 @@
 package com.epam.ism.dao.jdbc;
 
+import com.epam.ism.connection.ConnectionPool;
 import com.epam.ism.dao.UserDao;
 import com.epam.ism.dao.exception.DaoException;
 import com.epam.ism.entity.User;
 import com.epam.ism.utils.RowMapper;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -17,6 +19,7 @@ import java.sql.SQLException;
  * @author IDS.
  */
 public class JdbcUserDao extends AbstractJdbcDao<User> implements UserDao {
+    private RowMapper rowMapper;
 
     public JdbcUserDao(Connection connection) {
         super(connection);
@@ -24,12 +27,12 @@ public class JdbcUserDao extends AbstractJdbcDao<User> implements UserDao {
 
     @Override
     public void map(RowMapper rowMapper) throws SQLException {
-
+        this.rowMapper = rowMapper;
     }
 
     @Override
     public User mapRow(ResultSet rs) throws SQLException {
-        return null;
+        return (User)rowMapper.mapRow(rs);
     }
 
     @Override
@@ -54,7 +57,9 @@ public class JdbcUserDao extends AbstractJdbcDao<User> implements UserDao {
 
     @Override
     public String findByNameQuery() {
-        return null;
+        return "select username,u_password as pass,r.name as role from users\n" +
+                "left join user_roles as r on user_role_id = r.id    \n" +
+                "where username = ?";
     }
 
     @Override
@@ -87,6 +92,5 @@ public class JdbcUserDao extends AbstractJdbcDao<User> implements UserDao {
 
        return null;
     }
-
 
 }
