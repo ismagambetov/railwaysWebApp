@@ -12,7 +12,7 @@ import java.sql.SQLException;
 
 public class StationService {
 
-    public Station find(String name) {
+    public Station find(Object param,String key) {
 
         DaoFactory daoFactory = DaoFactory.getFactory();
         DaoManager daoManager = DaoFactory.getDaoManager();
@@ -31,23 +31,13 @@ public class StationService {
                         return station;
                     }
                 });
-                return stationDAO.findByName(name);
+
+                if (key.equals("byId")) {
+                    return stationDAO.findById(Integer.parseInt((String)param));
+                } else return stationDAO.findByName((String)param);
+
             }
         });
     }
-
-//    public void delete(Station station) {
-//        DaoFactory daoFactory = DaoFactory.getFactory();
-//        DaoManager daoManager = DaoFactory.getDaoManager();
-//
-//        daoManager.transactionAndReturnCon(new DaoCommand() {
-//            @Override
-//            public Object execute() throws SQLException {
-//                StationDao stationDAO = daoFactory.getStationDao(daoManager);
-//                stationDAO.delete(station);
-//                return null;
-//            }
-//        });
-//    }
 
 }

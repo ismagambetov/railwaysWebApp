@@ -1,17 +1,17 @@
 <restriction>
     <!--an admin role does not have any restrictions-->
     <admin>
-        <page>*</page>
+
     </admin>
 
     <!--a cashier role has some pages, where an access is restricted-->
     <cashier>
-        <page>admin-page.jsp</page>
+        <page>book</page>
     </cashier>
 
     <!--a passenger role has some pages, where an access is restricted-->
     <passenger>
-        <page>admin-page.jsp</page>
+        <page>admin-panel</page>
     </passenger>
 
 </restriction>

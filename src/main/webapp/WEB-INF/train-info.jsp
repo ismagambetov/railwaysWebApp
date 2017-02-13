@@ -7,23 +7,40 @@
     <link href="../css/style.css" rel="stylesheet" type="text/css" />
     <title>Train page</title>
     <script type="text/javascript">
-        function setPlace(place) {
+        function setPlace(place,wagonNum,category) {
             document.getElementById("placeNum").value = place;
+            document.getElementById("wagonNum").value = wagonNum;
+            document.getElementById("category").value = category;
         }
     </script>
 </head>
 <body>
+    <c:set var="trainId" value="${requestScope.route.getTrain().getId()}"/>
+    <c:set var="trainName" value="${requestScope.route.getTrain().getName()}"/>
+    <c:set var="depStationId" value="${requestScope.route.getCourse().getDepartureStation().getId()}" />
+    <c:set var="depStationName" value="${requestScope.route.getCourse().getDepartureStation().getName()}" />
+    <c:set var="arrStationId" value="${requestScope.route.getCourse().getArrivalStation().getId()}" />
+    <c:set var="arrStationName" value="${requestScope.route.getCourse().getArrivalStation().getName()}" />
+    <c:set var="depTime" value="${requestScope.route.getDepartureTime()}" />
+    <c:set var="arrTime" value="${requestScope.route.getArrivalTime()}" />
+
     <div id="main_div">
 
-        <h3>Train - ${requestScope.train}</h3>
+        <div id="login">
+            <strong>Username: </strong>${sessionScope.user.getUsername()} <br/>
+            <strong>Role: </strong>${sessionScope.user.getRole()}
+        </div>
+
+        <h3>Train - ${trainName}</h3>
 
         <h4>
-            Route: ${requestScope.depStation} - ${requestScope.arrStation} <br/>
-            Departure date: ${requestScope.depDate}
+            Route: ${depStationName} - ${arrStationName} <br/>
+            Departure date: ${requestScope.depDate} <br/>
+            Arrival date: ${requestScope.arrDate}
         </h4>
         <p>
-            Departure time: ${requestScope.depTime} <br/>
-            Arrival time: ${requestScope.arrTime}
+            Departure time: ${depTime} <br/>
+            Arrival time: ${arrTime}
         </p>
 
         <table id="main_table">
@@ -34,14 +51,15 @@
             </tr>
             <c:forEach var="wagon" items="${requestScope.wagons}">
                 <tr>
-                    <c:set var="unBookedPlaces" value=""/>
-                    <td>${wagon.getWagonNum()}</td>
-                    <td>${wagon.getWagonCategory()}</td>
+                    <c:set var="wagonNum" value="${wagon.getWagonNum()}" />
+                    <td>${wagonNum}</td>
+                    <c:set var="category" value="${wagon.getWagonCategory()}" />
+                    <td>${category}</td>
                     <td>
                         <c:forEach var="place" items="${wagon.getPlaces()}">
                             <c:if test="${!place.isBooked()}">
                                 <c:set var="p" value="${place.getPlace()}"/>
-                                <a href="#" onclick="setPlace(${p});">${p}</a>,
+                                <a href="#" onclick="setPlace(${p},${wagonNum});">${p}</a>,
                             </c:if>
                         </c:forEach>
                     </td>
@@ -50,13 +68,37 @@
             </c:forEach>
         </table>
 
-        <form name="order_form" action="../secured/book" method="post" id="form_style">
-            <input name="wagonNum" type="text" placeholder="wagon number" />
-            <input name="placeNum" type="text" id="placeNum" placeholder="place number" />
-            <input type="submit" value="Book" />
+        <form name="book_form" action="../secured/booking-page" method="get" id="form_style">
+            <strong>Place: </strong><input name="placeNum" type="text" id="placeNum" placeholder="place number" />
+            <strong style="margin-left: 50px;">Wagon: </strong><input name="wagonNum" type="text"
+                                                                      id="wagonNum" placeholder="wagon number" />
+            <input name="trainId" type="hidden" value="${trainId}" />
+            <input name="depStationId" type="hidden" value="${depStationId}" />
+            <input name="arrStationId" type="hidden" value="${arrStationId}" />
+            <input name="depDate" type="hidden" value="${requestScope.depDate}" />
+            <input name="arrDate" type="hidden" value="${requestScope.arrDate}" />
+            <input name="depTime" type="hidden" value="${depTime}" />
+            <input name="arrTime" type="hidden" value="${arrTime}" />
+
+            <input type="submit" value="Go to the booking page" />
         </form>
 
     </div>
+
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
 
 </body>
 </html>

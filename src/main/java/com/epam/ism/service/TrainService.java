@@ -24,7 +24,8 @@ public class TrainService {
     }
 
 
-    public Train findByName(String trainName) throws DaoException {
+    public Train find(Object param,String key) throws ServiceException {
+
         return (Train) daoManager.transactionAndReturnCon(new DaoCommand() {
             @Override
             public Object execute() throws SQLException, DaoException {
@@ -40,17 +41,19 @@ public class TrainService {
                         return train;
                     }
                 });
+                if (key.equals("byId")) {
+                    return trainDao.findById(Integer.parseInt((String)param));
+                } else return trainDao.findByName((String)param);
 
-                return trainDao.findByName(trainName);
             }
         });
     }
 
 
-    public List<Wagon> getWagons(int trainId, Date departureDate) throws ServiceException {
-
+    public List<Wagon> getWagons(Train train, Date departureDate) throws ServiceException {
+        int trainId = train.getId();
         OrderService orderService = new OrderService();
-        List<Order> orders = orderService.findOrders(trainId, departureDate);
+        List<Order> orders = orderService.findOrders(train, departureDate);
 
         String query = "SELECT w.wagon_num,c.name,w.capacity FROM wagons as w\n" +
                 "left join wagon_categories as c \n" +
@@ -99,5 +102,9 @@ public class TrainService {
     }
 
 
+    public Wagon getWagon() {
+
+        return null;
+    }
 
 }

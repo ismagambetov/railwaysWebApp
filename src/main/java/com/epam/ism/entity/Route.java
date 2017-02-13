@@ -1,28 +1,21 @@
 package com.epam.ism.entity;
 
+import java.util.Date;
+
 /**
  *
  */
 public class Route extends IdEntity {
-
     //Properties
-    private Long order_id;
     private Course course;
     private Double cost1;// цена за купе.
     private Double cost2; // цена за место в плацкарт.
-    private String departureTime; // departure time from Main station
-    private String arrivalTime; //arrival time to final Main station
+    private Date departureDate; // departure date from Main station
+    private Date arrivalDate; //arrival date to final Main station
     private Train train;
     private int parkingTime;
     private boolean mainRoute;
-
-    public Long getOrder_id() {
-        return order_id;
-    }
-
-    public void setOrder_id(Long order_id) {
-        this.order_id = order_id;
-    }
+    private String travelTime;
 
     public Course getCourse() {
         return course;
@@ -48,20 +41,20 @@ public class Route extends IdEntity {
         this.cost2 = cost2;
     }
 
-    public String getDepartureTime() {
-        return departureTime;
+    public Date getDepartureDate() {
+        return departureDate;
     }
 
-    public void setDepartureTime(String departureTime) {
-        this.departureTime = departureTime;
+    public void setDepartureDate(Date departureDate) {
+        this.departureDate = departureDate;
     }
 
-    public String getArrivalTime() {
-        return arrivalTime;
+    public Date getArrivalDate() {
+        return arrivalDate;
     }
 
-    public void setArrivalTime(String arrivalTime) {
-        this.arrivalTime = arrivalTime;
+    public void setArrivalDate(Date arrivalDate) {
+        this.arrivalDate = arrivalDate;
     }
 
     public Train getTrain() {
@@ -88,9 +81,25 @@ public class Route extends IdEntity {
         this.parkingTime = parkingTime;
     }
 
+    public String getTravelTime() {
+        return travelTime;
+    }
+
+    public void setTravelTime(String travelTime) {
+        this.travelTime = travelTime;
+    }
+
     @Override
     public String toString() {
         return "Route{" +
-                "parkingTime=" + parkingTime+"}";
+                "course=" + course +
+                ", cost1=" + cost1 +
+                ", cost2=" + cost2 +
+                ", departureDate='" + departureDate + '\'' +
+                ", arrivalDate='" + arrivalDate + '\'' +
+                ", train=" + train +
+                ", parkingTime=" + parkingTime +
+                ", mainRoute=" + mainRoute +
+                '}';
     }
 }

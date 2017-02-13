@@ -1,9 +1,9 @@
 package com.epam.ism.entity;
 
 public class Course extends IdEntity {
-    private Station departureStation; // From Main station
-    private Station arrivalStation; // To  final Main station
-    private Double interval; // the interval between two Main stations
+    private Station departureStation; // From station
+    private Station arrivalStation; // To  final station
+    private int distance; // the interval between two stations
 
     public Station getDepartureStation() {
         return departureStation;
@@ -21,11 +21,20 @@ public class Course extends IdEntity {
         this.arrivalStation = arrivalStation;
     }
 
-    public Double getInterval() {
-        return interval;
+    public int getDistance() {
+        return distance;
     }
 
-    public void setInterval(Double interval) {
-        this.interval = interval;
+    public void setDistance(int distance) {
+        this.distance = distance;
+    }
+
+    @Override
+    public String toString() {
+        return "Course{" +
+                "departureStation=" + departureStation +
+                ", arrivalStation=" + arrivalStation +
+                ", distance=" + distance +
+                '}';
     }
 }

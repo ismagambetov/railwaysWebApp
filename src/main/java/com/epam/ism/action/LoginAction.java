@@ -6,7 +6,7 @@ import com.epam.ism.service.ServiceException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import javax.servlet.http.HttpSession;
 
 public class LoginAction implements Action {
     @Override
@@ -27,13 +27,11 @@ public class LoginAction implements Action {
                 return "login-error";
             }
             request.getSession().setAttribute("user", user);
-            //response.sendRedirect(previousPage);
 
         } catch (ServiceException e) {
             throw new ActionException("Something failed at database level. " + e.getMessage());
         }
 
-        //previousPage.substring(previousPage.lastIndexOf('/'),previousPage.length())
         return previousPage;
     }
 }

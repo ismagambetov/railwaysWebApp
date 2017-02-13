@@ -1,9 +1,14 @@
 package com.epam.ism.action;
 
-import com.epam.ism.dao.jdbc.JdbcDaoUtil;
+import com.epam.ism.entity.Route;
+import com.epam.ism.entity.Station;
+import com.epam.ism.entity.Train;
 import com.epam.ism.entity.Wagon;
+import com.epam.ism.service.RouteService;
 import com.epam.ism.service.ServiceException;
+import com.epam.ism.service.StationService;
 import com.epam.ism.service.TrainService;
+import com.epam.ism.utils.DateTimeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,30 +27,45 @@ public class ShowTrainAction implements Action {
         try {
             request.setCharacterEncoding("UTF-8");
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            throw new ActionException("");
         }
 
-        int trainId = Integer.parseInt(request.getParameter("trainId"));
-        String trainName = request.getParameter("train");
+        String trainId = request.getParameter("trainId");
+        String depStationId = request.getParameter("depStationId");
+        String arrStationId = request.getParameter("arrStationId");
+        String depTime = request.getParameter("depTime");
+        String arrTime = request.getParameter("arrTime");
         String depDate = request.getParameter("depDate");
-        Date departureDate = JdbcDaoUtil.getDateFromString(depDate);
+        String distance = request.getParameter("distance");
 
         TrainService trainService = new TrainService();
+        StationService stationService = new StationService();
+        RouteService routeService = new RouteService();
 
+        Route route;
         List<Wagon> wagons;
         try {
-            wagons = trainService.getWagons(trainId, departureDate);
+            Train train = trainService.find(trainId,"byId");
+            Station depStation = stationService.find(depStationId,"byId");
+            Station arrStation = stationService.find(arrStationId,"byId");
+
+            Date departureDate = DateTimeUtil.getDateFromString(depDate);
+
+            if (train == null || depStation == null || arrStation == null || departureDate == null) {
+                request.setAttribute("msg","A value of the given parameters is null.");
+                return "error";
+            }
+
+            route = routeService.getRoute(train,depStation,arrStation,distance,depTime,arrTime);
+
+            wagons = trainService.getWagons(train, departureDate);
         } catch (ServiceException e) {
             throw new ActionException("Something failed at database level. " + e.getMessage());
         }
 
-        request.setAttribute("train", trainName);
-        request.setAttribute("depStation", request.getParameter("depStation"));
-        request.setAttribute("arrStation", request.getParameter("arrStation"));
-        request.setAttribute("depTime", request.getParameter("depTime"));
-        request.setAttribute("arrTime", request.getParameter("arrTime"));
-        request.setAttribute("depDate", request.getParameter("depDate"));
+        request.setAttribute("route", route);
         request.setAttribute("wagons", wagons);
+        request.setAttribute("depDate", request.getParameter("depDate"));
 
         return "train-info";
     }

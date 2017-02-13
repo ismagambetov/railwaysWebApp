@@ -1,11 +1,11 @@
 package com.epam.ism.action;
 
-import com.epam.ism.dao.jdbc.JdbcDaoUtil;
 import com.epam.ism.entity.Route;
 import com.epam.ism.entity.Station;
 import com.epam.ism.service.RouteService;
 import com.epam.ism.service.ServiceException;
 import com.epam.ism.service.StationService;
+import com.epam.ism.utils.DateTimeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,21 +31,21 @@ public class FindTrainsAction implements Action {
         }
         //validate data here
         String dateStr = request.getParameter("departureDate");
-        String f = request.getParameter("from");
-        String t = request.getParameter("to");
+        String depStation = request.getParameter("departureStation");
+        String arrStation = request.getParameter("arrivalStation");
 
-        logger.info("Retrieving trains by user query: " + f + "," + t + "," + dateStr);
+        logger.info("Retrieving trains by user query: " + depStation + "," + arrStation + "," + dateStr);
 
-        departureDate = JdbcDaoUtil.getDateFromString(dateStr);
+        departureDate = DateTimeUtil.getDateFromString(dateStr);
         Date today = new Date();
-        if (departureDate.before(today)) {
-            request.setAttribute("msg","Departure date can't be before today's date.");
+        if (departureDate != null && departureDate.before(today)) {
+            request.setAttribute("msg", "Departure date can't be before today's date.");
             return "error";
         }
 
         StationService stationService = new StationService();
-        departureStation = stationService.find(f);
-        arrivalStation = stationService.find(t);
+        departureStation = stationService.find(depStation,"");
+        arrivalStation = stationService.find(arrStation,"");
 
         if (departureStation == null || arrivalStation == null) {
             request.setAttribute("msg","Stations must be filled.");
@@ -57,13 +57,14 @@ public class FindTrainsAction implements Action {
 
         List<Route> routes;
         try {
-            routes = routeService.findAll(departureStation, arrivalStation);
+            routes = routeService.findAll(departureStation, arrivalStation, dateStr);
             logger.info("Founded routes by user query: " + routes.size());
         } catch (ServiceException e) {
             throw new ActionException("Something failed at database level.", e);
         }
 
-        request.setAttribute("route",f+"-"+t);
+        request.setAttribute("depStation",depStation);
+        request.setAttribute("arrStation",arrStation);
         request.setAttribute("routes", routes);
         request.setAttribute("depDate", dateStr);
 

@@ -13,15 +13,15 @@ public class DaoManager {
     }
 
     public Connection getTxConnection() {
-        Connection connection = getConnection();
+
         try {
-            connection.setAutoCommit(false);
+            getConnection().setAutoCommit(false);
         } catch (SQLException e) {
             throw new DaoManagerException("SetAutoCommit(false) failed. A database access error occurred or" +
                     "this method is called on a closed connection",e);
         }
 
-        return connection;
+        return this.connection;
 
     }
 
@@ -37,10 +37,9 @@ public class DaoManager {
         return this.connection;
     }
 
-    private void returnConnection(Connection connection) throws SQLException {
-        this.connection.setAutoCommit(false);
-        dataSource.returnConnection(connection);
-
+    private void returnConnection() throws SQLException {
+       // connection.setAutoCommit(false);
+        dataSource.returnConnection(this.connection);
         this.connection = null;
     }
 
@@ -53,7 +52,7 @@ public class DaoManager {
             try {
                 getConnection().rollback();
             } catch (SQLException e1) {
-                throw new DaoManagerException("Rollback of a connection failed.",e1);
+                throw new DaoManagerException("Rollback of a connection failed." + e.getMessage());
             }
             throw new DaoManagerException("Failed: command.execute() " +  e.getMessage());
         } finally {
@@ -66,7 +65,7 @@ public class DaoManager {
         try{
             return command.execute();
         } finally {
-           returnConnection(getConnection());
+           returnConnection();
         }
     }
 

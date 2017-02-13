@@ -1,24 +1,25 @@
 package com.epam.ism.filter;
 
+import com.epam.ism.action.Action;
+import com.epam.ism.action.ActionException;
+import com.epam.ism.action.ActionFactory;
 import com.epam.ism.entity.Restriction;
 import com.epam.ism.entity.Role;
+import com.epam.ism.entity.User;
+import com.epam.ism.utils.DateTimeUtil;
+import com.epam.ism.utils.XmlManager;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 @WebFilter(filterName = "SecurityFilter")
 public class SecurityFilter implements Filter {
-    private InputStream input;
-
     public void destroy() {
     }
 
@@ -26,44 +27,45 @@ public class SecurityFilter implements Filter {
 
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) resp;
-        String requestedPage = request.getRequestURI();
+        String requestedUri = request.getRequestURI();
         String previousPage = request.getHeader("referer");
 
-        if (!requestedPage.contains("secured")) {
+        if (!requestedUri.contains("secured")) {
             chain.doFilter(req,resp);
         }
 
         HttpSession session = request.getSession();
-        if (session.getAttribute("user") == null) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
             session.setAttribute("prevPage",previousPage);
             response.sendRedirect("/login.jsp");
             return;
         } else {
-            Role role = (Role) session.getAttribute("role");
+            Role role = user.getRole();
 
-            Restriction restriction = null;
+
             try {
-                restriction = (Restriction)JAXBContext.newInstance(Restriction.class).
-                                                                                createUnmarshaller().unmarshal(input);
+                String pathToXml = "../config/role-config.xml";
+                XmlManager xmlManager = XmlManager.getInstance();
+                Restriction restriction = (Restriction) xmlManager.getParsedObject(pathToXml,Restriction.class);
 
-                List<String> restrictedPages = new ArrayList<>();
-                if (role.equals(Role.ADMINISTRATOR)) {
-                    restrictedPages = restriction.getAdmin().getPages();
-                } else if (role.equals(Role.CASHIER)) {
-                    restrictedPages = restriction.getCashier().getPages();
-                } else if (role.equals(Role.PASSENGER)) {
-                    restrictedPages = restriction.getPassenger().getPages();
-                }
-                if (!restrictedPages.isEmpty()) {
-                    if (restrictedPages.contains(requestedPage)) {
-                        //an access to the requested page is restricted.
+                List<String> restrictedActions = restriction.getRestrictedActions(role);
+
+                if (restrictedActions != null) {
+                    String strippedUri = DateTimeUtil.getStrippedRequestUri(requestedUri);
+
+                    if (restrictedActions.contains(strippedUri.replaceAll("/",""))) {
                         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                        return;
                     }
                 } else {
-                    chain.doFilter(req,resp);
+                    Action action = ActionFactory.getAction(request);
+                    String view = action.execute(request,response);
+                    req.getRequestDispatcher("/WEB-INF/secured/"+view+".jsp").forward(request,response);
+                    return;
                 }
-            } catch (JAXBException e) {
-                e.printStackTrace();
+            } catch (JAXBException | ActionException e) {
+                throw new FilterException(e.getMessage());
             }
         }
 
@@ -73,10 +75,6 @@ public class SecurityFilter implements Filter {
 
     public void init(FilterConfig config) throws ServletException {
 
-    }
-
-    public void init() {
-        input = Thread.currentThread().getContextClassLoader().getResourceAsStream("config/role-config.xml");
     }
 
 }

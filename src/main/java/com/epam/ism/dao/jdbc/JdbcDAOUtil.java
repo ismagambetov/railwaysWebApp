@@ -65,49 +65,6 @@ public final class JdbcDaoUtil {
         }
     }
 
-    /**
-     * Converts the given java.util.Date to java.sql.Date.
-     * @param date The java.util.Date to be converted to java.sql.Date.
-     * @return The converted java.sql.Date.
-     */
-    public static Date toSqlDate(java.util.Date date) {
-        return (date != null) ? new Date(date.getTime()) : null;
-    }
-
-    public static java.util.Date toUtilDate(Date date) {
-        return (date != null) ? new java.util.Date(date.getTime()) : null;
-    }
-
-    /**
-     * Joins two arrays.
-     * @param arr1 The Object[] first array to be joined to the common array.
-     * @param arr2 The Object[] second array to be joined to the common array.
-     * @return The joined array.
-     */
-    public static Object[] concatArrays(Object[] arr1, Object[] arr2) {
-        int length1 = arr1.length;
-        int length2 = arr2.length;
-        Object[] values = new Object[length1+length2];
-
-        System.arraycopy(arr1,0,values,0,length1);
-        System.arraycopy(arr2,0,values,length1,length2);
 
 
-        return values;
-    }
-
-    public static java.util.Date getDateFromString(String dateStr) {
-        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-
-        try {
-            return format.parse(dateStr);
-        } catch (ParseException e) {
-            throw new DaoException("Parsing string to date failed.",e);
-        }
-    }
-
-    public static <T extends IdEntity> List<T> getEmptyList(Class<T> clazz) {
-        logger.info(clazz + "type empty list created.");
-        return new ArrayList<T>();
-    }
 }

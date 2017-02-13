@@ -26,4 +26,17 @@ public class Restriction {
     public User getPassenger() {
         return passenger;
     }
+
+    public List<String> getRestrictedActions(Role role) {
+
+        List<String> restrictedActions = null;
+        if (role.equals(Role.ADMINISTRATOR)) {
+            restrictedActions = this.getAdmin().getPages();
+        } else if (role.equals(Role.CASHIER)) {
+            restrictedActions = this.getCashier().getPages();
+        } else if (role.equals(Role.PASSENGER)) {
+            restrictedActions = this.getPassenger().getPages();
+        }
+        return restrictedActions;
+    }
 }

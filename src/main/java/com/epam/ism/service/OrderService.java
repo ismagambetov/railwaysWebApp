@@ -4,6 +4,7 @@ import com.epam.ism.dao.*;
 import com.epam.ism.dao.exception.DaoException;
 import com.epam.ism.entity.Order;
 import com.epam.ism.entity.Train;
+import com.epam.ism.entity.User;
 import com.epam.ism.entity.Wagon;
 import com.epam.ism.utils.RowMapper;
 import org.slf4j.Logger;
@@ -27,7 +28,8 @@ public class OrderService {
     }
 
     @SuppressWarnings (value="unchecked")
-    public List<Order> findOrders(int trainId, Date departureDate) throws ServiceException {
+    public List<Order> findOrders(Train train, Date departureDate) throws ServiceException {
+        int trainId = train.getId();
 
         String query = "select w.wagon_num,o.place from orders as o\n" +
                 "left join wagons as w on o.wagon_id=w.id\n" +
@@ -56,5 +58,14 @@ public class OrderService {
             }
         });
 
+    }
+
+    public int calcCost() {
+
+        return 0;
+    }
+
+    public User getUser() {
+        return null;
     }
 }
