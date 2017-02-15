@@ -57,7 +57,7 @@ public class JdbcUserDao extends AbstractJdbcDao<User> implements UserDao {
 
     @Override
     public String findByNameQuery() {
-        return "select username,u_password as pass,r.name as role from users\n" +
+        return "select username,first_name,last_name,iin,birthday,u_password as pass,r.name as role from users\n" +
                 "left join user_roles as r on user_role_id = r.id    \n" +
                 "where username = ?";
     }

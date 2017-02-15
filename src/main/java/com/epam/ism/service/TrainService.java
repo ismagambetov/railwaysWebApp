@@ -24,7 +24,7 @@ public class TrainService {
     }
 
 
-    public Train find(Object param,String key) throws ServiceException {
+    public Train find(String param,String key) throws ServiceException {
 
         return (Train) daoManager.transactionAndReturnCon(new DaoCommand() {
             @Override
@@ -42,8 +42,8 @@ public class TrainService {
                     }
                 });
                 if (key.equals("byId")) {
-                    return trainDao.findById(Integer.parseInt((String)param));
-                } else return trainDao.findByName((String)param);
+                    return trainDao.findById(Integer.parseInt(param));
+                } else return trainDao.findByName(param);
 
             }
         });
@@ -102,7 +102,7 @@ public class TrainService {
     }
 
 
-    public Wagon getWagon() {
+    public Wagon findWagon(Train train, String wagonNum) {
 
         return null;
     }

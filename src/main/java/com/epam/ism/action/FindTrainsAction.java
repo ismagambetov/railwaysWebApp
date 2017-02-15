@@ -43,28 +43,32 @@ public class FindTrainsAction implements Action {
             return "error";
         }
 
-        StationService stationService = new StationService();
-        departureStation = stationService.find(depStation,"");
-        arrivalStation = stationService.find(arrStation,"");
-
-        if (departureStation == null || arrivalStation == null) {
-            request.setAttribute("msg","Stations must be filled.");
-            return "error";
-        }
-
-        logger.info("Call RouteService...");
-        RouteService routeService = new RouteService(); // TODO: 26.12.2016 implement calling services using factory
-
         List<Route> routes;
         try {
+            StationService stationService = new StationService();
+            departureStation = stationService.find(depStation,"");
+            arrivalStation = stationService.find(arrStation,"");
+
+            if (departureStation == null || arrivalStation == null) {
+                request.setAttribute("msg","Stations must be filled.");
+                return "error";
+            }
+
+            logger.info("Call RouteService...");
+            RouteService routeService = new RouteService(); // TODO: 26.12.2016 implement calling services using factory
+
             routes = routeService.findAll(departureStation, arrivalStation, dateStr);
+            if (routes == null) {
+                request.setAttribute("msg","Sorry, no routes is found by your query.");
+                return "error";
+            }
             logger.info("Founded routes by user query: " + routes.size());
         } catch (ServiceException e) {
             throw new ActionException("Something failed at database level.", e);
         }
 
-        request.setAttribute("depStation",depStation);
-        request.setAttribute("arrStation",arrStation);
+        request.setAttribute("depStation",departureStation);
+        request.setAttribute("arrStation",arrivalStation);
         request.setAttribute("routes", routes);
         request.setAttribute("depDate", dateStr);
 

@@ -33,9 +33,8 @@ public class ShowTrainAction implements Action {
         String trainId = request.getParameter("trainId");
         String depStationId = request.getParameter("depStationId");
         String arrStationId = request.getParameter("arrStationId");
-        String depTime = request.getParameter("depTime");
-        String arrTime = request.getParameter("arrTime");
         String depDate = request.getParameter("depDate");
+        String arrDate = request.getParameter("arrDate");
         String distance = request.getParameter("distance");
 
         TrainService trainService = new TrainService();
@@ -56,7 +55,7 @@ public class ShowTrainAction implements Action {
                 return "error";
             }
 
-            route = routeService.getRoute(train,depStation,arrStation,distance,depTime,arrTime);
+            route = routeService.getRoute(train,depStation,arrStation,distance,depDate,arrDate);
 
             wagons = trainService.getWagons(train, departureDate);
         } catch (ServiceException e) {

@@ -12,6 +12,8 @@ public class Route extends IdEntity {
     private Double cost2; // цена за место в плацкарт.
     private Date departureDate; // departure date from Main station
     private Date arrivalDate; //arrival date to final Main station
+    private String formattedDepartureDate;
+    private String formattedArrivalDate;
     private Train train;
     private int parkingTime;
     private boolean mainRoute;
@@ -55,6 +57,22 @@ public class Route extends IdEntity {
 
     public void setArrivalDate(Date arrivalDate) {
         this.arrivalDate = arrivalDate;
+    }
+
+    public String getFormattedDepartureDate() {
+        return formattedDepartureDate;
+    }
+
+    public void setFormattedDepartureDate(String formattedDepartureDate) {
+        this.formattedDepartureDate = formattedDepartureDate;
+    }
+
+    public String getFormattedArrivalDate() {
+        return formattedArrivalDate;
+    }
+
+    public void setFormattedArrivalDate(String formattedArrivalDate) {
+        this.formattedArrivalDate = formattedArrivalDate;
     }
 
     public Train getTrain() {

@@ -7,8 +7,8 @@
     border-collapse: collapse;
     font-size: 16px;
     color: #949494;
-    width:750px;
-    margin-bottom: 15px;
+    table-layout: auto;
+    margin: 15px;
 }
 
 #main_table th {

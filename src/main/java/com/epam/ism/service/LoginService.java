@@ -7,6 +7,7 @@ import com.epam.ism.dao.UserDao;
 import com.epam.ism.dao.exception.DaoException;
 import com.epam.ism.entity.Role;
 import com.epam.ism.entity.User;
+import com.epam.ism.utils.DateTimeUtil;
 import com.epam.ism.utils.Password;
 import com.epam.ism.utils.RowMapper;
 import org.slf4j.Logger;
@@ -38,8 +39,14 @@ public class LoginService {
                     public User mapRow(ResultSet rs) throws SQLException {
                         User user = new User();
                         user.setUsername(rs.getString(1));
-                        user.setPassword(rs.getString(2));
-                        user.setRole(Role.valueOf(rs.getString(3).toUpperCase()));
+                        user.setFirstName(rs.getString(2));
+                        user.setLastName(rs.getString(3));
+                        user.setPersonalCode(rs.getString(4));
+                        user.setBirthday(DateTimeUtil.toUtilDate(rs.getDate(5)));
+
+                        if (!password.isEmpty()) user.setPassword(rs.getString(6));
+
+                        user.setRole(Role.valueOf(rs.getString(7).toUpperCase()));
                         return user;
                     }
                 });
@@ -48,14 +55,17 @@ public class LoginService {
             }
         });
 
-        try {
-            boolean isValid = Password.check(password, user.getPassword());
-            if (!isValid) return null;
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (!password.isEmpty()) {
+            try {
+                boolean isValid = Password.check(password, user.getPassword());
+                if (!isValid) return null;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-
         return user;
 
     }
+
+
 }

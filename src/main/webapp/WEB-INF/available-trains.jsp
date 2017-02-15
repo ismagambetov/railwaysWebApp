@@ -5,19 +5,15 @@
 <html>
 <head>
     <link href="../css/style.css" rel="stylesheet" type="text/css" />
-    <title>Available trains: ${requestScope.depStation}-${requestScope.arrStation}</title>
+    <title>Available trains: ${requestScope.depStation.getName()}-${requestScope.arrStation.getName()}</title>
     <script type="text/javascript">
         function setValuesAndSubmit(trainId) {
             document.getElementById("trainId").value =
                                                         document.getElementById('item_train_'+trainId).value;
-            document.getElementById('depStationId').value =
-                                                        document.getElementById('item_depStation_'+trainId).value;
-            document.getElementById('arrStationId').value =
-                                                        document.getElementById('item_arrStation_'+trainId).value;
-            document.getElementById('depTime').value =
-                                                        document.getElementById('item_depTime_'+trainId).value;
-            document.getElementById('arrTime').value =
-                                                        document.getElementById('item_arrTime_'+trainId).value;
+            document.getElementById('depDate').value =
+                                                        document.getElementById('item_depDate_'+trainId).value;
+            document.getElementById('arrDate').value =
+                                                        document.getElementById('item_arrDate_'+trainId).value;
             document.getElementById('distance').value =
                                                         document.getElementById('item_distance_'+trainId).value;
             document.getElementById('travelTime').value =
@@ -34,31 +30,28 @@
     <strong>Role: </strong>${sessionScope.user.getRole()}
 </div>
 
-<div>
-    <strong>Departure station: </strong>${requestScope.depStation} <br/>
-    <strong>Arrival station: </strong>${requestScope.arrStation}
+<div style="margin-top: 20px;">
+    <strong>Departure station: </strong>${requestScope.depStation.getName()} <br/>
+    <strong>Arrival station: </strong>${requestScope.arrStation.getName()}
 </div>
 
 
 <form name="timetable" action="../controller/show-train" method="get">
 
     <input type="hidden" id="trainId" name="trainId"/>
-    <input type="hidden" id="depStationId" name="depStationId"/>
-    <input type="hidden" id="arrStationId" name="arrStationId"/>
-    <input type="hidden" id="depTime" name="depTime"/>
-    <input type="hidden" id="arrTime" name="arrTime"/>
-    <input type="hidden" name="depDate" value="${requestScope.depDate}"/>
+    <input type="hidden" id="depDate" name="depDate"/>
+    <input type="hidden" id="arrDate" name="arrDate"/>
     <input type="hidden" id="distance" name="distance" />
     <input type="hidden" id="travelTime" name="travelTime" />
+    <input type="hidden" name="depStationId" value="${requestScope.depStation.getId()}"/>
+    <input type="hidden" name="arrStationId" value="${requestScope.arrStation.getId()}"/>
 
 
     <table id="main_table">
         <tr>
-            <th>Train Num.</th>
-            <th>Departure station</th>
-            <th>Arrival station</th>
-            <th>Departure time</th>
-            <th>Arrival time</th>
+            <th>Train</th>
+            <th>Departure date</th>
+            <th>Arrival date</th>
             <th>Distance</th>
             <th>Travel time</th>
             <th>Choice</th>
@@ -67,10 +60,8 @@
         <c:forEach var="route_" items="${requestScope.routes}">
             <c:set var="trainName" value="${route_.getTrain().getName()}"/>
             <c:set var="trainId" value="${route_.getTrain().getId()}"/>
-            <c:set var="depStationId" value="${route_.getCourse().getDepartureStation().getId()}"/>
-            <c:set var="arrStationId" value="${route_.getCourse().getArrivalStation().getId()}"/>
-            <c:set var="depStationName" value="${route_.getCourse().getDepartureStation().getName()}" />
-            <c:set var="arrStationName" value="${route_.getCourse().getArrivalStation().getName()}" />
+            <c:set var="depDate" value="${route_.getFormattedDepartureDate()}" />
+            <c:set var="arrDate" value="${route_.getFormattedArrivalDate()}" />
             <c:set var="distance" value="${route_.getCourse().getDistance()}" />
             <c:set var="travelTime" value="${route_.getTravelTime()}" />
 
@@ -82,20 +73,12 @@
                 </td>
 
                 <td>
-                        ${depStationName}
-                        <input type="hidden" id="item_depStation_${trainId}" value="${depStationId}" />
+                        ${depDate}
+                        <input type="hidden" id="item_depDate_${trainId}" value="${depDate}" />
                 </td>
                 <td>
-                        ${arrStationName}
-                        <input type="hidden" id="item_arrStation_${trainId}" value="${arrStationId}" />
-                </td>
-                <td>
-                        ${route_.getDepartureTime()}
-                        <input type="hidden" id="item_depTime_${trainId}" value="${route_.getDepartureTime()}" />
-                </td>
-                <td>
-                        ${route_.getArrivalTime()}
-                        <input type="hidden" id="item_arrTime_${trainId}" value="${route_.getArrivalTime()}" />
+                        ${arrDate}
+                        <input type="hidden" id="item_arrDate_${trainId}" value="${arrDate}" />
                 </td>
 
                 <td>

@@ -38,21 +38,17 @@ public final class DateTimeUtil {
         return null;
     }
 
-    public static void setAttributes(HttpServletRequest req, String param) {
-        String[] params = param.split(",");
-
-        for (String attr : params) {
-            String value = req.getParameter(attr);
-            req.setAttribute(attr, value);
-        }
-
+    public static String getFormattedDateTime(java.util.Date date) {
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.ENGLISH);
+        return dateFormatter.format(date);
     }
 
     public static java.util.Date getDateTime(String dateStr, String timeStr) {
         SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.ENGLISH);
-        timeStr += ":00";
+        if (!timeStr.isEmpty()) timeStr += ":00";
+
         try {
-            return dateFormatter.parse(dateStr + " " + timeStr);
+            return dateFormatter.parse((dateStr + " " + timeStr).trim());
         } catch (ParseException e) {
             throw new DateTimeUtilException("Method failed: dateFormatter.parse(".concat(dateStr + " " + timeStr).concat(")"));
         }
@@ -86,7 +82,7 @@ public final class DateTimeUtil {
         long minutes = timeValues[2];
         long seconds = timeValues[3];
 
-        return String.format("Travel time: %d days %d hours %d min %d sec",days,hours,minutes,seconds);
+        return String.format("%d days %d hours %d min",days,hours,minutes);
     }
 
     private static long[] getTimeValues(long duration) {
@@ -104,6 +100,10 @@ public final class DateTimeUtil {
                 seconds
         };
 
+    }
+
+    public static long getParkingTimeInMls(int t) {
+        return t*60*1000;
     }
 
 }

@@ -21,8 +21,8 @@
     <c:set var="depStationName" value="${requestScope.route.getCourse().getDepartureStation().getName()}" />
     <c:set var="arrStationId" value="${requestScope.route.getCourse().getArrivalStation().getId()}" />
     <c:set var="arrStationName" value="${requestScope.route.getCourse().getArrivalStation().getName()}" />
-    <c:set var="depTime" value="${requestScope.route.getDepartureTime()}" />
-    <c:set var="arrTime" value="${requestScope.route.getArrivalTime()}" />
+    <c:set var="depDate" value="${requestScope.route.getFormattedDepartureDate()}" />
+    <c:set var="arrDate" value="${requestScope.route.getFormattedArrivalDate()}" />
 
     <div id="main_div">
 
@@ -33,15 +33,11 @@
 
         <h3>Train - ${trainName}</h3>
 
-        <h4>
-            Route: ${depStationName} - ${arrStationName} <br/>
-            Departure date: ${requestScope.depDate} <br/>
-            Arrival date: ${requestScope.arrDate}
-        </h4>
-        <p>
-            Departure time: ${depTime} <br/>
-            Arrival time: ${arrTime}
-        </p>
+        <div>
+            <strong>Route:</strong> ${depStationName} - ${arrStationName} <br/>
+            <strong>Departure date:</strong> ${depDate} <br/>
+            <strong>Arrival date:</strong> ${arrDate}
+        </div>
 
         <table id="main_table">
             <tr>
@@ -75,10 +71,8 @@
             <input name="trainId" type="hidden" value="${trainId}" />
             <input name="depStationId" type="hidden" value="${depStationId}" />
             <input name="arrStationId" type="hidden" value="${arrStationId}" />
-            <input name="depDate" type="hidden" value="${requestScope.depDate}" />
-            <input name="arrDate" type="hidden" value="${requestScope.arrDate}" />
-            <input name="depTime" type="hidden" value="${depTime}" />
-            <input name="arrTime" type="hidden" value="${arrTime}" />
+            <input name="depDate" type="hidden" value="${depDate}" />
+            <input name="arrDate" type="hidden" value="${arrDate}" />
 
             <input type="submit" value="Go to the booking page" />
         </form>

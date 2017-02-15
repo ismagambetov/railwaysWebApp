@@ -8,8 +8,8 @@
 
     <form name="TrainFindForm" action="controller/find-trains" method="get">
         <p>Please fill out all required information before search.</p>
-        <input type="text" name="from" placeholder="From" />
-        <input type="text" name="to" placeholder="To" />
+        <input type="text" name="departureStation" placeholder="From" />
+        <input type="text" name="arrivalStation" placeholder="To" />
         <input type="text" name = "departureDate" placeholder="departure date..." />
         <input type="submit" value="search" />
     </form>

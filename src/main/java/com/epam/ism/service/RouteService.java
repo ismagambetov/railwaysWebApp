@@ -10,6 +10,7 @@ import com.epam.ism.utils.RowMapper;
 import com.epam.ism.utils.DateTimeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.helpers.Util;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -94,7 +95,10 @@ public class RouteService {
                         course.setArrivalStation(arrivalStation);
                         route.setCourse(course);
 
-                        route.setDepartureDate(DateTimeUtil.getDateTime(departureDate,rs.getString(7)));
+                        Date depDateTime = DateTimeUtil.getDateTime(departureDate, rs.getString(7));
+                        route.setDepartureDate(depDateTime);
+                        route.setFormattedDepartureDate(DateTimeUtil.getFormattedDateTime(depDateTime));
+
                         //in order to set arrival date, we have to make some manipulations with travel times.
                         //see below.
 
@@ -113,11 +117,16 @@ public class RouteService {
             if (result.length > 1) {
                 int distance = result[0];
                 int travelTimeInMls = result[1];
+                int parkingTime = result[2];
                 Date depDate = route.getDepartureDate();
+
+                travelTimeInMls += DateTimeUtil.getParkingTimeInMls(parkingTime);
 
                 route.getCourse().setDistance(distance);
                 route.setTravelTime(DateTimeUtil.getParsedTravelTime(travelTimeInMls));
-                route.setArrivalDate(DateTimeUtil.getArrivalDateTime(depDate,travelTimeInMls));
+                Date arrivalDateTime = DateTimeUtil.getArrivalDateTime(depDate, travelTimeInMls);
+                route.setArrivalDate(arrivalDateTime);
+                route.setFormattedArrivalDate(DateTimeUtil.getFormattedDateTime(arrivalDateTime));
             }
         }
 
@@ -151,22 +160,47 @@ public class RouteService {
             }
         });
 
-        String query2 = "SELECT SUM(c.distance) as distance, SUM(r.travel_time) as travel_time FROM routes as r " +
-                        "left join courses as c on r.course_id=c.id " +
-                        "where r.train_id=? and r.sec_id between ? and ?";
+        String query2 = "Select t1.distance,t1.travel_time,(t1.pt-t2.pt) as parking_time " +
+                "from " +
 
+                "(SELECT SUM(c.distance) as distance, SUM(r.travel_time) as travel_time, SUM(r.parking_time) " +
+                "as pt FROM routes as r " +
+
+                "left join courses as c on r.course_id=c.id " +
+                "where r.train_id=? and r.sec_id between ? and ?) as t1 " +
+
+                "inner join (" +
+                "SELECT r.parking_time as pt FROM routes as r " +
+                "where r.train_id=? and r.sec_id between ? and ? " +
+                "order by r.sec_id DESC " +
+                "LIMIT 1 " +
+                ") as t2";
+
+        if (ids.isEmpty()) {
+            return null;
+        }
+        //A list "ids" must always have two values, which are the range between departureStation
+        // and arrivalStation in the Routes table.
+        if (ids.size() < 2) {
+            ids.add(ids.get(0));
+        }
         final ArrayList<Integer> finalIds = ids;
         return (int[]) daoManager.transactionAndReturnCon(new DaoCommand() {
             @Override
             public Object execute() throws SQLException, DaoException {
                 Connection connection = daoManager.getTxConnection();
                 PreparedStatement statement = prepareStatement(connection, query2, false, trainId,
-                                                                                finalIds.get(0), finalIds.get(1));
+                                                                                          finalIds.get(0),
+                                                                                          finalIds.get(1),
+                                                                                          trainId,
+                                                                                          finalIds.get(0),
+                                                                                          finalIds.get(1));
                 ResultSet resultSet = statement.executeQuery();
-                int[] result = new int[2];
+                int[] result = new int[3];
                 if (resultSet.next()) {
                     result[0] = resultSet.getInt(1);
                     result[1] = resultSet.getInt(2);
+                    result[2] = resultSet.getInt(3);
 
                     return result;
                 }
@@ -177,14 +211,17 @@ public class RouteService {
 
 
     public Route getRoute(Train train, Station depStation, Station arrStation,
-                          String distance, String depTime, String arrTime) {
+                          String distance, String depDate, String arrDate) {
 
         int dist = Integer.parseInt(distance);
 
         Route route = new Route();
         route.setTrain(train);
-//        route.setDepartureTime(depTime);
-//        route.setArrivalTime(arrTime);
+
+        route.setFormattedDepartureDate(depDate);
+        route.setFormattedArrivalDate(arrDate);
+        route.setDepartureDate(DateTimeUtil.getDateTime(depDate,""));
+        route.setArrivalDate(DateTimeUtil.getDateTime(arrDate,""));
 
         Course course = new Course();
         course.setDepartureStation(depStation);

@@ -12,7 +12,7 @@ import java.sql.SQLException;
 
 public class StationService {
 
-    public Station find(Object param,String key) {
+    public Station find(String param,String key) throws ServiceException {
 
         DaoFactory daoFactory = DaoFactory.getFactory();
         DaoManager daoManager = DaoFactory.getDaoManager();
@@ -33,8 +33,8 @@ public class StationService {
                 });
 
                 if (key.equals("byId")) {
-                    return stationDAO.findById(Integer.parseInt((String)param));
-                } else return stationDAO.findByName((String)param);
+                    return stationDAO.findById(Integer.parseInt(param));
+                } else return stationDAO.findByName(param);
 
             }
         });
